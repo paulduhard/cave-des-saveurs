@@ -1,0 +1,59 @@
+{
+	"format": "custom",
+	"id": "contact",
+	"label": "Contact",
+	"repeatable": false,
+	"status": true,
+	"json": {
+		"Main": {
+			"email": {
+				"type": "Text",
+				"config": {
+					"label": "E-mail",
+					"placeholder": ""
+				}
+			},
+			"telephone": {
+				"type": "Text",
+				"config": {
+					"label": "Téléphone",
+					"placeholder": ""
+				}
+			},
+			"adresse": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Adresse",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+				}
+			},
+			"googlemap": {
+				"type": "Text",
+				"config": {
+					"label": "GoogleMap",
+					"placeholder": ""
+				}
+			}
+		},
+		"Logo": {
+			"logo_header": {
+				"type": "Image",
+				"config": {
+					"label": "Logo Header",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"logo_footer": {
+				"type": "Image",
+				"config": {
+					"label": "Logo Footer",
+					"constraint": {},
+					"thumbnails": []
+				}
+			}
+		}
+	}
+}
