@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+    /* Exemple : <p class="bg-[var(--primary)]"> */
+    --primary: #3D0404;
+    --secondary: #F0EFED;
+}
+
+* {
+    font-family: "sofia-pro";
+}

@@ -2,7 +2,12 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'sofia': ['sofia-pro', 'sans-serif'],
+        'span': ['span', 'serif'],
+      },
+    },
   },
   plugins: [],
 }
