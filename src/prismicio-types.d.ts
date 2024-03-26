@@ -144,7 +144,7 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 	Lang
 >;
 
-type PageDocumentDataSlicesSlice = HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice = BannerEventSlice | HeroSlice | RichTextSlice;
 
 /**
  * Content for Page documents
@@ -220,6 +220,68 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 >;
 
 export type AllDocumentTypes = ContactDocument | NavigationDocument | PageDocument;
+
+/**
+ * Primary content in *BannerEvent → Primary*
+ */
+export interface BannerEventSliceDefaultPrimary {
+	/**
+	 * Text field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+
+	/**
+	 * Link field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+
+	/**
+	 * Label field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+}
+
+/**
+ * Default variation for BannerEvent Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerEventSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<BannerEventSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *BannerEvent*
+ */
+type BannerEventSliceVariation = BannerEventSliceDefault;
+
+/**
+ * BannerEvent Shared Slice
+ *
+ * - **API ID**: `banner_event`
+ * - **Description**: BannerEvent
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerEventSlice = prismic.SharedSlice<'banner_event', BannerEventSliceVariation>;
 
 /**
  * Primary content in *Hero → Primary*
@@ -364,6 +426,10 @@ declare module '@prismicio/client' {
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
 			AllDocumentTypes,
+			BannerEventSlice,
+			BannerEventSliceDefaultPrimary,
+			BannerEventSliceVariation,
+			BannerEventSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,

@@ -9,8 +9,8 @@
 	<div class="mx-8 mt-8">
 		<PrismicImage field={slice.primary.image} />
 	</div>
-	<PrismicRichText field={slice.primary.title} />
-	<div class="mx-8 mt-4 md:px-64 md:mt-8">
+		<PrismicRichText field={slice.primary.title} />
+	<div class="mx-8 mt-4 md:px-[25%] md:mt-8">
 		<PrismicRichText field={slice.primary.text} />
 	</div>
 	<div class="mt-8 text-center">
@@ -24,7 +24,7 @@
 		aspect-ratio: 50/51;	
 	}
 
-	@media (min-width: 1024px) {
+	@media (min-width: 1280px) {
 		section :global(img) {
 			aspect-ratio: 7/2;
 		}
@@ -45,9 +45,9 @@
 
 	section :global(a) {
 		color: #3D0404;
-		border: 1px solid #3D0404;
+		border: .5px solid #3D0404;
 		padding: .4rem 2rem .8rem 2rem;
 		font-size: clamp(1rem, 2vw, 1.5rem);
-		font-weight: 300;
+		font-weight: 200;
 	}
 </style>
