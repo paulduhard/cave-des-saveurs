@@ -2,14 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    /* Exemple : <p class="bg-[var(--primary)]"> */
-    --primary: #3D0404;
-    --secondary: #F0EFED;
+@layer base {
+    :root {
+        --primary: #3D0404;
+        --secondary: #F0EFED;
+        
+        font-family: "sofia-pro";
+    }
 }
-
-* {
-    font-family: "sofia-pro";
-}
-
-/* h1 = text-4xl */

@@ -5,7 +5,7 @@
 	export let slice;
 </script>
 
-<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} class="text-center">
+<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} class="text-center mb-28">
 	<div class="mx-8 mt-8">
 		<PrismicImage field={slice.primary.image} />
 	</div>
