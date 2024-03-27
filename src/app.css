@@ -12,12 +12,4 @@
     font-family: "sofia-pro";
 }
 
-h1 {
-	font-size: clamp(1.5rem, 2.5vw, 3rem);
-}
-
-h2, h3 {
-	font-size: clamp(1.5rem, 2.5vw, 3rem);
-}
-
-/* valeurs de paragraphes pour le Hero */
+/* h1 = text-4xl */

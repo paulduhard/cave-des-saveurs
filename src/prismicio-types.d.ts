@@ -270,9 +270,57 @@ export type BannerEventSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *BannerEvent → Primary*
+ */
+export interface BannerEventSliceBannerEventXlPrimary {
+	/**
+	 * Text field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+
+	/**
+	 * Link field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+
+	/**
+	 * Label field in *BannerEvent → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_event.primary.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+}
+
+/**
+ * BannerEventXL variation for BannerEvent Slice
+ *
+ * - **API ID**: `bannerEventXl`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerEventSliceBannerEventXl = prismic.SharedSliceVariation<
+	'bannerEventXl',
+	Simplify<BannerEventSliceBannerEventXlPrimary>,
+	never
+>;
+
+/**
  * Slice variation for *BannerEvent*
  */
-type BannerEventSliceVariation = BannerEventSliceDefault;
+type BannerEventSliceVariation = BannerEventSliceDefault | BannerEventSliceBannerEventXl;
 
 /**
  * BannerEvent Shared Slice
@@ -428,8 +476,10 @@ declare module '@prismicio/client' {
 			AllDocumentTypes,
 			BannerEventSlice,
 			BannerEventSliceDefaultPrimary,
+			BannerEventSliceBannerEventXlPrimary,
 			BannerEventSliceVariation,
 			BannerEventSliceDefault,
+			BannerEventSliceBannerEventXl,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,
