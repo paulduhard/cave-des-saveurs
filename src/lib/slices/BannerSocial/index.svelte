@@ -6,7 +6,7 @@ import { PrismicRichText, PrismicImage, PrismicLink } from "@prismicio/svelte";
 </script>
 
 <section data-slice-type={slice.slice_type} data-slice-variation={slice.variation} class='py-24 text-center'>
-	<div class="text-2xl md:text-4xl">
+	<div class="px-24 text-2xl md:text-4xl md:px-0">
 		<PrismicRichText field={slice.primary.text} />
 	</div>
 	<div class='flex items-baseline justify-center gap-12 pt-8'>
