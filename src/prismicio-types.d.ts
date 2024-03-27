@@ -144,7 +144,7 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 	Lang
 >;
 
-type PageDocumentDataSlicesSlice = BannerEventSlice | HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice = BannerSocialSlice | BannerEventSlice | HeroSlice | RichTextSlice;
 
 /**
  * Content for Page documents
@@ -332,6 +332,118 @@ type BannerEventSliceVariation = BannerEventSliceDefault | BannerEventSliceBanne
 export type BannerEventSlice = prismic.SharedSlice<'banner_event', BannerEventSliceVariation>;
 
 /**
+ * Primary content in *BannerNewsletter → Primary*
+ */
+export interface BannerNewsletterSliceDefaultPrimary {
+	/**
+	 * Text field in *BannerNewsletter → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_newsletter.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for BannerNewsletter Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerNewsletterSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<BannerNewsletterSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *BannerNewsletter*
+ */
+type BannerNewsletterSliceVariation = BannerNewsletterSliceDefault;
+
+/**
+ * BannerNewsletter Shared Slice
+ *
+ * - **API ID**: `banner_newsletter`
+ * - **Description**: BannerNewsletter
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerNewsletterSlice = prismic.SharedSlice<
+	'banner_newsletter',
+	BannerNewsletterSliceVariation
+>;
+
+/**
+ * Primary content in *BannerSocial → Primary*
+ */
+export interface BannerSocialSliceDefaultPrimary {
+	/**
+	 * Text field in *BannerSocial → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_social.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Primary content in *BannerSocial → Items*
+ */
+export interface BannerSocialSliceDefaultItem {
+	/**
+	 * Icon field in *BannerSocial → Items*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_social.items[].icon
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	icon: prismic.ImageField<never>;
+
+	/**
+	 * Link field in *BannerSocial → Items*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_social.items[].link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+}
+
+/**
+ * Default variation for BannerSocial Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerSocialSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<BannerSocialSliceDefaultPrimary>,
+	Simplify<BannerSocialSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *BannerSocial*
+ */
+type BannerSocialSliceVariation = BannerSocialSliceDefault;
+
+/**
+ * BannerSocial Shared Slice
+ *
+ * - **API ID**: `banner_social`
+ * - **Description**: BannerSocial
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerSocialSlice = prismic.SharedSlice<'banner_social', BannerSocialSliceVariation>;
+
+/**
  * Primary content in *Hero → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -480,6 +592,15 @@ declare module '@prismicio/client' {
 			BannerEventSliceVariation,
 			BannerEventSliceDefault,
 			BannerEventSliceBannerEventXl,
+			BannerNewsletterSlice,
+			BannerNewsletterSliceDefaultPrimary,
+			BannerNewsletterSliceVariation,
+			BannerNewsletterSliceDefault,
+			BannerSocialSlice,
+			BannerSocialSliceDefaultPrimary,
+			BannerSocialSliceDefaultItem,
+			BannerSocialSliceVariation,
+			BannerSocialSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceVariation,
