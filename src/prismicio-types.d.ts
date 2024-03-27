@@ -512,9 +512,47 @@ export type HeroSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *Hero → Primary*
+ */
+export interface HeroSliceHeroTextOnlyPrimary {
+	/**
+	 * Title field in *Hero → Primary*
+	 *
+	 * - **Field Type**: Title
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.TitleField;
+
+	/**
+	 * Text field in *Hero → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: hero.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * HeroTextOnly variation for Hero Slice
+ *
+ * - **API ID**: `heroTextOnly`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type HeroSliceHeroTextOnly = prismic.SharedSliceVariation<
+	'heroTextOnly',
+	Simplify<HeroSliceHeroTextOnlyPrimary>,
+	never
+>;
+
+/**
  * Slice variation for *Hero*
  */
-type HeroSliceVariation = HeroSliceDefault;
+type HeroSliceVariation = HeroSliceDefault | HeroSliceHeroTextOnly;
 
 /**
  * Hero Shared Slice
@@ -603,8 +641,10 @@ declare module '@prismicio/client' {
 			BannerSocialSliceDefault,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
+			HeroSliceHeroTextOnlyPrimary,
 			HeroSliceVariation,
 			HeroSliceDefault,
+			HeroSliceHeroTextOnly,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
