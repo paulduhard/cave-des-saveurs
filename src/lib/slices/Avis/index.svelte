@@ -57,17 +57,13 @@
 		</div>
 		<div class="flex justify-center mt-4">
 			{#each slice.items as item, index}
-			<button class={index === activeIndex ? 'w-3 h-3 rounded-full bg-primary mx-1' : 'w-3 h-3 rounded-full border-primary border mx-1'} on:click={() => goToSlide(index)} aria-label={`Slide ${index + 1}`}></button>
+			<button
+				class={`w-3 h-3 rounded-full mx-1
+					${index === activeIndex ? 'bg-primary' : 'border-primary border'}`}
+				on:click={() => goToSlide(index)} aria-label={`Slide ${index + 1}`}></button>
 			{/each}
 		</div>
 		<div class="mt-8 text-base font-light text-center text-primary">
-			<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+			<PrismicLink field={slice.primary.link} class="px-6 pt-1 pb-2 border">{slice.primary.label}</PrismicLink>
 		</div>
 </section>
-
-<style>
-	section :global(a) {
-	border: .5px solid;
-	padding: .4rem 1.5rem .6rem 1.5rem;
-	}
-</style>
