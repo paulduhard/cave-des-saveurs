@@ -1,8 +1,8 @@
 <script>
-
 	import { PrismicRichText, PrismicLink } from "@prismicio/svelte";
 	import { onMount } from 'svelte';
-	
+	import { isExternalLink } from '../../functions.js';
+
 	let activeIndex= 0;
 
 	const nextSlide = () => { activeIndex = (activeIndex + 1) % slice.items.length; };
@@ -64,6 +64,13 @@
 			{/each}
 		</div>
 		<div class="mt-8 text-base font-light text-center text-primary">
-			<PrismicLink field={slice.primary.link} class="px-6 pt-1 pb-2 border">{slice.primary.label}</PrismicLink>
+			{#if isExternalLink(slice.primary.link.url)}
+				<PrismicLink field={slice.primary.link} class="px-6 pt-1 pb-2 border">
+						{slice.primary.label}
+						<img src="/icone-external-link-primary.svg" alt="lien externe" class="inline w-4 h-4 mb-1 ml-2" />
+					</PrismicLink>
+				{:else}
+					<PrismicLink field={slice.primary.link} class="px-6 pt-1 pb-2 border">{slice.primary.label}</PrismicLink>
+				{/if}
 		</div>
 </section>

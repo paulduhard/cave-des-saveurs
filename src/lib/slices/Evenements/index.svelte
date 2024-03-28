@@ -1,9 +1,10 @@
 <script>
 	import { PrismicRichText, PrismicLink } from "@prismicio/svelte";
-
+	import { isExternalLink } from '../../functions.js';
 
 	/** @type {import("@prismicio/client").Content.BannerEventSlice} */
 	export let slice;
+	
 </script>
 
 {#if slice.variation === 'default'}
@@ -12,7 +13,14 @@
 			<PrismicRichText field={slice.primary.text} />
 		</div>
 			<div class="text-sm font-thin tracking-wider">
-				<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+				{#if isExternalLink(slice.primary.link.url)}
+				<PrismicLink field={slice.primary.link}>
+						{slice.primary.label}
+						<img src="/icone-external-link.svg" alt="lien externe" class="inline w-4 h-4 mb-1 ml-2" />
+					</PrismicLink>
+				{:else}
+					<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+				{/if}
 			</div>
 		</section>
 
@@ -21,8 +29,15 @@
 		<div class="font-light md:text-4xl">
 			<PrismicRichText field={slice.primary.text} />
 		</div>
-			<div class="text-sm font-thin tracking-wider">
-				<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+			<div class="mt-2 text-sm font-thin tracking-wider">
+				{#if isExternalLink(slice.primary.link.url)}
+				<PrismicLink field={slice.primary.link}>
+						{slice.primary.label}
+						<img src="/icone-external-link.svg" alt="lien externe" class="inline w-4 h-4 mb-1 ml-2" />
+					</PrismicLink>
+				{:else}
+					<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+				{/if}
 			</div>
 		</section>
 

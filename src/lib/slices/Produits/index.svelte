@@ -8,7 +8,7 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}>
-	<div class="items-center mt-8 mb-24 mr-12 font-light text-left md:gap-6 md:flex text-primary">
+	<div class="flex flex-col items-center gap-6 mx-8 mt-8 mb-24 font-light text-left md:mx-0 md:mr-12 md:flex-row text-primary">
 		<div class="basis-1/3">
 			<PrismicLink field={slice.primary.link}>
 				<div class="relative">
@@ -28,10 +28,10 @@
 			</PrismicLink>
 		</div>
 		<div class="basis-1/3">
-			<div class="text-2xl font-medium md:text-4xl ">
+			<div class="text-2xl font-medium text-center md:text-left md:text-4xl">
 				<PrismicRichText field={slice.primary.title} />
 			</div>
-			<div class="text-xs md:text-lg md:mt-8">
+			<div class="mt-3 text-xs md:text-lg md:mt-8">
 				<PrismicRichText field={slice.primary.text} />
 			</div>
 		</div>
