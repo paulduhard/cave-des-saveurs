@@ -145,6 +145,7 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 >;
 
 type PageDocumentDataSlicesSlice =
+	| ProduitsSlice
 	| BannerReviewSlice
 	| BannerSocialSlice
 	| BannerEventSlice
@@ -656,6 +657,118 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceHeroTextOnly;
 export type HeroSlice = prismic.SharedSlice<'hero', HeroSliceVariation>;
 
 /**
+ * Primary content in *Produits → Primary*
+ */
+export interface ProduitsSliceDefaultPrimary {
+	/**
+	 * Image field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.image
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * Link field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+
+	/**
+	 * Label field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+
+	/**
+	 * Image 2 field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.image_2
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image_2: prismic.ImageField<never>;
+
+	/**
+	 * Link 2 field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.link_2
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link_2: prismic.LinkField;
+
+	/**
+	 * Label 2 field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.label_2
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label_2: prismic.KeyTextField;
+
+	/**
+	 * Title field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.RichTextField;
+
+	/**
+	 * Text field in *Produits → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produits.primary.text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Produits Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ProduitsSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<ProduitsSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *Produits*
+ */
+type ProduitsSliceVariation = ProduitsSliceDefault;
+
+/**
+ * Produits Shared Slice
+ *
+ * - **API ID**: `produits`
+ * - **Description**: Produits
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type ProduitsSlice = prismic.SharedSlice<'produits', ProduitsSliceVariation>;
+
+/**
  * Primary content in *Texte → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
@@ -742,6 +855,10 @@ declare module '@prismicio/client' {
 			HeroSliceVariation,
 			HeroSliceDefault,
 			HeroSliceHeroTextOnly,
+			ProduitsSlice,
+			ProduitsSliceDefaultPrimary,
+			ProduitsSliceVariation,
+			ProduitsSliceDefault,
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
