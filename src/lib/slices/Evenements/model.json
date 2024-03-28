@@ -1,12 +1,12 @@
 {
   "id": "banner_event",
   "type": "SharedSlice",
-  "name": "BannerEvent",
+  "name": "Evenements",
   "description": "BannerEvent",
   "variations": [
     {
       "id": "default",
-      "name": "Default",
+      "name": "Standard",
       "docURL": "...",
       "version": "initial",
       "description": "Default",
@@ -41,7 +41,7 @@
     },
     {
       "id": "bannerEventXl",
-      "name": "BannerEventXL",
+      "name": "Large",
       "docURL": "...",
       "version": "initial",
       "description": "Default",

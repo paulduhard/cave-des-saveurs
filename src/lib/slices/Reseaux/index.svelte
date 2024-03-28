@@ -22,4 +22,4 @@ import { PrismicRichText, PrismicImage, PrismicLink } from "@prismicio/svelte";
 		height: 10px; */
 	}
 	
-</style>
+</style>class='pt-8

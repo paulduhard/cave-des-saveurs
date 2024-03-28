@@ -144,7 +144,12 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 	Lang
 >;
 
-type PageDocumentDataSlicesSlice = BannerSocialSlice | BannerEventSlice | HeroSlice | RichTextSlice;
+type PageDocumentDataSlicesSlice =
+	| BannerReviewSlice
+	| BannerSocialSlice
+	| BannerEventSlice
+	| HeroSlice
+	| RichTextSlice;
 
 /**
  * Content for Page documents
@@ -222,11 +227,11 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 export type AllDocumentTypes = ContactDocument | NavigationDocument | PageDocument;
 
 /**
- * Primary content in *BannerEvent → Primary*
+ * Primary content in *Evenements → Primary*
  */
 export interface BannerEventSliceDefaultPrimary {
 	/**
-	 * Text field in *BannerEvent → Primary*
+	 * Text field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -236,7 +241,7 @@ export interface BannerEventSliceDefaultPrimary {
 	text: prismic.RichTextField;
 
 	/**
-	 * Link field in *BannerEvent → Primary*
+	 * Link field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
@@ -246,7 +251,7 @@ export interface BannerEventSliceDefaultPrimary {
 	link: prismic.LinkField;
 
 	/**
-	 * Label field in *BannerEvent → Primary*
+	 * Label field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -257,7 +262,7 @@ export interface BannerEventSliceDefaultPrimary {
 }
 
 /**
- * Default variation for BannerEvent Slice
+ * Standard variation for Evenements Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -270,11 +275,11 @@ export type BannerEventSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Primary content in *BannerEvent → Primary*
+ * Primary content in *Evenements → Primary*
  */
 export interface BannerEventSliceBannerEventXlPrimary {
 	/**
-	 * Text field in *BannerEvent → Primary*
+	 * Text field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -284,7 +289,7 @@ export interface BannerEventSliceBannerEventXlPrimary {
 	text: prismic.RichTextField;
 
 	/**
-	 * Link field in *BannerEvent → Primary*
+	 * Link field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
@@ -294,7 +299,7 @@ export interface BannerEventSliceBannerEventXlPrimary {
 	link: prismic.LinkField;
 
 	/**
-	 * Label field in *BannerEvent → Primary*
+	 * Label field in *Evenements → Primary*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -305,7 +310,7 @@ export interface BannerEventSliceBannerEventXlPrimary {
 }
 
 /**
- * BannerEventXL variation for BannerEvent Slice
+ * Large variation for Evenements Slice
  *
  * - **API ID**: `bannerEventXl`
  * - **Description**: Default
@@ -318,12 +323,12 @@ export type BannerEventSliceBannerEventXl = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *BannerEvent*
+ * Slice variation for *Evenements*
  */
 type BannerEventSliceVariation = BannerEventSliceDefault | BannerEventSliceBannerEventXl;
 
 /**
- * BannerEvent Shared Slice
+ * Evenements Shared Slice
  *
  * - **API ID**: `banner_event`
  * - **Description**: BannerEvent
@@ -332,11 +337,11 @@ type BannerEventSliceVariation = BannerEventSliceDefault | BannerEventSliceBanne
 export type BannerEventSlice = prismic.SharedSlice<'banner_event', BannerEventSliceVariation>;
 
 /**
- * Primary content in *BannerNewsletter → Primary*
+ * Primary content in *Newsletter → Primary*
  */
 export interface BannerNewsletterSliceDefaultPrimary {
 	/**
-	 * Text field in *BannerNewsletter → Primary*
+	 * Text field in *Newsletter → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -347,7 +352,7 @@ export interface BannerNewsletterSliceDefaultPrimary {
 }
 
 /**
- * Default variation for BannerNewsletter Slice
+ * Default variation for Newsletter Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -360,12 +365,12 @@ export type BannerNewsletterSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *BannerNewsletter*
+ * Slice variation for *Newsletter*
  */
 type BannerNewsletterSliceVariation = BannerNewsletterSliceDefault;
 
 /**
- * BannerNewsletter Shared Slice
+ * Newsletter Shared Slice
  *
  * - **API ID**: `banner_newsletter`
  * - **Description**: BannerNewsletter
@@ -377,11 +382,98 @@ export type BannerNewsletterSlice = prismic.SharedSlice<
 >;
 
 /**
- * Primary content in *BannerSocial → Primary*
+ * Primary content in *Avis → Primary*
+ */
+export interface BannerReviewSliceDefaultPrimary {
+	/**
+	 * Title field in *Avis → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_review.primary.title
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	title: prismic.RichTextField;
+
+	/**
+	 * Link field in *Avis → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_review.primary.link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+
+	/**
+	 * Label field in *Avis → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_review.primary.label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+}
+
+/**
+ * Primary content in *Avis → Items*
+ */
+export interface BannerReviewSliceDefaultItem {
+	/**
+	 * Subtitle field in *Avis → Items*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_review.items[].subtitle
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	subtitle: prismic.RichTextField;
+
+	/**
+	 * Text field in *Avis → Items*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: banner_review.items[].text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	text: prismic.RichTextField;
+}
+
+/**
+ * Default variation for Avis Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerReviewSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<BannerReviewSliceDefaultPrimary>,
+	Simplify<BannerReviewSliceDefaultItem>
+>;
+
+/**
+ * Slice variation for *Avis*
+ */
+type BannerReviewSliceVariation = BannerReviewSliceDefault;
+
+/**
+ * Avis Shared Slice
+ *
+ * - **API ID**: `banner_review`
+ * - **Description**: BannerReview
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type BannerReviewSlice = prismic.SharedSlice<'banner_review', BannerReviewSliceVariation>;
+
+/**
+ * Primary content in *Reseaux → Primary*
  */
 export interface BannerSocialSliceDefaultPrimary {
 	/**
-	 * Text field in *BannerSocial → Primary*
+	 * Text field in *Reseaux → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -392,11 +484,11 @@ export interface BannerSocialSliceDefaultPrimary {
 }
 
 /**
- * Primary content in *BannerSocial → Items*
+ * Primary content in *Reseaux → Items*
  */
 export interface BannerSocialSliceDefaultItem {
 	/**
-	 * Icon field in *BannerSocial → Items*
+	 * Icon field in *Reseaux → Items*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -406,7 +498,7 @@ export interface BannerSocialSliceDefaultItem {
 	icon: prismic.ImageField<never>;
 
 	/**
-	 * Link field in *BannerSocial → Items*
+	 * Link field in *Reseaux → Items*
 	 *
 	 * - **Field Type**: Link
 	 * - **Placeholder**: *None*
@@ -417,7 +509,7 @@ export interface BannerSocialSliceDefaultItem {
 }
 
 /**
- * Default variation for BannerSocial Slice
+ * Default variation for Reseaux Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -430,12 +522,12 @@ export type BannerSocialSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *BannerSocial*
+ * Slice variation for *Reseaux*
  */
 type BannerSocialSliceVariation = BannerSocialSliceDefault;
 
 /**
- * BannerSocial Shared Slice
+ * Reseaux Shared Slice
  *
  * - **API ID**: `banner_social`
  * - **Description**: BannerSocial
@@ -499,7 +591,7 @@ export interface HeroSliceDefaultPrimary {
 }
 
 /**
- * Default variation for Hero Slice
+ * HeroImage variation for Hero Slice
  *
  * - **API ID**: `default`
  * - **Description**: Default
@@ -537,7 +629,7 @@ export interface HeroSliceHeroTextOnlyPrimary {
 }
 
 /**
- * HeroTextOnly variation for Hero Slice
+ * HeroTexte variation for Hero Slice
  *
  * - **API ID**: `heroTextOnly`
  * - **Description**: Default
@@ -564,11 +656,11 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceHeroTextOnly;
 export type HeroSlice = prismic.SharedSlice<'hero', HeroSliceVariation>;
 
 /**
- * Primary content in *RichText → Primary*
+ * Primary content in *Texte → Primary*
  */
 export interface RichTextSliceDefaultPrimary {
 	/**
-	 * Content field in *RichText → Primary*
+	 * Content field in *Texte → Primary*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: Lorem ipsum...
@@ -579,7 +671,7 @@ export interface RichTextSliceDefaultPrimary {
 }
 
 /**
- * Default variation for RichText Slice
+ * Default variation for Texte Slice
  *
  * - **API ID**: `default`
  * - **Description**: RichText
@@ -592,12 +684,12 @@ export type RichTextSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
- * Slice variation for *RichText*
+ * Slice variation for *Texte*
  */
 type RichTextSliceVariation = RichTextSliceDefault;
 
 /**
- * RichText Shared Slice
+ * Texte Shared Slice
  *
  * - **API ID**: `rich_text`
  * - **Description**: RichText
@@ -634,6 +726,11 @@ declare module '@prismicio/client' {
 			BannerNewsletterSliceDefaultPrimary,
 			BannerNewsletterSliceVariation,
 			BannerNewsletterSliceDefault,
+			BannerReviewSlice,
+			BannerReviewSliceDefaultPrimary,
+			BannerReviewSliceDefaultItem,
+			BannerReviewSliceVariation,
+			BannerReviewSliceDefault,
 			BannerSocialSlice,
 			BannerSocialSliceDefaultPrimary,
 			BannerSocialSliceDefaultItem,

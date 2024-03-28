@@ -1,41 +1,24 @@
 {
-  "id": "hero",
+  "id": "banner_review",
   "type": "SharedSlice",
-  "name": "Hero",
-  "description": "Hero",
+  "name": "Avis",
+  "description": "BannerReview",
   "variations": [
     {
       "id": "default",
-      "name": "HeroImage",
+      "name": "Default",
       "docURL": "...",
       "version": "initial",
       "description": "Default",
       "imageUrl": "",
       "primary": {
-        "image": {
-          "type": "Image",
-          "config": {
-            "label": "Image",
-            "constraint": {},
-            "thumbnails": []
-          }
-        },
         "title": {
           "type": "StructuredText",
           "config": {
             "label": "Title",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "heading1"
-          }
-        },
-        "text": {
-          "type": "StructuredText",
-          "config": {
-            "label": "Text",
-            "placeholder": "",
-            "allowTargetBlank": true,
-            "multi": "paragraph,strong,em"
+            "multi": "heading2"
           }
         },
         "link": {
@@ -54,23 +37,14 @@
           }
         }
       },
-      "items": {}
-    },
-    {
-      "id": "heroTextOnly",
-      "name": "HeroTexte",
-      "docURL": "...",
-      "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
-      "primary": {
-        "title": {
+      "items": {
+        "subtitle": {
           "type": "StructuredText",
           "config": {
-            "label": "Title",
+            "label": "Subtitle",
             "placeholder": "",
             "allowTargetBlank": true,
-            "single": "heading1"
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
           }
         },
         "text": {
@@ -79,11 +53,10 @@
             "label": "Text",
             "placeholder": "",
             "allowTargetBlank": true,
-            "multi": "paragraph,strong,em"
+            "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
           }
         }
-      },
-      "items": {}
+      }
     }
   ]
 }
