@@ -57,7 +57,7 @@
 		</div>
 		<div class="flex justify-center mt-4">
 			{#each slice.items as item, index}
-			<div class={index === activeIndex ? 'w-3 h-3 rounded-full bg-primary mx-1 cursor-pointer' : 'w-3 h-3 rounded-full border-primary border mx-1 cursor-pointer'} on:click={() => goToSlide(index)}></div>
+			<button class={index === activeIndex ? 'w-3 h-3 rounded-full bg-primary mx-1' : 'w-3 h-3 rounded-full border-primary border mx-1'} on:click={() => goToSlide(index)} aria-label={`Slide ${index + 1}`}></button>
 			{/each}
 		</div>
 		<div class="mt-8 text-base font-light text-center text-primary">
