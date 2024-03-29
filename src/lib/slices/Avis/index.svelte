@@ -2,6 +2,7 @@
 	import { PrismicRichText, PrismicLink } from "@prismicio/svelte";
 	import { onMount } from 'svelte';
 	import { isExternalLink } from '../../functions.js';
+	import { fade } from 'svelte/transition';
 
 	let activeIndex= 0;
 

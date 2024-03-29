@@ -145,6 +145,7 @@ export type NavigationDocument<Lang extends string = string> = prismic.PrismicDo
 >;
 
 type PageDocumentDataSlicesSlice =
+	| SpacerSlice
 	| ProduitsSlice
 	| BannerReviewSlice
 	| BannerSocialSlice
@@ -810,6 +811,49 @@ type RichTextSliceVariation = RichTextSliceDefault;
  */
 export type RichTextSlice = prismic.SharedSlice<'rich_text', RichTextSliceVariation>;
 
+/**
+ * Primary content in *Espace → Primary*
+ */
+export interface SpacerSliceDefaultPrimary {
+	/**
+	 * Choix field in *Espace → Primary*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: Petit
+	 * - **API ID Path**: spacer.primary.size
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	size: prismic.SelectField<'Petit' | 'Moyen' | 'Grand', 'filled'>;
+}
+
+/**
+ * Espace variation for Espace Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Default
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SpacerSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<SpacerSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *Espace*
+ */
+type SpacerSliceVariation = SpacerSliceDefault;
+
+/**
+ * Espace Shared Slice
+ *
+ * - **API ID**: `spacer`
+ * - **Description**: Spacer
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type SpacerSlice = prismic.SharedSlice<'spacer', SpacerSliceVariation>;
+
 declare module '@prismicio/client' {
 	interface CreateClient {
 		(
@@ -862,7 +906,11 @@ declare module '@prismicio/client' {
 			RichTextSlice,
 			RichTextSliceDefaultPrimary,
 			RichTextSliceVariation,
-			RichTextSliceDefault
+			RichTextSliceDefault,
+			SpacerSlice,
+			SpacerSliceDefaultPrimary,
+			SpacerSliceVariation,
+			SpacerSliceDefault
 		};
 	}
 }
