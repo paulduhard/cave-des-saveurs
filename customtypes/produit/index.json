@@ -1,0 +1,107 @@
+{
+	"format": "page",
+	"id": "produit",
+	"label": "PageEpicerie",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"image": {
+				"type": "Image",
+				"config": {
+					"label": "image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"categorie": {
+				"type": "Select",
+				"config": {
+					"label": "categorie",
+					"placeholder": "",
+					"options": [
+						"Tartinables et apéritif",
+						"Pâtés, rillettes et terrines",
+						"Charcuterie",
+						"Plats cuisinés",
+						"Pâtes et riz",
+						"Produits de la mer",
+						"Huiles et vinaigres",
+						"Épices"
+					]
+				}
+			},
+			"provenance": {
+				"type": "Select",
+				"config": {
+					"label": "provenance",
+					"placeholder": "",
+					"options": ["Provence", "Sud-Ouest", "Bretagne", "Espagne", "Italie", "Portugal"]
+				}
+			},
+			"titre": {
+				"type": "Text",
+				"config": {
+					"label": "titre",
+					"placeholder": ""
+				}
+			},
+			"prix": {
+				"type": "Number",
+				"config": {
+					"label": "prix",
+					"placeholder": ""
+				}
+			},
+			"description": {
+				"type": "StructuredText",
+				"config": {
+					"label": "description",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,list-item,o-list-item,rtl"
+				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {}
+				}
+			}
+		},
+		"SEO & Metadata": {
+			"meta_title": {
+				"config": {
+					"label": "Meta Title",
+					"placeholder": "A title of the page used for social media and search engines"
+				},
+				"type": "Text"
+			},
+			"meta_description": {
+				"config": {
+					"label": "Meta Description",
+					"placeholder": "A brief summary of the page"
+				},
+				"type": "Text"
+			},
+			"meta_image": {
+				"config": {
+					"constraint": {
+						"height": 1260,
+						"width": 2400
+					},
+					"label": "Meta Image",
+					"thumbnails": []
+				},
+				"type": "Image"
+			}
+		}
+	}
+}
