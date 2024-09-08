@@ -10,7 +10,7 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="flex flex-col justify-center gap-4 text-center py-7 md:gap-6 md:flex-row md:items-center bg-primary md:py-4"
+		class="flex flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6 md:py-4"
 	>
 		<div class="font-light md:text-xl">
 			<PrismicRichText field={slice.primary.text} />
@@ -19,7 +19,11 @@
 			{#if isExternalLink(slice.primary.link.url)}
 				<PrismicLink field={slice.primary.link}>
 					{slice.primary.label}
-					<img src="/icone-external-link.svg" alt="lien externe" class="inline w-4 h-4 mb-1 ml-2" />
+					<img
+						src="/assets/icone-external-link.svg"
+						alt="lien externe"
+						class="mb-1 ml-2 inline h-4 w-4"
+					/>
 				</PrismicLink>
 			{:else}
 				<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
@@ -30,7 +34,7 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="flex flex-col justify-center gap-4 text-center py-7 md:gap-6 md:flex-row md:items-center bg-primary"
+		class="flex flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6"
 	>
 		<div class="font-light md:text-4xl">
 			<PrismicRichText field={slice.primary.text} />
@@ -39,7 +43,11 @@
 			{#if isExternalLink(slice.primary.link.url)}
 				<PrismicLink field={slice.primary.link}>
 					{slice.primary.label}
-					<img src="/icone-external-link.svg" alt="lien externe" class="inline w-4 h-4 mb-1 ml-2" />
+					<img
+						src="/assets/icone-external-link.svg"
+						alt="lien externe"
+						class="mb-1 ml-2 inline h-4 w-4"
+					/>
 				</PrismicLink>
 			{:else}
 				<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>

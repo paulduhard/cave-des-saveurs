@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --primary: #3D0404;
-        --secondary: #F0EFED;
-        
-        font-family: "sofia-pro";
-    }
+	:root {
+		--primary: #3d0404;
+		--secondary: #f0efed;
 
-    p {
-        line-height: 1.4rem;
-    }
+		font-family: 'sofia-pro', sans-serif;
+	}
+
+	p {
+		line-height: 1.4rem;
+	}
 }

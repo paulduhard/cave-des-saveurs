@@ -469,6 +469,17 @@ interface ProduitDocumentData {
 	image: prismic.ImageField<never>;
 
 	/**
+	 * prix field in *FicheProduit*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit.prix
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	prix: prismic.NumberField;
+
+	/**
 	 * categorie field in *FicheProduit*
 	 *
 	 * - **Field Type**: Select
@@ -489,19 +500,6 @@ interface ProduitDocumentData {
 	>;
 
 	/**
-	 * provenance field in *FicheProduit*
-	 *
-	 * - **Field Type**: Select
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.provenance
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#select
-	 */
-	provenance: prismic.SelectField<
-		'Provence' | 'Sud-Ouest' | 'Bretagne' | 'Espagne' | 'Italie' | 'Portugal'
-	>;
-
-	/**
 	 * titre field in *FicheProduit*
 	 *
 	 * - **Field Type**: Text
@@ -513,15 +511,17 @@ interface ProduitDocumentData {
 	titre: prismic.KeyTextField;
 
 	/**
-	 * prix field in *FicheProduit*
+	 * provenance field in *FicheProduit*
 	 *
-	 * - **Field Type**: Number
+	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.prix
+	 * - **API ID Path**: produit.provenance
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#number
+	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	prix: prismic.NumberField;
+	provenance: prismic.SelectField<
+		'Provence' | 'Sud-Ouest' | 'Bretagne' | 'Espagne' | 'Italie' | 'Portugal'
+	>;
 
 	/**
 	 * description field in *FicheProduit*
@@ -592,6 +592,106 @@ export type ProduitDocument<Lang extends string = string> = prismic.PrismicDocum
 	Lang
 >;
 
+/**
+ * Item in *Settings → Navigation*
+ */
+export interface SettingsDocumentDataNavigationItem {
+	/**
+	 * Link field in *Settings → Navigation*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.navigation[].link
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	link: prismic.LinkField;
+
+	/**
+	 * Label field in *Settings → Navigation*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.navigation[].label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+
+	/**
+	 * External Link field in *Settings → Navigation*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: settings.navigation[].external_link
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	external_link: prismic.BooleanField;
+}
+
+/**
+ * Content for Settings documents
+ */
+interface SettingsDocumentData {
+	/**
+	 * Site Title field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.site_title
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	site_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.meta_description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * OG Image field in *Settings*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.og_image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	og_image: prismic.ImageField<never>;
+
+	/**
+	 * Navigation field in *Settings*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.navigation[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+}
+
+/**
+ * Settings document from Prismic
+ *
+ * - **API ID**: `settings`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
+	Simplify<SettingsDocumentData>,
+	'settings',
+	Lang
+>;
+
 export type AllDocumentTypes =
 	| BouteilleDocument
 	| CaveDocument
@@ -599,7 +699,8 @@ export type AllDocumentTypes =
 	| EpicerieDocument
 	| NavigationDocument
 	| PageDocument
-	| ProduitDocument;
+	| ProduitDocument
+	| SettingsDocument;
 
 /**
  * Primary content in *Evenements → Standard → Primary*
@@ -1257,6 +1358,9 @@ declare module '@prismicio/client' {
 			ProduitDocument,
 			ProduitDocumentData,
 			ProduitDocumentDataSlicesSlice,
+			SettingsDocument,
+			SettingsDocumentData,
+			SettingsDocumentDataNavigationItem,
 			AllDocumentTypes,
 			BannerEventSlice,
 			BannerEventSliceDefaultPrimary,
