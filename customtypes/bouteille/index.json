@@ -1,7 +1,7 @@
 {
 	"format": "page",
 	"id": "bouteille",
-	"label": "PageAlcool",
+	"label": "FicheAlcool",
 	"repeatable": true,
 	"status": true,
 	"json": {

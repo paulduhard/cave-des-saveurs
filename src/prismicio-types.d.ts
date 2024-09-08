@@ -7,11 +7,11 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 type BouteilleDocumentDataSlicesSlice = never;
 
 /**
- * Content for PageAlcool documents
+ * Content for FicheAlcool documents
  */
 interface BouteilleDocumentData {
 	/**
-	 * Slice Zone field in *PageAlcool*
+	 * Slice Zone field in *FicheAlcool*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -20,7 +20,7 @@ interface BouteilleDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
 	slices: prismic.SliceZone<BouteilleDocumentDataSlicesSlice> /**
-	 * Meta Title field in *PageAlcool*
+	 * Meta Title field in *FicheAlcool*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A title of the page used for social media and search engines
@@ -31,7 +31,7 @@ interface BouteilleDocumentData {
 	meta_title: prismic.KeyTextField;
 
 	/**
-	 * Meta Description field in *PageAlcool*
+	 * Meta Description field in *FicheAlcool*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A brief summary of the page
@@ -42,7 +42,7 @@ interface BouteilleDocumentData {
 	meta_description: prismic.KeyTextField;
 
 	/**
-	 * Meta Image field in *PageAlcool*
+	 * Meta Image field in *FicheAlcool*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -54,7 +54,7 @@ interface BouteilleDocumentData {
 }
 
 /**
- * PageAlcool document from Prismic
+ * FicheAlcool document from Prismic
  *
  * - **API ID**: `bouteille`
  * - **Repeatable**: `true`
@@ -454,11 +454,11 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 type ProduitDocumentDataSlicesSlice = never;
 
 /**
- * Content for PageEpicerie documents
+ * Content for FicheProduit documents
  */
 interface ProduitDocumentData {
 	/**
-	 * image field in *PageEpicerie*
+	 * image field in *FicheProduit*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -469,7 +469,7 @@ interface ProduitDocumentData {
 	image: prismic.ImageField<never>;
 
 	/**
-	 * categorie field in *PageEpicerie*
+	 * categorie field in *FicheProduit*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
@@ -489,7 +489,7 @@ interface ProduitDocumentData {
 	>;
 
 	/**
-	 * provenance field in *PageEpicerie*
+	 * provenance field in *FicheProduit*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
@@ -502,7 +502,7 @@ interface ProduitDocumentData {
 	>;
 
 	/**
-	 * titre field in *PageEpicerie*
+	 * titre field in *FicheProduit*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -513,7 +513,7 @@ interface ProduitDocumentData {
 	titre: prismic.KeyTextField;
 
 	/**
-	 * prix field in *PageEpicerie*
+	 * prix field in *FicheProduit*
 	 *
 	 * - **Field Type**: Number
 	 * - **Placeholder**: *None*
@@ -524,7 +524,7 @@ interface ProduitDocumentData {
 	prix: prismic.NumberField;
 
 	/**
-	 * description field in *PageEpicerie*
+	 * description field in *FicheProduit*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -535,7 +535,7 @@ interface ProduitDocumentData {
 	description: prismic.RichTextField;
 
 	/**
-	 * Slice Zone field in *PageEpicerie*
+	 * Slice Zone field in *FicheProduit*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -544,7 +544,7 @@ interface ProduitDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
 	slices: prismic.SliceZone<ProduitDocumentDataSlicesSlice> /**
-	 * Meta Title field in *PageEpicerie*
+	 * Meta Title field in *FicheProduit*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A title of the page used for social media and search engines
@@ -555,7 +555,7 @@ interface ProduitDocumentData {
 	meta_title: prismic.KeyTextField;
 
 	/**
-	 * Meta Description field in *PageEpicerie*
+	 * Meta Description field in *FicheProduit*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A brief summary of the page
@@ -566,7 +566,7 @@ interface ProduitDocumentData {
 	meta_description: prismic.KeyTextField;
 
 	/**
-	 * Meta Image field in *PageEpicerie*
+	 * Meta Image field in *FicheProduit*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -578,7 +578,7 @@ interface ProduitDocumentData {
 }
 
 /**
- * PageEpicerie document from Prismic
+ * FicheProduit document from Prismic
  *
  * - **API ID**: `produit`
  * - **Repeatable**: `true`
