@@ -75,6 +75,17 @@ type CaveDocumentDataSlicesSlice = never;
  */
 interface CaveDocumentData {
 	/**
+	 * Titre field in *CatalogueAlcools*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: cave.titre
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	titre: prismic.KeyTextField;
+
+	/**
 	 * Slice Zone field in *CatalogueAlcools*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -245,17 +256,6 @@ interface EpicerieDocumentData {
 	description: prismic.RichTextField;
 
 	/**
-	 * provenance - produits field in *CatalogueEpicerie*
-	 *
-	 * - **Field Type**: Content Relationship
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: epicerie.provenanceproduit
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	provenanceproduit: prismic.ContentRelationshipField<'produit'>;
-
-	/**
 	 * Slice Zone field in *CatalogueEpicerie*
 	 *
 	 * - **Field Type**: Slice Zone
@@ -310,62 +310,6 @@ interface EpicerieDocumentData {
 export type EpicerieDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
 	Simplify<EpicerieDocumentData>,
 	'epicerie',
-	Lang
->;
-
-/**
- * Item in *Navigation → Links*
- */
-export interface NavigationDocumentDataLinksItem {
-	/**
-	 * Link field in *Navigation → Links*
-	 *
-	 * - **Field Type**: Link
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: navigation.links[].link
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	link: prismic.LinkField;
-
-	/**
-	 * Label field in *Navigation → Links*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: navigation.links[].label
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	label: prismic.KeyTextField;
-}
-
-/**
- * Content for Navigation documents
- */
-interface NavigationDocumentData {
-	/**
-	 * Links field in *Navigation*
-	 *
-	 * - **Field Type**: Group
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: navigation.links[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#group
-	 */
-	links: prismic.GroupField<Simplify<NavigationDocumentDataLinksItem>>;
-}
-
-/**
- * Navigation document from Prismic
- *
- * - **API ID**: `navigation`
- * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type NavigationDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
-	Simplify<NavigationDocumentData>,
-	'navigation',
 	Lang
 >;
 
@@ -697,7 +641,6 @@ export type AllDocumentTypes =
 	| CaveDocument
 	| ContactDocument
 	| EpicerieDocument
-	| NavigationDocument
 	| PageDocument
 	| ProduitDocument
 	| SettingsDocument;
@@ -1349,9 +1292,6 @@ declare module '@prismicio/client' {
 			EpicerieDocument,
 			EpicerieDocumentData,
 			EpicerieDocumentDataSlicesSlice,
-			NavigationDocument,
-			NavigationDocumentData,
-			NavigationDocumentDataLinksItem,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
