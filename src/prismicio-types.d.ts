@@ -189,27 +189,7 @@ interface ContactDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	googlemap: prismic.KeyTextField /**
-	 * Logo Header field in *Contact*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.logo_header
-	 * - **Tab**: Logo
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */;
-	logo_header: prismic.ImageField<never>;
-
-	/**
-	 * Logo Footer field in *Contact*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.logo_footer
-	 * - **Tab**: Logo
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	logo_footer: prismic.ImageField<never>;
+	googlemap: prismic.KeyTextField;
 }
 
 /**
@@ -618,7 +598,27 @@ interface SettingsDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#group
 	 */
-	navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>>;
+	navigation: prismic.GroupField<Simplify<SettingsDocumentDataNavigationItem>> /**
+	 * Logo Header field in *Settings*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.logo_header
+	 * - **Tab**: Logos
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */;
+	logo_header: prismic.ImageField<never>;
+
+	/**
+	 * Logo Footer field in *Settings*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.logo_footer
+	 * - **Tab**: Logos
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	logo_footer: prismic.ImageField<never>;
 }
 
 /**

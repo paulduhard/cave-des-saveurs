@@ -36,24 +36,6 @@
 					"placeholder": ""
 				}
 			}
-		},
-		"Logo": {
-			"logo_header": {
-				"type": "Image",
-				"config": {
-					"label": "Logo Header",
-					"constraint": {},
-					"thumbnails": []
-				}
-			},
-			"logo_footer": {
-				"type": "Image",
-				"config": {
-					"label": "Logo Footer",
-					"constraint": {},
-					"thumbnails": []
-				}
-			}
 		}
 	}
 }
