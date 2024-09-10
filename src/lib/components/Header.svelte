@@ -13,7 +13,7 @@
 		<ul class="flex content-center gap-16">
 			{#each settings.data.navigation as item (item.label)}
 				<li class="uppercase hover:underline">
-					<PrismicLink field={item.link} class="text-white">
+					<PrismicLink field={item.link}>
 						{item.label}
 					</PrismicLink>
 				</li>
