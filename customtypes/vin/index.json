@@ -1,0 +1,104 @@
+{
+	"format": "custom",
+	"id": "vin",
+	"label": "Vin",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"name": {
+				"type": "Text",
+				"config": {
+					"label": "Name",
+					"placeholder": ""
+				}
+			},
+			"image": {
+				"type": "Image",
+				"config": {
+					"label": "Image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"region": {
+				"type": "Link",
+				"config": {
+					"label": "Région",
+					"select": "document",
+					"customtypes": ["region"]
+				}
+			},
+			"domaine": {
+				"type": "Link",
+				"config": {
+					"label": "Domaine",
+					"select": "document",
+					"customtypes": ["domaine"]
+				}
+			},
+			"appellation": {
+				"type": "Link",
+				"config": {
+					"label": "Appellation",
+					"select": "document",
+					"customtypes": ["appellation"]
+				}
+			},
+			"terroir": {
+				"type": "Text",
+				"config": {
+					"label": "Terroir",
+					"placeholder": ""
+				}
+			},
+			"couleur": {
+				"type": "Link",
+				"config": {
+					"label": "Couleur",
+					"select": "document",
+					"customtypes": ["couleur"]
+				}
+			},
+			"cepages": {
+				"type": "Text",
+				"config": {
+					"label": "Cépages",
+					"placeholder": ""
+				}
+			},
+			"degustation": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Dégustation",
+					"placeholder": "Se déguste avec",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+				}
+			},
+			"relation": {
+				"type": "Group",
+				"config": {
+					"label": "relation",
+					"repeat": true,
+					"fields": {
+						"association": {
+							"type": "Link",
+							"config": {
+								"label": "Association",
+								"select": "document",
+								"customtypes": ["vin"]
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

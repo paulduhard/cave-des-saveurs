@@ -5,38 +5,76 @@ import type * as prismic from '@prismicio/client';
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
 /**
- * Item in *categories → items*
+ * Content for Appellation documents
  */
-export interface CategoriesDocumentDataItemsItem {
+interface AppellationDocumentData {
 	/**
-	 * label field in *categories → items*
+	 * Nom field in *Appellation*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: categories.items[].label
+	 * - **API ID Path**: appellation.nom
+	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	label: prismic.KeyTextField;
+	nom: prismic.KeyTextField;
+
+	/**
+	 * Description field in *Appellation*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: appellation.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
 }
 
 /**
- * Content for categories documents
+ * Appellation document from Prismic
+ *
+ * - **API ID**: `appellation`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type AppellationDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<AppellationDocumentData>,
+	'appellation',
+	Lang
+>;
+
+/**
+ * Content for Catégorie documents
  */
 interface CategoriesDocumentData {
 	/**
-	 * items field in *categories*
+	 * Nom field in *Catégorie*
 	 *
-	 * - **Field Type**: Group
+	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: categories.items[]
+	 * - **API ID Path**: categories.nom
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#group
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	items: prismic.GroupField<Simplify<CategoriesDocumentDataItemsItem>>;
+	nom: prismic.KeyTextField;
+
+	/**
+	 * Ordre Menu field in *Catégorie*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: categories.ordre_menu
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	ordre_menu: prismic.NumberField;
 }
 
 /**
- * categories document from Prismic
+ * Catégorie document from Prismic
  *
  * - **API ID**: `categories`
  * - **Repeatable**: `true`
@@ -122,6 +160,101 @@ interface CaveDocumentData {
 export type CaveDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
 	Simplify<CaveDocumentData>,
 	'cave',
+	Lang
+>;
+
+/**
+ * Content for Couleur documents
+ */
+interface CouleurDocumentData {
+	/**
+	 * Couleur field in *Couleur*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: couleur.couleur
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	couleur: prismic.KeyTextField;
+
+	/**
+	 * Ordre Menu field in *Couleur*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: couleur.ordre_menu
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	ordre_menu: prismic.NumberField;
+}
+
+/**
+ * Couleur document from Prismic
+ *
+ * - **API ID**: `couleur`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type CouleurDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<CouleurDocumentData>,
+	'couleur',
+	Lang
+>;
+
+/**
+ * Content for Domaine documents
+ */
+interface DomaineDocumentData {
+	/**
+	 * Ordre menu field in *Domaine*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: domaine.ordre_menu
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	ordre_menu: prismic.NumberField;
+
+	/**
+	 * Domaine field in *Domaine*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: domaine.domaine
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	domaine: prismic.KeyTextField;
+
+	/**
+	 * Description field in *Domaine*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: domaine.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+}
+
+/**
+ * Domaine document from Prismic
+ *
+ * - **API ID**: `domaine`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type DomaineDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<DomaineDocumentData>,
+	'domaine',
 	Lang
 >;
 
@@ -212,48 +345,44 @@ export type EpicerieDocument<Lang extends string = string> = prismic.PrismicDocu
 >;
 
 /**
- * Item in *submenu → items*
+ * Content for Origine documents
  */
-export interface MegaMenuDocumentDataItemsItem {
+interface OrigineDocumentData {
 	/**
-	 * label field in *submenu → items*
+	 * Nom field in *Origine*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: mega_menu.items[].label
+	 * - **API ID Path**: origine.nom
+	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	label: prismic.KeyTextField;
-}
+	nom: prismic.KeyTextField;
 
-/**
- * Content for submenu documents
- */
-interface MegaMenuDocumentData {
 	/**
-	 * items field in *submenu*
+	 * Ordre Menu field in *Origine*
 	 *
-	 * - **Field Type**: Group
+	 * - **Field Type**: Number
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: mega_menu.items[]
+	 * - **API ID Path**: origine.ordre_menu
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#group
+	 * - **Documentation**: https://prismic.io/docs/field#number
 	 */
-	items: prismic.GroupField<Simplify<MegaMenuDocumentDataItemsItem>>;
+	ordre_menu: prismic.NumberField;
 }
 
 /**
- * submenu document from Prismic
+ * Origine document from Prismic
  *
- * - **API ID**: `mega_menu`
+ * - **API ID**: `origine`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type MegaMenuDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
-	Simplify<MegaMenuDocumentData>,
-	'mega_menu',
+export type OrigineDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<OrigineDocumentData>,
+	'origine',
 	Lang
 >;
 
@@ -437,6 +566,59 @@ export type ProduitEpicerieDocument<Lang extends string = string> = prismic.Pris
 >;
 
 /**
+ * Content for Région documents
+ */
+interface RegionDocumentData {
+	/**
+	 * Ordre Menu field in *Région*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: region.ordre_menu
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	ordre_menu: prismic.NumberField;
+
+	/**
+	 * Région field in *Région*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: region.region
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	region: prismic.KeyTextField;
+
+	/**
+	 * Decription field in *Région*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: region.decription
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	decription: prismic.RichTextField;
+}
+
+/**
+ * Région document from Prismic
+ *
+ * - **API ID**: `region`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type RegionDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<RegionDocumentData>,
+	'region',
+	Lang
+>;
+
+/**
  * Item in *Settings → Navigation*
  */
 export interface SettingsDocumentDataNavigationItem {
@@ -598,14 +780,164 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
+/**
+ * Item in *Vin → relation*
+ */
+export interface VinDocumentDataRelationItem {
+	/**
+	 * Association field in *Vin → relation*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.relation[].association
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	association: prismic.ContentRelationshipField<'vin'>;
+}
+
+/**
+ * Content for Vin documents
+ */
+interface VinDocumentData {
+	/**
+	 * Name field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.name
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	name: prismic.KeyTextField;
+
+	/**
+	 * Image field in *Vin*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * Région field in *Vin*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.region
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	region: prismic.ContentRelationshipField<'region'>;
+
+	/**
+	 * Domaine field in *Vin*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.domaine
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	domaine: prismic.ContentRelationshipField<'domaine'>;
+
+	/**
+	 * Appellation field in *Vin*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.appellation
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	appellation: prismic.ContentRelationshipField<'appellation'>;
+
+	/**
+	 * Terroir field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.terroir
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	terroir: prismic.KeyTextField;
+
+	/**
+	 * Couleur field in *Vin*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.couleur
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	couleur: prismic.ContentRelationshipField<'couleur'>;
+
+	/**
+	 * Cépages field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.cepages
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	cepages: prismic.KeyTextField;
+
+	/**
+	 * Dégustation field in *Vin*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: Se déguste avec
+	 * - **API ID Path**: vin.degustation
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	degustation: prismic.RichTextField;
+
+	/**
+	 * relation field in *Vin*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.relation[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	relation: prismic.GroupField<Simplify<VinDocumentDataRelationItem>>;
+}
+
+/**
+ * Vin document from Prismic
+ *
+ * - **API ID**: `vin`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type VinDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<VinDocumentData>,
+	'vin',
+	Lang
+>;
+
 export type AllDocumentTypes =
+	| AppellationDocument
 	| CategoriesDocument
 	| CaveDocument
+	| CouleurDocument
+	| DomaineDocument
 	| EpicerieDocument
-	| MegaMenuDocument
+	| OrigineDocument
 	| PageDocument
 	| ProduitEpicerieDocument
-	| SettingsDocument;
+	| RegionDocument
+	| SettingsDocument
+	| VinDocument;
 
 /**
  * Primary content in *Evenements → Standard → Primary*
@@ -1243,26 +1575,35 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
+			AppellationDocument,
+			AppellationDocumentData,
 			CategoriesDocument,
 			CategoriesDocumentData,
-			CategoriesDocumentDataItemsItem,
 			CaveDocument,
 			CaveDocumentData,
 			CaveDocumentDataSlicesSlice,
+			CouleurDocument,
+			CouleurDocumentData,
+			DomaineDocument,
+			DomaineDocumentData,
 			EpicerieDocument,
 			EpicerieDocumentData,
 			EpicerieDocumentDataSlicesSlice,
-			MegaMenuDocument,
-			MegaMenuDocumentData,
-			MegaMenuDocumentDataItemsItem,
+			OrigineDocument,
+			OrigineDocumentData,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
 			ProduitEpicerieDocument,
 			ProduitEpicerieDocumentData,
+			RegionDocument,
+			RegionDocumentData,
 			SettingsDocument,
 			SettingsDocumentData,
 			SettingsDocumentDataNavigationItem,
+			VinDocument,
+			VinDocumentData,
+			VinDocumentDataRelationItem,
 			AllDocumentTypes,
 			BannerEventSlice,
 			BannerEventSliceDefaultPrimary,
