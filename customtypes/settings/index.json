@@ -62,6 +62,54 @@
 					}
 				}
 			}
+		},
+		"Logos": {
+			"logo_header": {
+				"type": "Image",
+				"config": {
+					"label": "Logo Header",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"logo_footer": {
+				"type": "Image",
+				"config": {
+					"label": "Logo Footer",
+					"constraint": {},
+					"thumbnails": []
+				}
+			}
+		},
+		"Contact": {
+			"email": {
+				"type": "Text",
+				"config": {
+					"label": "E-mail",
+					"placeholder": ""
+				}
+			},
+			"telephone": {
+				"type": "Text",
+				"config": {
+					"label": "Téléphone",
+					"placeholder": ""
+				}
+			},
+			"adresse": {
+				"type": "Text",
+				"config": {
+					"label": "Adresse",
+					"placeholder": ""
+				}
+			},
+			"googlemap": {
+				"type": "Text",
+				"config": {
+					"label": "GoogleMap",
+					"placeholder": ""
+				}
+			}
 		}
 	}
 }
