@@ -1,7 +1,7 @@
 {
 	"format": "page",
 	"id": "epicerie",
-	"label": "CatalogueEpicerie",
+	"label": "Page Épicerie",
 	"repeatable": true,
 	"status": true,
 	"json": {

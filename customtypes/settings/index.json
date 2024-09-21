@@ -80,6 +80,36 @@
 					"thumbnails": []
 				}
 			}
+		},
+		"Contact": {
+			"email": {
+				"type": "Text",
+				"config": {
+					"label": "E-mail",
+					"placeholder": ""
+				}
+			},
+			"telephone": {
+				"type": "Text",
+				"config": {
+					"label": "Téléphone",
+					"placeholder": ""
+				}
+			},
+			"adresse": {
+				"type": "Text",
+				"config": {
+					"label": "Adresse",
+					"placeholder": ""
+				}
+			},
+			"googlemap": {
+				"type": "Text",
+				"config": {
+					"label": "GoogleMap",
+					"placeholder": ""
+				}
+			}
 		}
 	}
 }

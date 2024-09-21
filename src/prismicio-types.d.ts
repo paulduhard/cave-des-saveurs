@@ -4,78 +4,60 @@ import type * as prismic from '@prismicio/client';
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BouteilleDocumentDataSlicesSlice = never;
-
 /**
- * Content for FicheAlcool documents
+ * Item in *categories → items*
  */
-interface BouteilleDocumentData {
+export interface CategoriesDocumentDataItemsItem {
 	/**
-	 * Slice Zone field in *FicheAlcool*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: bouteille.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#slices
-	 */
-	slices: prismic.SliceZone<BouteilleDocumentDataSlicesSlice> /**
-	 * Meta Title field in *FicheAlcool*
+	 * label field in *categories → items*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: bouteille.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */;
-	meta_title: prismic.KeyTextField;
-
-	/**
-	 * Meta Description field in *FicheAlcool*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: bouteille.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	meta_description: prismic.KeyTextField;
-
-	/**
-	 * Meta Image field in *FicheAlcool*
-	 *
-	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: bouteille.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#image
+	 * - **API ID Path**: categories.items[].label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	meta_image: prismic.ImageField<never>;
+	label: prismic.KeyTextField;
 }
 
 /**
- * FicheAlcool document from Prismic
+ * Content for categories documents
+ */
+interface CategoriesDocumentData {
+	/**
+	 * items field in *categories*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: categories.items[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	items: prismic.GroupField<Simplify<CategoriesDocumentDataItemsItem>>;
+}
+
+/**
+ * categories document from Prismic
  *
- * - **API ID**: `bouteille`
+ * - **API ID**: `categories`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type BouteilleDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
-	Simplify<BouteilleDocumentData>,
-	'bouteille',
+export type CategoriesDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<CategoriesDocumentData>,
+	'categories',
 	Lang
 >;
 
 type CaveDocumentDataSlicesSlice = never;
 
 /**
- * Content for CatalogueAlcools documents
+ * Content for Page Alcools & Spiritueux documents
  */
 interface CaveDocumentData {
 	/**
-	 * Titre field in *CatalogueAlcools*
+	 * Titre field in *Page Alcools & Spiritueux*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -86,7 +68,7 @@ interface CaveDocumentData {
 	titre: prismic.KeyTextField;
 
 	/**
-	 * Slice Zone field in *CatalogueAlcools*
+	 * Slice Zone field in *Page Alcools & Spiritueux*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -95,7 +77,7 @@ interface CaveDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
 	slices: prismic.SliceZone<CaveDocumentDataSlicesSlice> /**
-	 * Meta Title field in *CatalogueAlcools*
+	 * Meta Title field in *Page Alcools & Spiritueux*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A title of the page used for social media and search engines
@@ -106,7 +88,7 @@ interface CaveDocumentData {
 	meta_title: prismic.KeyTextField;
 
 	/**
-	 * Meta Description field in *CatalogueAlcools*
+	 * Meta Description field in *Page Alcools & Spiritueux*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A brief summary of the page
@@ -117,7 +99,7 @@ interface CaveDocumentData {
 	meta_description: prismic.KeyTextField;
 
 	/**
-	 * Meta Image field in *CatalogueAlcools*
+	 * Meta Image field in *Page Alcools & Spiritueux*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -129,7 +111,7 @@ interface CaveDocumentData {
 }
 
 /**
- * CatalogueAlcools document from Prismic
+ * Page Alcools & Spiritueux document from Prismic
  *
  * - **API ID**: `cave`
  * - **Repeatable**: `true`
@@ -143,78 +125,14 @@ export type CaveDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-/**
- * Content for Contact documents
- */
-interface ContactDocumentData {
-	/**
-	 * E-mail field in *Contact*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.email
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	email: prismic.KeyTextField;
-
-	/**
-	 * Téléphone field in *Contact*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.telephone
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	telephone: prismic.KeyTextField;
-
-	/**
-	 * Adresse field in *Contact*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.adresse
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-	 */
-	adresse: prismic.RichTextField;
-
-	/**
-	 * GoogleMap field in *Contact*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: contact.googlemap
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	googlemap: prismic.KeyTextField;
-}
-
-/**
- * Contact document from Prismic
- *
- * - **API ID**: `contact`
- * - **Repeatable**: `false`
- * - **Documentation**: https://prismic.io/docs/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type ContactDocument<Lang extends string = string> = prismic.PrismicDocumentWithoutUID<
-	Simplify<ContactDocumentData>,
-	'contact',
-	Lang
->;
-
 type EpicerieDocumentDataSlicesSlice = never;
 
 /**
- * Content for CatalogueEpicerie documents
+ * Content for Page Épicerie documents
  */
 interface EpicerieDocumentData {
 	/**
-	 * titre field in *CatalogueEpicerie*
+	 * titre field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
@@ -225,7 +143,7 @@ interface EpicerieDocumentData {
 	titre: prismic.KeyTextField;
 
 	/**
-	 * description field in *CatalogueEpicerie*
+	 * description field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
@@ -236,7 +154,7 @@ interface EpicerieDocumentData {
 	description: prismic.RichTextField;
 
 	/**
-	 * Slice Zone field in *CatalogueEpicerie*
+	 * Slice Zone field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -245,7 +163,7 @@ interface EpicerieDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
 	slices: prismic.SliceZone<EpicerieDocumentDataSlicesSlice> /**
-	 * Meta Title field in *CatalogueEpicerie*
+	 * Meta Title field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A title of the page used for social media and search engines
@@ -256,7 +174,7 @@ interface EpicerieDocumentData {
 	meta_title: prismic.KeyTextField;
 
 	/**
-	 * Meta Description field in *CatalogueEpicerie*
+	 * Meta Description field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: A brief summary of the page
@@ -267,7 +185,7 @@ interface EpicerieDocumentData {
 	meta_description: prismic.KeyTextField;
 
 	/**
-	 * Meta Image field in *CatalogueEpicerie*
+	 * Meta Image field in *Page Épicerie*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
@@ -279,7 +197,7 @@ interface EpicerieDocumentData {
 }
 
 /**
- * CatalogueEpicerie document from Prismic
+ * Page Épicerie document from Prismic
  *
  * - **API ID**: `epicerie`
  * - **Repeatable**: `true`
@@ -290,6 +208,52 @@ interface EpicerieDocumentData {
 export type EpicerieDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
 	Simplify<EpicerieDocumentData>,
 	'epicerie',
+	Lang
+>;
+
+/**
+ * Item in *submenu → items*
+ */
+export interface MegaMenuDocumentDataItemsItem {
+	/**
+	 * label field in *submenu → items*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mega_menu.items[].label
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	label: prismic.KeyTextField;
+}
+
+/**
+ * Content for submenu documents
+ */
+interface MegaMenuDocumentData {
+	/**
+	 * items field in *submenu*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: mega_menu.items[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	items: prismic.GroupField<Simplify<MegaMenuDocumentDataItemsItem>>;
+}
+
+/**
+ * submenu document from Prismic
+ *
+ * - **API ID**: `mega_menu`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type MegaMenuDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<MegaMenuDocumentData>,
+	'mega_menu',
 	Lang
 >;
 
@@ -375,40 +339,60 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
-type ProduitDocumentDataSlicesSlice = never;
-
 /**
- * Content for FicheProduit documents
+ * Content for Produit d'épicerie documents
  */
-interface ProduitDocumentData {
+interface ProduitEpicerieDocumentData {
 	/**
-	 * image field in *FicheProduit*
+	 * image field in *Produit d'épicerie*
 	 *
 	 * - **Field Type**: Image
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.image
+	 * - **API ID Path**: produit_epicerie.image
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
 	image: prismic.ImageField<never>;
 
 	/**
-	 * prix field in *FicheProduit*
+	 * Nom field in *Produit d'épicerie*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_epicerie.nom
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	nom: prismic.KeyTextField;
+
+	/**
+	 * Description field in *Produit d'épicerie*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_epicerie.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	description: prismic.RichTextField;
+
+	/**
+	 * Prix field in *Produit d'épicerie*
 	 *
 	 * - **Field Type**: Number
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.prix
+	 * - **API ID Path**: produit_epicerie.prix
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#number
 	 */
 	prix: prismic.NumberField;
 
 	/**
-	 * categorie field in *FicheProduit*
+	 * Catégorie field in *Produit d'épicerie*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.categorie
+	 * - **API ID Path**: produit_epicerie.categorie
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
@@ -424,95 +408,31 @@ interface ProduitDocumentData {
 	>;
 
 	/**
-	 * titre field in *FicheProduit*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.titre
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	titre: prismic.KeyTextField;
-
-	/**
-	 * provenance field in *FicheProduit*
+	 * Origine field in *Produit d'épicerie*
 	 *
 	 * - **Field Type**: Select
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.provenance
+	 * - **API ID Path**: produit_epicerie.origine
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#select
 	 */
-	provenance: prismic.SelectField<
+	origine: prismic.SelectField<
 		'Provence' | 'Sud-Ouest' | 'Bretagne' | 'Espagne' | 'Italie' | 'Portugal'
 	>;
-
-	/**
-	 * description field in *FicheProduit*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.description
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-	 */
-	description: prismic.RichTextField;
-
-	/**
-	 * Slice Zone field in *FicheProduit*
-	 *
-	 * - **Field Type**: Slice Zone
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.slices[]
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#slices
-	 */
-	slices: prismic.SliceZone<ProduitDocumentDataSlicesSlice> /**
-	 * Meta Title field in *FicheProduit*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
-	 * - **API ID Path**: produit.meta_title
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */;
-	meta_title: prismic.KeyTextField;
-
-	/**
-	 * Meta Description field in *FicheProduit*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
-	 * - **API ID Path**: produit.meta_description
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	meta_description: prismic.KeyTextField;
-
-	/**
-	 * Meta Image field in *FicheProduit*
-	 *
-	 * - **Field Type**: Image
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: produit.meta_image
-	 * - **Tab**: SEO & Metadata
-	 * - **Documentation**: https://prismic.io/docs/field#image
-	 */
-	meta_image: prismic.ImageField<never>;
 }
 
 /**
- * FicheProduit document from Prismic
+ * Produit d'épicerie document from Prismic
  *
- * - **API ID**: `produit`
+ * - **API ID**: `produit_epicerie`
  * - **Repeatable**: `true`
  * - **Documentation**: https://prismic.io/docs/custom-types
  *
  * @typeParam Lang - Language API ID of the document.
  */
-export type ProduitDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
-	Simplify<ProduitDocumentData>,
-	'produit',
+export type ProduitEpicerieDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<ProduitEpicerieDocumentData>,
+	'produit_epicerie',
 	Lang
 >;
 
@@ -618,7 +538,49 @@ interface SettingsDocumentData {
 	 * - **Tab**: Logos
 	 * - **Documentation**: https://prismic.io/docs/field#image
 	 */
-	logo_footer: prismic.ImageField<never>;
+	logo_footer: prismic.ImageField<never> /**
+	 * E-mail field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.email
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	email: prismic.KeyTextField;
+
+	/**
+	 * Téléphone field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.telephone
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	telephone: prismic.KeyTextField;
+
+	/**
+	 * Adresse field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.adresse
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	adresse: prismic.KeyTextField;
+
+	/**
+	 * GoogleMap field in *Settings*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.googlemap
+	 * - **Tab**: Contact
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	googlemap: prismic.KeyTextField;
 }
 
 /**
@@ -637,12 +599,12 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 >;
 
 export type AllDocumentTypes =
-	| BouteilleDocument
+	| CategoriesDocument
 	| CaveDocument
-	| ContactDocument
 	| EpicerieDocument
+	| MegaMenuDocument
 	| PageDocument
-	| ProduitDocument
+	| ProduitEpicerieDocument
 	| SettingsDocument;
 
 /**
@@ -1281,23 +1243,23 @@ declare module '@prismicio/client' {
 
 	namespace Content {
 		export type {
-			BouteilleDocument,
-			BouteilleDocumentData,
-			BouteilleDocumentDataSlicesSlice,
+			CategoriesDocument,
+			CategoriesDocumentData,
+			CategoriesDocumentDataItemsItem,
 			CaveDocument,
 			CaveDocumentData,
 			CaveDocumentDataSlicesSlice,
-			ContactDocument,
-			ContactDocumentData,
 			EpicerieDocument,
 			EpicerieDocumentData,
 			EpicerieDocumentDataSlicesSlice,
+			MegaMenuDocument,
+			MegaMenuDocumentData,
+			MegaMenuDocumentDataItemsItem,
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
-			ProduitDocument,
-			ProduitDocumentData,
-			ProduitDocumentDataSlicesSlice,
+			ProduitEpicerieDocument,
+			ProduitEpicerieDocumentData,
 			SettingsDocument,
 			SettingsDocumentData,
 			SettingsDocumentDataNavigationItem,
