@@ -1,5 +1,5 @@
 <script>
-	import { SliceZone } from '@prismicio/svelte';
+	import { PrismicText, SliceZone } from '@prismicio/svelte';
 
 	import { components } from '$lib/slices';
 

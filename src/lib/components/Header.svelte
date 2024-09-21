@@ -6,7 +6,7 @@
 </script>
 
 <header class="flex min-h-20 items-center justify-between bg-secondary px-8">
-	<PrismicImage field={settings.data.logo_header} />
+	<a href="/"><PrismicImage field={settings.data.logo_header} /></a>
 	<nav class="mr-40">
 		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
 

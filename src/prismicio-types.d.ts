@@ -412,7 +412,7 @@ interface PageDocumentData {
 	 * Meta Title field in *Page*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **Placeholder**: Un titre de page utilisé pour les réseaux sociaux et les moteurs de recherche
 	 * - **API ID Path**: page.meta_title
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
@@ -423,7 +423,7 @@ interface PageDocumentData {
 	 * Meta Description field in *Page*
 	 *
 	 * - **Field Type**: Text
-	 * - **Placeholder**: A brief summary of the page
+	 * - **Placeholder**: Un bref résumé de la page
 	 * - **API ID Path**: page.meta_description
 	 * - **Tab**: SEO & Metadata
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
@@ -804,15 +804,15 @@ type VinDocumentDataSlicesSlice = never;
  */
 interface VinDocumentData {
 	/**
-	 * Name field in *Vin*
+	 * Title field in *Vin*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.name
+	 * - **API ID Path**: vin.title
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	name: prismic.KeyTextField;
+	title: prismic.KeyTextField;
 
 	/**
 	 * Image field in *Vin*
@@ -925,7 +925,7 @@ interface VinDocumentData {
 	relation: prismic.GroupField<Simplify<VinDocumentDataRelationItem>>;
 
 	/**
-	 * `slices` field in *Vin*
+	 * Slice Zone field in *Vin*
 	 *
 	 * - **Field Type**: Slice Zone
 	 * - **Placeholder**: *None*
@@ -933,7 +933,38 @@ interface VinDocumentData {
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#slices
 	 */
-	slices: prismic.SliceZone<VinDocumentDataSlicesSlice>;
+	slices: prismic.SliceZone<VinDocumentDataSlicesSlice> /**
+	 * Meta Title field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Un titre de page utilisé pour les réseaux sociaux et les moteurs de recherche
+	 * - **API ID Path**: vin.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */;
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Un bref résumé de la page
+	 * - **API ID Path**: vin.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Vin*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	meta_image: prismic.ImageField<never>;
 }
 
 /**
