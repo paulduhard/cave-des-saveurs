@@ -1,5 +1,5 @@
 {
-	"format": "custom",
+	"format": "page",
 	"id": "produit_epicerie",
 	"label": "Produit d'épicerie",
 	"repeatable": true,
@@ -67,6 +67,10 @@
 					"placeholder": "",
 					"options": ["Provence", "Sud-Ouest", "Bretagne", "Espagne", "Italie", "Portugal"]
 				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone"
 			}
 		}
 	}

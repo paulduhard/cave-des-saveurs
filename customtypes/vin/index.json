@@ -1,5 +1,5 @@
 {
-	"format": "custom",
+	"format": "page",
 	"id": "vin",
 	"label": "Vin",
 	"repeatable": true,
@@ -77,27 +77,38 @@
 				"type": "StructuredText",
 				"config": {
 					"label": "Dégustation",
-					"placeholder": "Se déguste avec",
+					"placeholder": "Se déguste avec...",
 					"allowTargetBlank": true,
 					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+				}
+			},
+			"prix": {
+				"type": "Number",
+				"config": {
+					"label": "Prix",
+					"placeholder": ""
 				}
 			},
 			"relation": {
 				"type": "Group",
 				"config": {
-					"label": "relation",
+					"label": "Associations",
 					"repeat": true,
 					"fields": {
 						"association": {
 							"type": "Link",
 							"config": {
-								"label": "Association",
+								"label": "Choix",
 								"select": "document",
 								"customtypes": ["vin"]
 							}
 						}
 					}
 				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone"
 			}
 		}
 	}

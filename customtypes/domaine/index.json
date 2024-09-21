@@ -12,13 +12,6 @@
 					"label": "UID"
 				}
 			},
-			"ordre_menu": {
-				"type": "Number",
-				"config": {
-					"label": "Ordre menu",
-					"placeholder": ""
-				}
-			},
 			"domaine": {
 				"type": "Text",
 				"config": {

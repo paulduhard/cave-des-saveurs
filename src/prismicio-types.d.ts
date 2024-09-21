@@ -210,17 +210,6 @@ export type CouleurDocument<Lang extends string = string> = prismic.PrismicDocum
  */
 interface DomaineDocumentData {
 	/**
-	 * Ordre menu field in *Domaine*
-	 *
-	 * - **Field Type**: Number
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: domaine.ordre_menu
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#number
-	 */
-	ordre_menu: prismic.NumberField;
-
-	/**
 	 * Domaine field in *Domaine*
 	 *
 	 * - **Field Type**: Text
@@ -468,6 +457,8 @@ export type PageDocument<Lang extends string = string> = prismic.PrismicDocument
 	Lang
 >;
 
+type ProduitEpicerieDocumentDataSlicesSlice = never;
+
 /**
  * Content for Produit d'épicerie documents
  */
@@ -548,6 +539,17 @@ interface ProduitEpicerieDocumentData {
 	origine: prismic.SelectField<
 		'Provence' | 'Sud-Ouest' | 'Bretagne' | 'Espagne' | 'Italie' | 'Portugal'
 	>;
+
+	/**
+	 * `slices` field in *Produit d'épicerie*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_epicerie.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<ProduitEpicerieDocumentDataSlicesSlice>;
 }
 
 /**
@@ -781,11 +783,11 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 >;
 
 /**
- * Item in *Vin → relation*
+ * Item in *Vin → Associations*
  */
 export interface VinDocumentDataRelationItem {
 	/**
-	 * Association field in *Vin → relation*
+	 * Choix field in *Vin → Associations*
 	 *
 	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
@@ -794,6 +796,8 @@ export interface VinDocumentDataRelationItem {
 	 */
 	association: prismic.ContentRelationshipField<'vin'>;
 }
+
+type VinDocumentDataSlicesSlice = never;
 
 /**
  * Content for Vin documents
@@ -891,7 +895,7 @@ interface VinDocumentData {
 	 * Dégustation field in *Vin*
 	 *
 	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: Se déguste avec
+	 * - **Placeholder**: Se déguste avec...
 	 * - **API ID Path**: vin.degustation
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
@@ -899,7 +903,18 @@ interface VinDocumentData {
 	degustation: prismic.RichTextField;
 
 	/**
-	 * relation field in *Vin*
+	 * Prix field in *Vin*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.prix
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	prix: prismic.NumberField;
+
+	/**
+	 * Associations field in *Vin*
 	 *
 	 * - **Field Type**: Group
 	 * - **Placeholder**: *None*
@@ -908,6 +923,17 @@ interface VinDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#group
 	 */
 	relation: prismic.GroupField<Simplify<VinDocumentDataRelationItem>>;
+
+	/**
+	 * `slices` field in *Vin*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices: prismic.SliceZone<VinDocumentDataSlicesSlice>;
 }
 
 /**
@@ -1596,6 +1622,7 @@ declare module '@prismicio/client' {
 			PageDocumentDataSlicesSlice,
 			ProduitEpicerieDocument,
 			ProduitEpicerieDocumentData,
+			ProduitEpicerieDocumentDataSlicesSlice,
 			RegionDocument,
 			RegionDocumentData,
 			SettingsDocument,
@@ -1604,6 +1631,7 @@ declare module '@prismicio/client' {
 			VinDocument,
 			VinDocumentData,
 			VinDocumentDataRelationItem,
+			VinDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			BannerEventSlice,
 			BannerEventSliceDefaultPrimary,
