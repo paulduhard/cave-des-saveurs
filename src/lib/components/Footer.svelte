@@ -5,14 +5,14 @@
 	export let settings;
 </script>
 
-<footer class="flex items-center">
-	<nav class="min-h-80 w-full bg-primary">
+<footer class="flex flex-col items-center md:flex-row">
+	<nav class="w-full bg-primary md:min-h-80" aria-label="Footer">
 		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
 
 		<ul>
 			{#each settings.data.navigation as item (item.label)}
 				<li>
-					<PrismicLink field={item.link} class="text-white">
+					<PrismicLink field={item.link} class="inline-flex min-h-11 items-center">
 						{item.label}
 					</PrismicLink>
 				</li>
@@ -20,14 +20,14 @@
 		</ul>
 	</nav>
 	<aside
-		class="absolute right-0 mr-12 flex min-w-96 flex-col gap-4 bg-[#f0efed] px-4 py-6 text-[15px]"
+		class="flex min-w-96 flex-col justify-center gap-4 bg-[#f0efed] px-4 py-6 text-[15px] md:absolute md:right-0 md:mr-12"
 	>
-		<div class="flex justify-center gap-2">
+		<a href="/" class="flex justify-center gap-2">
 			<PrismicImage field={settings.data.logo_footer} />
 			<div class="text-black font-['Sofia Pro'] h-7 w-[216px] text-[23px] font-light">
 				la Cave des Saveurs
 			</div>
-		</div>
+		</a>
 		<div class="text-center">
 			<span class="text-black font-['Sofia Pro'] font-normal">
 				La Cave des Saveurs : vins et épicerie fine en Arles<br />
