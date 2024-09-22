@@ -57,14 +57,14 @@
 				"type": "Text",
 				"config": {
 					"label": "Meta Title",
-					"placeholder": "A title of the page used for social media and search engines"
+					"placeholder": "Un titre de page utilisé pour les réseaux sociaux et les moteurs de recherche"
 				}
 			},
 			"meta_description": {
 				"type": "Text",
 				"config": {
 					"label": "Meta Description",
-					"placeholder": "A brief summary of the page"
+					"placeholder": "Un bref résumé de la page"
 				}
 			},
 			"meta_image": {

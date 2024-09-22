@@ -1,7 +1,7 @@
 {
 	"format": "custom",
-	"id": "categories",
-	"label": "Catégorie",
+	"id": "appellation",
+	"label": "Appellation",
 	"repeatable": true,
 	"status": true,
 	"json": {
@@ -19,11 +19,13 @@
 					"placeholder": ""
 				}
 			},
-			"ordre_menu": {
-				"type": "Number",
+			"description": {
+				"type": "StructuredText",
 				"config": {
-					"label": "Ordre Menu",
-					"placeholder": ""
+					"label": "Description",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
 				}
 			}
 		}

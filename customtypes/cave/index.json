@@ -1,29 +1,38 @@
 {
 	"format": "page",
 	"id": "cave",
-	"label": "Page Alcools & Spiritueux",
-	"repeatable": true,
+	"label": "Cave",
+	"repeatable": false,
 	"status": true,
 	"json": {
 		"Main": {
-			"uid": {
-				"type": "UID",
+			"title": {
+				"type": "StructuredText",
 				"config": {
-					"label": "UID"
-				}
-			},
-			"titre": {
-				"type": "Text",
-				"config": {
-					"label": "Titre",
-					"placeholder": ""
+					"label": "Title",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"single": "heading1"
 				}
 			},
 			"slices": {
 				"type": "Slices",
 				"fieldset": "Slice Zone",
 				"config": {
-					"choices": {}
+					"choices": {
+						"spacer": {
+							"type": "SharedSlice"
+						},
+						"banner_newsletter": {
+							"type": "SharedSlice"
+						},
+						"banner_event": {
+							"type": "SharedSlice"
+						},
+						"rich_text": {
+							"type": "SharedSlice"
+						}
+					}
 				}
 			}
 		},

@@ -1,0 +1,40 @@
+{
+	"format": "custom",
+	"id": "origine",
+	"label": "Origine",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"ordre_menu": {
+				"type": "Number",
+				"config": {
+					"label": "Ordre Menu",
+					"placeholder": ""
+				}
+			},
+			"nom": {
+				"type": "Text",
+				"config": {
+					"label": "Nom",
+					"placeholder": ""
+				}
+			},
+			"description": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Description",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+				}
+			}
+		}
+	}
+}

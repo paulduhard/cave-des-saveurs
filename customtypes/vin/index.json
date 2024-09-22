@@ -1,0 +1,170 @@
+{
+	"format": "page",
+	"id": "vin",
+	"label": "Vin",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"title": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Title",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"single": "heading1"
+				}
+			},
+			"nouveau": {
+				"type": "Boolean",
+				"config": {
+					"label": "Nouveau",
+					"placeholder_false": "Non",
+					"placeholder_true": "Oui",
+					"default_value": false
+				}
+			},
+			"image": {
+				"type": "Image",
+				"config": {
+					"label": "Image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			},
+			"region": {
+				"type": "Link",
+				"config": {
+					"label": "Région",
+					"select": "document",
+					"customtypes": ["region"]
+				}
+			},
+			"domaine": {
+				"type": "Link",
+				"config": {
+					"label": "Domaine",
+					"select": "document",
+					"customtypes": ["domaine"]
+				}
+			},
+			"appellation": {
+				"type": "Link",
+				"config": {
+					"label": "Appellation",
+					"select": "document",
+					"customtypes": ["appellation"]
+				}
+			},
+			"cepages": {
+				"type": "Text",
+				"config": {
+					"label": "Cépages",
+					"placeholder": ""
+				}
+			},
+			"degustation": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Dégustation",
+					"placeholder": "Se déguste avec...",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+				}
+			},
+			"terroir": {
+				"type": "Text",
+				"config": {
+					"label": "Terroir",
+					"placeholder": ""
+				}
+			},
+			"prix": {
+				"type": "Number",
+				"config": {
+					"label": "Prix",
+					"placeholder": ""
+				}
+			},
+			"couleur": {
+				"type": "Link",
+				"config": {
+					"label": "Couleur",
+					"select": "document",
+					"customtypes": ["couleur"]
+				}
+			},
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"oeil": {
+				"type": "Text",
+				"config": {
+					"label": "À l'oeil",
+					"placeholder": ""
+				}
+			},
+			"nez": {
+				"type": "Text",
+				"config": {
+					"label": "Au nez",
+					"placeholder": ""
+				}
+			},
+			"bouche": {
+				"type": "Text",
+				"config": {
+					"label": "En bouche",
+					"placeholder": ""
+				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {
+						"banner_newsletter": {
+							"type": "SharedSlice"
+						},
+						"banner_social": {
+							"type": "SharedSlice"
+						},
+						"spacer": {
+							"type": "SharedSlice"
+						},
+						"banner_event": {
+							"type": "SharedSlice"
+						}
+					}
+				}
+			}
+		},
+		"SEO & Metadata": {
+			"meta_title": {
+				"type": "Text",
+				"config": {
+					"label": "Meta Title",
+					"placeholder": "Un titre de page utilisé pour les réseaux sociaux et les moteurs de recherche"
+				}
+			},
+			"meta_description": {
+				"type": "Text",
+				"config": {
+					"label": "Meta Description",
+					"placeholder": "Un bref résumé de la page"
+				}
+			},
+			"meta_image": {
+				"type": "Image",
+				"config": {
+					"label": "Meta Image",
+					"constraint": {},
+					"thumbnails": []
+				}
+			}
+		}
+	}
+}
