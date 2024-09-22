@@ -7,17 +7,32 @@
 	"json": {
 		"Main": {
 			"title": {
-				"type": "Text",
+				"type": "StructuredText",
 				"config": {
 					"label": "Title",
-					"placeholder": ""
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"single": "heading1"
 				}
 			},
 			"slices": {
 				"type": "Slices",
 				"fieldset": "Slice Zone",
 				"config": {
-					"choices": {}
+					"choices": {
+						"spacer": {
+							"type": "SharedSlice"
+						},
+						"banner_newsletter": {
+							"type": "SharedSlice"
+						},
+						"banner_event": {
+							"type": "SharedSlice"
+						},
+						"rich_text": {
+							"type": "SharedSlice"
+						}
+					}
 				}
 			}
 		},

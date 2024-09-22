@@ -24,6 +24,10 @@ const routes = [
 	{
 		type: 'page',
 		path: '/:uid'
+	},
+	{
+		type: 'cave',
+		path: '/cave/:uid'
 	}
 ];
 

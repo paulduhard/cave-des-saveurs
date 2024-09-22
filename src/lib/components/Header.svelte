@@ -8,7 +8,7 @@
 
 <header class="flex min-h-[85px] items-center justify-between bg-secondary px-12">
 	<a href="/"><PrismicImage field={settings.data.logo_header} /></a>
-	<nav class="mr-40" aria-label="Main">
+	<nav class="mr-40" aria-label="Header">
 		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
 
 		<ul class="flex content-center gap-16">
@@ -33,3 +33,4 @@
 		</ul>
 	</nav>
 </header>
+

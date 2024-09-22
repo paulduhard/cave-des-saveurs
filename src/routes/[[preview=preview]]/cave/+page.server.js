@@ -1,3 +1,5 @@
+import { asText } from '@prismicio/client';
+
 import { createClient } from '$lib/prismicio';
 
 export async function load({ fetch, cookies }) {
@@ -7,7 +9,7 @@ export async function load({ fetch, cookies }) {
 
 	return {
 		page,
-		title: page.data.title,
+		title: asText(page.data.title),
 		meta_description: page.data.meta_description,
 		meta_title: page.data.meta_title || page.data.title,
 		meta_image: page.data.meta_image.url

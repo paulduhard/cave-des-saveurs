@@ -1,11 +1,12 @@
 <script>
-	import { SliceZone } from '@prismicio/svelte';
+	import { SliceZone, PrismicRichText } from '@prismicio/svelte';
 
 	import { components } from '$lib/slices';
 
 	export let data;
 </script>
 
-<h1>Pouet</h1>
+<PrismicRichText field={data.page.data.title} />
+Page catalogue bouteilles
 
 <SliceZone slices={data.page.data.slices} {components} />

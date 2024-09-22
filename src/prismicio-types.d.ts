@@ -88,7 +88,11 @@ export type CategoriesDocument<Lang extends string = string> = prismic.PrismicDo
 	Lang
 >;
 
-type CaveDocumentDataSlicesSlice = never;
+type CaveDocumentDataSlicesSlice =
+	| SpacerSlice
+	| BannerNewsletterSlice
+	| BannerEventSlice
+	| RichTextSlice;
 
 /**
  * Content for Cave documents
@@ -97,13 +101,13 @@ interface CaveDocumentData {
 	/**
 	 * Title field in *Cave*
 	 *
-	 * - **Field Type**: Text
+	 * - **Field Type**: Title
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: cave.title
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
-	title: prismic.KeyTextField;
+	title: prismic.TitleField;
 
 	/**
 	 * Slice Zone field in *Cave*
@@ -327,6 +331,17 @@ export type EpicerieDocument<Lang extends string = string> = prismic.PrismicDocu
  */
 interface OrigineDocumentData {
 	/**
+	 * Ordre Menu field in *Origine*
+	 *
+	 * - **Field Type**: Number
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: origine.ordre_menu
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#number
+	 */
+	ordre_menu: prismic.NumberField;
+
+	/**
 	 * Nom field in *Origine*
 	 *
 	 * - **Field Type**: Text
@@ -338,15 +353,15 @@ interface OrigineDocumentData {
 	nom: prismic.KeyTextField;
 
 	/**
-	 * Ordre Menu field in *Origine*
+	 * Description field in *Origine*
 	 *
-	 * - **Field Type**: Number
+	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: origine.ordre_menu
+	 * - **API ID Path**: origine.description
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#number
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
-	ordre_menu: prismic.NumberField;
+	description: prismic.RichTextField;
 }
 
 /**
@@ -661,22 +676,11 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-/**
- * Item in *Vin → Associations*
- */
-export interface VinDocumentDataRelationItem {
-	/**
-	 * Choix field in *Vin → Associations*
-	 *
-	 * - **Field Type**: Content Relationship
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.relation[].association
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	association: prismic.ContentRelationshipField<'vin'>;
-}
-
-type VinDocumentDataSlicesSlice = never;
+type VinDocumentDataSlicesSlice =
+	| BannerNewsletterSlice
+	| BannerSocialSlice
+	| SpacerSlice
+	| BannerEventSlice;
 
 /**
  * Content for Vin documents
@@ -685,13 +689,25 @@ interface VinDocumentData {
 	/**
 	 * Title field in *Vin*
 	 *
-	 * - **Field Type**: Text
+	 * - **Field Type**: Title
 	 * - **Placeholder**: *None*
 	 * - **API ID Path**: vin.title
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
-	title: prismic.KeyTextField;
+	title: prismic.TitleField;
+
+	/**
+	 * Nouveau field in *Vin*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: vin.nouveau
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	nouveau: prismic.BooleanField;
 
 	/**
 	 * Image field in *Vin*
@@ -738,28 +754,6 @@ interface VinDocumentData {
 	appellation: prismic.ContentRelationshipField<'appellation'>;
 
 	/**
-	 * Terroir field in *Vin*
-	 *
-	 * - **Field Type**: Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.terroir
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#key-text
-	 */
-	terroir: prismic.KeyTextField;
-
-	/**
-	 * Couleur field in *Vin*
-	 *
-	 * - **Field Type**: Content Relationship
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.couleur
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-	 */
-	couleur: prismic.ContentRelationshipField<'couleur'>;
-
-	/**
 	 * Cépages field in *Vin*
 	 *
 	 * - **Field Type**: Text
@@ -782,6 +776,17 @@ interface VinDocumentData {
 	degustation: prismic.RichTextField;
 
 	/**
+	 * Terroir field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.terroir
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	terroir: prismic.KeyTextField;
+
+	/**
 	 * Prix field in *Vin*
 	 *
 	 * - **Field Type**: Number
@@ -793,15 +798,48 @@ interface VinDocumentData {
 	prix: prismic.NumberField;
 
 	/**
-	 * Associations field in *Vin*
+	 * Couleur field in *Vin*
 	 *
-	 * - **Field Type**: Group
+	 * - **Field Type**: Content Relationship
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.relation[]
+	 * - **API ID Path**: vin.couleur
 	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#group
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	relation: prismic.GroupField<Simplify<VinDocumentDataRelationItem>>;
+	couleur: prismic.ContentRelationshipField<'couleur'>;
+
+	/**
+	 * À l'oeil field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.oeil
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	oeil: prismic.KeyTextField;
+
+	/**
+	 * Au nez field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.nez
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	nez: prismic.KeyTextField;
+
+	/**
+	 * En bouche field in *Vin*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.bouche
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	bouche: prismic.KeyTextField;
 
 	/**
 	 * Slice Zone field in *Vin*
@@ -1563,7 +1601,6 @@ declare module '@prismicio/client' {
 			SettingsDocumentDataNavigationItem,
 			VinDocument,
 			VinDocumentData,
-			VinDocumentDataRelationItem,
 			VinDocumentDataSlicesSlice,
 			AllDocumentTypes,
 			BannerEventSlice,

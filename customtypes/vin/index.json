@@ -6,17 +6,22 @@
 	"status": true,
 	"json": {
 		"Main": {
-			"uid": {
-				"type": "UID",
-				"config": {
-					"label": "UID"
-				}
-			},
 			"title": {
-				"type": "Text",
+				"type": "StructuredText",
 				"config": {
 					"label": "Title",
-					"placeholder": ""
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"single": "heading1"
+				}
+			},
+			"nouveau": {
+				"type": "Boolean",
+				"config": {
+					"label": "Nouveau",
+					"placeholder_false": "Non",
+					"placeholder_true": "Oui",
+					"default_value": false
 				}
 			},
 			"image": {
@@ -51,21 +56,6 @@
 					"customtypes": ["appellation"]
 				}
 			},
-			"terroir": {
-				"type": "Text",
-				"config": {
-					"label": "Terroir",
-					"placeholder": ""
-				}
-			},
-			"couleur": {
-				"type": "Link",
-				"config": {
-					"label": "Couleur",
-					"select": "document",
-					"customtypes": ["couleur"]
-				}
-			},
 			"cepages": {
 				"type": "Text",
 				"config": {
@@ -82,6 +72,13 @@
 					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
 				}
 			},
+			"terroir": {
+				"type": "Text",
+				"config": {
+					"label": "Terroir",
+					"placeholder": ""
+				}
+			},
 			"prix": {
 				"type": "Number",
 				"config": {
@@ -89,28 +86,59 @@
 					"placeholder": ""
 				}
 			},
-			"relation": {
-				"type": "Group",
+			"couleur": {
+				"type": "Link",
 				"config": {
-					"label": "Associations",
-					"repeat": true,
-					"fields": {
-						"association": {
-							"type": "Link",
-							"config": {
-								"label": "Choix",
-								"select": "document",
-								"customtypes": ["vin"]
-							}
-						}
-					}
+					"label": "Couleur",
+					"select": "document",
+					"customtypes": ["couleur"]
+				}
+			},
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"oeil": {
+				"type": "Text",
+				"config": {
+					"label": "À l'oeil",
+					"placeholder": ""
+				}
+			},
+			"nez": {
+				"type": "Text",
+				"config": {
+					"label": "Au nez",
+					"placeholder": ""
+				}
+			},
+			"bouche": {
+				"type": "Text",
+				"config": {
+					"label": "En bouche",
+					"placeholder": ""
 				}
 			},
 			"slices": {
 				"type": "Slices",
 				"fieldset": "Slice Zone",
 				"config": {
-					"choices": {}
+					"choices": {
+						"banner_newsletter": {
+							"type": "SharedSlice"
+						},
+						"banner_social": {
+							"type": "SharedSlice"
+						},
+						"spacer": {
+							"type": "SharedSlice"
+						},
+						"banner_event": {
+							"type": "SharedSlice"
+						}
+					}
 				}
 			}
 		},

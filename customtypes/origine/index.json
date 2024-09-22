@@ -12,6 +12,13 @@
 					"label": "UID"
 				}
 			},
+			"ordre_menu": {
+				"type": "Number",
+				"config": {
+					"label": "Ordre Menu",
+					"placeholder": ""
+				}
+			},
 			"nom": {
 				"type": "Text",
 				"config": {
@@ -19,11 +26,13 @@
 					"placeholder": ""
 				}
 			},
-			"ordre_menu": {
-				"type": "Number",
+			"description": {
+				"type": "StructuredText",
 				"config": {
-					"label": "Ordre Menu",
-					"placeholder": ""
+					"label": "Description",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
 				}
 			}
 		}
