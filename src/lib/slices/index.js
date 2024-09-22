@@ -8,6 +8,7 @@ import Hero from './Hero/index.svelte';
 import Produits from './Produits/index.svelte';
 import Texte from './Texte/index.svelte';
 import Espace from './Espace/index.svelte';
+import Title from './Title/index.svelte';
 
 export const components = {
 	banner_event: Evenements,
@@ -17,5 +18,6 @@ export const components = {
 	hero: Hero,
 	produits: Produits,
 	rich_text: Texte,
-	spacer: Espace
+	spacer: Espace,
+	title: Title
 };

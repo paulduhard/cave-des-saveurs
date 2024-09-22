@@ -1,21 +1,15 @@
 {
 	"format": "page",
 	"id": "cave",
-	"label": "Page Alcools & Spiritueux",
-	"repeatable": true,
+	"label": "Cave",
+	"repeatable": false,
 	"status": true,
 	"json": {
 		"Main": {
-			"uid": {
-				"type": "UID",
-				"config": {
-					"label": "UID"
-				}
-			},
-			"titre": {
+			"title": {
 				"type": "Text",
 				"config": {
-					"label": "Titre",
+					"label": "Title",
 					"placeholder": ""
 				}
 			},
