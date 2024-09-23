@@ -7,15 +7,23 @@
 </script>
 
 <PrismicRichText field={data.page.data.title} />
+<div>{data.domaine}</div>
+
+<!-- Example of how to render tags
+{#each data.page.tags as tag}
+	<span class="text-xl">
+		{tag}
+	</span>
+{/each} -->
 
 <div class="flex flex-col items-center justify-center md:flex-row">
 	<PrismicImage field={data.page.data.image} />
 
 	<div>
-		<div>RÉGION :</div>
-		<div>APPELLATION :</div>
+		<div>RÉGION : {data.region}</div>
+		<div>APPELLATION : {data.appellation}</div>
 		<div>TERROIR : {data.page.data.terroir}</div>
-		<div>COULEUR :</div>
+		<div>COULEUR : {data.couleur}</div>
 		<div>
 			CÉPAGE(S) :
 			{data.page.data.cepages}
@@ -23,7 +31,10 @@
 		<div>À L'OEIL : {data.page.data.oeil}</div>
 		<div>AU NEZ : {data.page.data.nez}</div>
 		<div>EN BOUCHE : {data.page.data.bouche}</div>
-		<div class="flex">SE DÉGUSTE AVEC : <PrismicRichText field={data.page.data.degustation} /></div>
+		<div class="flex">
+			SE DÉGUSTE AVEC :&nbsp;
+			<PrismicRichText field={data.page.data.degustation} />
+		</div>
 
 		<div class="bg-gray-500 my-8 flex w-[542px] flex-col gap-4 py-6">
 			<div class="px-22 text-center text-[15px] tracking-tight">
