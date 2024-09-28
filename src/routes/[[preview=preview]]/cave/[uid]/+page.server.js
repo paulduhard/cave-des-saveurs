@@ -6,15 +6,15 @@ export async function load({ params }) {
 	const uid = params.uid;
 
 	try {
-		const response = await client.getByUID('region', uid);
+		const region = await client.getByUID('region', uid);
 		return {
-			region: response.data
+			region: region.data
 		};
 	} catch (error) {
 		console.error('Error fetching region data:', error);
+		// Instead of throwing an error, return null or a default value
 		return {
-			status: 500,
-			error: new Error('Failed to fetch region data')
+			region: null
 		};
 	}
 }
