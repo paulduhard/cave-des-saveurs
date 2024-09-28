@@ -6,7 +6,9 @@
 </script>
 
 <section class="flex flex-col justify-center py-24 text-center md:h-[395px]">
-	<PrismicRichText field={settings.data.texte} class="px-24 md:px-0 md:text-4xl" />
+	<div class="px-24 text-2xl md:px-0 md:text-4xl">
+		<PrismicRichText field={settings.data.texte} />
+	</div>
 	<div class="flex items-baseline justify-center gap-12 pt-8">
 		{#each settings.data.item as item}
 			<PrismicLink field={item.lien}>
