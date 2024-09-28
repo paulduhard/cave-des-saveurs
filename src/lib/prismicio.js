@@ -30,10 +30,6 @@ const routes = [
 		path: '/cave/:uid'
 	},
 	{
-		type: 'cave',
-		path: '/cave'
-	},
-	{
 		type: 'epicerie',
 		path: '/epicerie'
 	},

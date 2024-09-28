@@ -5,6 +5,8 @@
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 
+	export let data;
+
 	let colors = [];
 	let selectedColors = [];
 	const client = createClient(repositoryName);
@@ -18,6 +20,7 @@
 			}));
 		} catch (error) {
 			console.error('Error fetching colors:', error);
+			colors = [];
 		}
 	});
 
@@ -30,8 +33,6 @@
 		console.log('Selected colors:', selectedColors);
 		// Here you can add logic to filter products based on selected colors
 	}
-
-	export let data;
 </script>
 
 <div class="flex">
@@ -56,7 +57,11 @@
 	</aside>
 
 	<main class="w-3/4 p-4">
-		<h1 class="mb-4 text-2xl font-bold">{data.region?.region || 'Region'}</h1>
-		<PrismicRichText field={data.region.description} />
+		{#if data.region}
+			<h1 class="mb-4 text-2xl font-bold">{data.region.region || 'Region'}</h1>
+			<PrismicRichText field={data.region.description} />
+		{:else}
+			<p>No region data available.</p>
+		{/if}
 	</main>
 </div>
