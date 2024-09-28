@@ -551,6 +551,33 @@ export interface SettingsDocumentDataNavigationItem {
 }
 
 /**
+ * Item in *Paramètres → item*
+ */
+export interface SettingsDocumentDataItemItem {
+	/**
+	 * icone field in *Paramètres → item*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.item[].icone
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	icone: prismic.ImageField<never>;
+
+	/**
+	 * lien field in *Paramètres → item*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.item[].lien
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	lien: prismic.LinkField;
+}
+
+type SettingsDocumentDataSlices3Slice = never;
+
+/**
  * Content for Paramètres documents
  */
 interface SettingsDocumentData {
@@ -658,7 +685,38 @@ interface SettingsDocumentData {
 	 * - **Tab**: Contact
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	googlemap: prismic.KeyTextField;
+	googlemap: prismic.KeyTextField /**
+	 * Texte field in *Paramètres*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.texte
+	 * - **Tab**: Réseaux Sociaux
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */;
+	texte: prismic.RichTextField;
+
+	/**
+	 * item field in *Paramètres*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.item[]
+	 * - **Tab**: Réseaux Sociaux
+	 * - **Documentation**: https://prismic.io/docs/field#group
+	 */
+	item: prismic.GroupField<Simplify<SettingsDocumentDataItemItem>>;
+
+	/**
+	 * Slice Zone field in *Paramètres*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.slices3[]
+	 * - **Tab**: Réseaux Sociaux
+	 * - **Documentation**: https://prismic.io/docs/field#slices
+	 */
+	slices3: prismic.SliceZone<SettingsDocumentDataSlices3Slice>;
 }
 
 /**
@@ -1599,6 +1657,8 @@ declare module '@prismicio/client' {
 			SettingsDocument,
 			SettingsDocumentData,
 			SettingsDocumentDataNavigationItem,
+			SettingsDocumentDataItemItem,
+			SettingsDocumentDataSlices3Slice,
 			VinDocument,
 			VinDocumentData,
 			VinDocumentDataSlicesSlice,

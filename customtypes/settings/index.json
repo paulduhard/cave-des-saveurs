@@ -110,6 +110,53 @@
 					"placeholder": ""
 				}
 			}
+		},
+		"Réseaux Sociaux": {
+			"texte": {
+				"type": "StructuredText",
+				"config": {
+					"label": "Texte",
+					"placeholder": "",
+					"allowTargetBlank": true,
+					"single": "paragraph"
+				}
+			},
+			"item": {
+				"type": "Group",
+				"config": {
+					"label": "item",
+					"repeat": true,
+					"fields": {
+						"icone": {
+							"type": "Image",
+							"config": {
+								"label": "icone",
+								"constraint": {
+									"width": null,
+									"height": null
+								},
+								"thumbnails": []
+							}
+						},
+						"lien": {
+							"type": "Link",
+							"config": {
+								"label": "lien",
+								"placeholder": "",
+								"allowTargetBlank": false,
+								"select": null
+							}
+						}
+					}
+				}
+			},
+			"slices3": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {}
+				}
+			}
 		}
 	}
 }
