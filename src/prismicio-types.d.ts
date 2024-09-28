@@ -488,15 +488,15 @@ interface RegionDocumentData {
 	region: prismic.KeyTextField;
 
 	/**
-	 * Decription field in *Région*
+	 * Description field in *Région*
 	 *
 	 * - **Field Type**: Rich Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: region.decription
+	 * - **API ID Path**: region.description
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
-	decription: prismic.RichTextField;
+	description: prismic.RichTextField;
 }
 
 /**
@@ -1629,6 +1629,17 @@ declare module '@prismicio/client' {
 			repositoryNameOrEndpoint: string,
 			options?: prismic.ClientConfig
 		): prismic.Client<AllDocumentTypes>;
+	}
+
+	interface CreateWriteClient {
+		(
+			repositoryNameOrEndpoint: string,
+			options: prismic.WriteClientConfig
+		): prismic.WriteClient<AllDocumentTypes>;
+	}
+
+	interface CreateMigration {
+		(): prismic.Migration<AllDocumentTypes>;
 	}
 
 	namespace Content {

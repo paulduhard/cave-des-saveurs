@@ -34,7 +34,6 @@
 	async function fetchColors() {
 		try {
 			const response = await client.getAllByType('couleur'); // Assurez-vous que 'color' est le bon type dans Prismic
-			console.log('Fetched colors:', response);
 			colors = sortByOrderMenu(response);
 		} catch (error) {
 			console.error('Error fetching colors:', error);
@@ -48,9 +47,9 @@
 		<ul class="flex max-h-[215px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			{#each regions as region (region.id)}
 				<li>
-					<!-- <PrismicLink document={region}> -->
-					{region.data.region}
-					<!-- </PrismicLink> -->
+					<PrismicLink href={`/cave/${region.uid}`} class="hover:underline">
+						{region.data.region}
+					</PrismicLink>
 				</li>
 			{/each}
 		</ul>
@@ -59,7 +58,7 @@
 		<p class="mb-2 uppercase">Nos vins par couleur</p>
 		{#each colors as color (color.id)}
 			<li>
-				<PrismicLink document={color}>
+				<PrismicLink href={`/cave/${color.uid}`} class="hover:underline">
 					{color.data.couleur}
 				</PrismicLink>
 			</li>

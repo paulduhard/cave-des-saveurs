@@ -26,10 +26,10 @@
 					"placeholder": ""
 				}
 			},
-			"decription": {
+			"description": {
 				"type": "StructuredText",
 				"config": {
-					"label": "Decription",
+					"label": "Description",
 					"placeholder": "",
 					"allowTargetBlank": true,
 					"multi": "paragraph,preformatted,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
