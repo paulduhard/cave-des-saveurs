@@ -36,6 +36,10 @@ const routes = [
 	{
 		type: 'epicerie',
 		path: '/epicerie'
+	},
+	{
+		type: 'vin',
+		path: '/vin/:uid'
 	}
 ];
 
