@@ -1,6 +1,7 @@
 <script>
 	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
 	import ExtLink from './ExtLink.svelte';
+	import MegaMenu from './MegaMenu.svelte';
 
 	/** @type {import("@prismicio/client").Content.SettingsDocument} */
 	export let settings;
@@ -33,4 +34,6 @@
 		</ul>
 	</nav>
 </header>
+
+<MegaMenu />
 

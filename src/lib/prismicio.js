@@ -28,6 +28,14 @@ const routes = [
 	{
 		type: 'cave',
 		path: '/cave/:uid'
+	},
+	{
+		type: 'cave',
+		path: '/cave'
+	},
+	{
+		type: 'epicerie',
+		path: '/epicerie'
 	}
 ];
 

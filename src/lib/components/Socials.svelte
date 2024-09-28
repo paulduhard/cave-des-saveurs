@@ -5,7 +5,7 @@
 	export let settings;
 </script>
 
-<section class="flex flex-col justify-center py-24 text-center md:h-[395px]">
+<section class="flex flex-col justify-center gap-4 py-24 text-center md:h-[395px]">
 	<div class="px-24 text-2xl md:px-0 md:text-4xl">
 		<PrismicRichText field={settings.data.texte} />
 	</div>

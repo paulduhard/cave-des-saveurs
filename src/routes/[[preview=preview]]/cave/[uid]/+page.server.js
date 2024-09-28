@@ -19,7 +19,7 @@ export async function load({ params, fetch, cookies }) {
 		const regionName = page.data.region?.data?.region ?? 'Non spécifié';
 		const couleurName = page.data.couleur?.data?.couleur ?? 'Non spécifié';
 		const domaineName = page.data.domaine?.data?.domaine ?? 'Non spécifié';
-		const appellationName = page.data.appellation?.data?.nom ?? 'Non spécifié'; // Changed to access 'nom'
+		const appellationName = page.data.appellation?.data?.nom ?? 'Non spécifié';
 
 		return {
 			page,
