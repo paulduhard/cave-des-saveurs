@@ -4,77 +4,97 @@
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import Aside from '$lib/components/Aside.svelte';
+
+	export let data;
+
+	let filterData = {
+		colors: [],
+		selectedColors: [],
+		regions: [],
+		selectedRegions: []
+	};
+
+	let filteredWines = [];
 
 	function getWineUrl(wine) {
 		return `/vin/${wine.uid}`;
 	}
 
-	export let data;
-
-	let colors = [];
-	let selectedColors = [];
-	let filteredWines = [];
+	// let colors = [];
+	// let selectedColors = [];
+	// let filteredWines = [];
 
 	const client = createClient(repositoryName);
 
 	onMount(async () => {
 		try {
-			const response = await client.getAllByType('couleur');
-			colors = response.map((color) => ({
+			const colorResponse = await client.getAllByType('couleur');
+			filterData.colors = colorResponse.map((color) => ({
 				uid: color.uid,
 				name: color.data.couleur
 			}));
+			console.log('Colors fetched:', filterData.colors);
+
+			// Optionally fetch regions here
+			// const regionResponse = await client.getAllByType('region');
+			// filterData.regions = regionResponse.map((region) => ({
+			//     uid: region.uid,
+			//     name: region.data.region
+			// }));
+
+			applyFilters();
 		} catch (error) {
-			console.error('Error fetching colors:', error);
-			colors = [];
+			console.error('Error fetching filters:', error);
+			// Initialize with empty arrays if fetch fails
+			filterData.colors = [];
+			filterData.regions = [];
 		}
 	});
 
-	$: {
-		if (selectedColors.length === 0) {
-			filteredWines = data.wines;
-		} else {
-			filteredWines = data.wines.filter((wine) => selectedColors.includes(wine.data.couleur.uid));
+	function handleFilterChange(filterType, value) {
+		switch (filterType) {
+			case 'color':
+				if (filterData.selectedColors.includes(value)) {
+					filterData.selectedColors = filterData.selectedColors.filter((c) => c !== value);
+				} else {
+					filterData.selectedColors = [...filterData.selectedColors, value];
+				}
+				break;
+			case 'region':
+				if (filterData.selectedRegions.includes(value)) {
+					filterData.selectedRegions = filterData.selectedRegions.filter((r) => r !== value);
+				} else {
+					filterData.selectedRegions = [...filterData.selectedRegions, value];
+				}
+				break;
 		}
+		applyFilters();
 	}
 
-	function handleColorChange(color) {
-		if (selectedColors.includes(color)) {
-			selectedColors = selectedColors.filter((c) => c !== color);
-		} else {
-			selectedColors = [...selectedColors, color];
-		}
-		console.log('Selected colors:', selectedColors);
-		// Here you can add logic to filter products based on selected colors
+	function applyFilters() {
+		filteredWines = data.wines.filter((wine) => {
+			const colorMatch =
+				filterData.selectedColors.length === 0 ||
+				filterData.selectedColors.includes(wine.data.couleur.uid);
+			const regionMatch =
+				filterData.selectedRegions.length === 0 ||
+				filterData.selectedRegions.includes(wine.data.region.uid);
+			return colorMatch && regionMatch;
+		});
+	}
+
+	$: {
+		applyFilters();
 	}
 </script>
 
 <div class="flex">
-	<aside class="bg-gray-100 w-1/5 p-4">
-		<h2 class="mb-4 text-xl uppercase">Couleurs</h2>
-		<form class="space-y-2">
-			{#each colors as color}
-				<div>
-					<label class="cursor-pointer items-center">
-						<input
-							type="checkbox"
-							value={color.uid}
-							checked={selectedColors.includes(color.uid)}
-							on:change={() => handleColorChange(color.uid)}
-							class="form-checkbox text-blue-600 mr-3 h-5 w-5 cursor-pointer"
-						/>
-						<span class="text-lg">{color.name}</span>
-					</label>
-				</div>
-			{/each}
-		</form>
-	</aside>
+	<Aside bind:filterData {handleFilterChange} />
 
 	<main class="w-4/5 p-4">
 		{#if data.region}
-			<h1 class="mb-4 font-span text-6xl font-bold">
-				{data.region.region || 'Region'}
-			</h1>
+			<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
 			<PrismicRichText field={data.region.description} />
 		{:else}
 			<p>No region data available.</p>
