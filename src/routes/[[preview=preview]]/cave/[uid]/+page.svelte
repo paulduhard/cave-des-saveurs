@@ -8,11 +8,15 @@
 
 	export let data;
 
+	let appellationNames = {};
+
 	let filterData = {
 		colors: [],
-		selectedColors: [],
+		selectedColor: null,
 		domains: [],
-		selectedDomain: null
+		selectedDomain: null,
+		appellations: [],
+		displayedAppellations: []
 	};
 
 	let filteredWines = [];
@@ -30,47 +34,69 @@
 				uid: color.uid,
 				name: color.data.couleur
 			}));
-			console.log('Colors fetched:', filterData.colors);
 
 			const domainResponse = await client.getAllByType('domaine');
 			filterData.domains = domainResponse.map((domain) => ({
 				uid: domain.uid,
 				name: domain.data.domaine || 'Unknown Domain' // Provide a fallback value
 			}));
-			console.log('Domains fetched:', filterData.domains);
+
+			const appellationResponse = await client.getAllByType('appellation');
+			appellationResponse.forEach((appellation) => {
+				appellationNames[appellation.uid] = appellation.data.nom; // Assuming 'nom' is the field for the appellation name
+			});
+
+			// Extract appellations from wine data
+			const appellations = new Set();
+			data.wines.forEach((wine) => {
+				if (wine.data.appellation && wine.data.appellation.uid) {
+					appellations.add(
+						JSON.stringify({
+							uid: wine.data.appellation.uid,
+							domainUid: wine.data.domaine.uid
+						})
+					);
+				}
+			});
+			filterData.appellations = Array.from(appellations).map(JSON.parse);
+			console.log('Extracted appellations:', filterData.appellations);
+			console.log('Appellation names:', appellationNames);
 
 			applyFilters();
 		} catch (error) {
-			console.error('Error fetching filters:', error);
-			filterData.colors = [];
-			filterData.domains = [];
+			console.error('Error in onMount:', error);
+			// ... error handling ...
 		}
 	});
 
 	function handleFilterChange(filterType, value) {
-		switch (filterType) {
-			case 'color':
-				if (filterData.selectedColors.includes(value)) {
-					filterData.selectedColors = filterData.selectedColors.filter((c) => c !== value);
-				} else {
-					filterData.selectedColors = [...filterData.selectedColors, value];
-				}
-				break;
-			case 'domain':
-				filterData.selectedDomain = value;
-				break;
+		if (filterType === 'color') {
+			filterData.selectedColor = value === filterData.selectedColor ? null : value;
+		} else if (filterType === 'domain') {
+			filterData.selectedDomain = value === filterData.selectedDomain ? null : value;
+			updateDisplayedAppellations();
 		}
 		applyFilters();
+	}
+
+	function updateDisplayedAppellations() {
+		if (filterData.selectedDomain) {
+			filterData.displayedAppellations = filterData.appellations.filter(
+				(app) => app.domainUid === filterData.selectedDomain
+			);
+		} else {
+			filterData.displayedAppellations = [];
+		}
+		console.log('Updated displayed appellations:', filterData.displayedAppellations);
+		filterData = { ...filterData }; // Force Svelte to update
 	}
 
 	function applyFilters() {
 		filteredWines = data.wines.filter((wine) => {
 			const colorMatch =
-				filterData.selectedColors.length === 0 ||
-				filterData.selectedColors.includes(wine.data.couleur.uid);
+				!filterData.selectedColor || wine.data.couleur.uid === filterData.selectedColor;
 			const domainMatch =
-				!filterData.selectedDomain ||
-				(wine.data.domaine && wine.data.domaine.uid === filterData.selectedDomain);
+				!filterData.selectedDomain || wine.data.domaine.uid === filterData.selectedDomain;
 			return colorMatch && domainMatch;
 		});
 	}
@@ -81,7 +107,7 @@
 </script>
 
 <div class="flex">
-	<Aside bind:filterData {handleFilterChange} />
+	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
 	<main class="w-4/5 p-4">
 		{#if data.region}

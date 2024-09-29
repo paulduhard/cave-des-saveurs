@@ -1,6 +1,16 @@
 <script>
-	export let filterData = { colors: [], selectedColors: [], domains: [], selectedDomains: null };
+	export let filterData = {
+		colors: [],
+		selectedColor: null,
+		domains: [],
+		selectedDomain: null,
+		appellations: [],
+		displayedAppellations: []
+	};
 	export let handleFilterChange;
+	export let appellationNames = {};
+
+	$: console.log('Displayed appellations in Aside:', filterData.displayedAppellations);
 </script>
 
 <aside class="bg-gray-100 w-1/5 p-4">
@@ -31,6 +41,19 @@
 		{/if}
 	</div>
 
+	{#if filterData.selectedDomain && filterData.displayedAppellations.length > 0}
+		<div class="mb-6">
+			<h4 class="mb-2 text-lg">Appellations:</h4>
+			<ul class="list-disc pl-5">
+				{#each filterData.displayedAppellations as appellation}
+					<li>{appellationNames[appellation.uid] || 'Nom inconnu'}</li>
+				{/each}
+			</ul>
+		</div>
+	{:else if filterData.selectedDomain}
+		<p>Aucune appellation trouvée pour ce domaine.</p>
+	{/if}
+
 	<div class="mb-6">
 		<h3 class="mb-2 text-xl uppercase">Couleurs</h3>
 		{#each filterData.colors as color}
@@ -38,7 +61,7 @@
 				<input
 					type="checkbox"
 					value={color.uid}
-					checked={filterData.selectedColors.includes(color.uid)}
+					checked={filterData.selectedColor === color.uid}
 					on:change={() => handleFilterChange('color', color.uid)}
 					class="mr-2"
 				/>
