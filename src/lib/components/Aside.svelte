@@ -8,16 +8,22 @@
 		<h3 class="mb-2 text-xl uppercase">Nos vins par domaines</h3>
 		{#if filterData.domains && filterData.domains.length > 0}
 			{#each filterData.domains as domain}
-				<label class="mb-2 flex items-center">
+				<label class="mb-2 block cursor-pointer">
 					<input
 						type="radio"
 						name="domain"
 						value={domain.uid}
 						checked={filterData.selectedDomain === domain.uid}
 						on:change={() => handleFilterChange('domain', domain.uid)}
-						class="mr-2"
+						class="hidden"
 					/>
-					{domain.name}
+					<span
+						class="{filterData.selectedDomain === domain.uid
+							? 'font-bold underline'
+							: ''} hover:text-gray-700"
+					>
+						{domain.name}
+					</span>
 				</label>
 			{/each}
 		{:else}
@@ -28,7 +34,7 @@
 	<div class="mb-6">
 		<h3 class="mb-2 text-xl uppercase">Couleurs</h3>
 		{#each filterData.colors as color}
-			<label class="mb-2 flex items-center">
+			<label class="mb-2 flex cursor-pointer items-center">
 				<input
 					type="checkbox"
 					value={color.uid}
