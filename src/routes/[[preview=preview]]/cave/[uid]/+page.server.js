@@ -7,14 +7,33 @@ export async function load({ params }) {
 
 	try {
 		const region = await client.getByUID('region', uid);
+		const winesResponse = await client.getAllByType('vin');
+
+		// Fetch domain data for each wine
+		const winesWithDomains = await Promise.all(
+			winesResponse.map(async (wine) => {
+				if (wine.data.domaine.uid) {
+					try {
+						const domaine = await client.getByUID('domaine', wine.data.domaine.uid);
+						return { ...wine, fullDomainData: domaine.data };
+					} catch (error) {
+						console.error(`Error fetching domain data for UID ${wine.data.domaine.uid}:`, error);
+						return wine;
+					}
+				}
+				return wine;
+			})
+		);
+
 		return {
-			region: region.data
+			region: region.data,
+			wines: winesWithDomains
 		};
 	} catch (error) {
 		console.error('Error fetching region data:', error);
-		// Instead of throwing an error, return null or a default value
 		return {
-			region: null
+			region: null,
+			wines: []
 		};
 	}
 }

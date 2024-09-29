@@ -745,7 +745,7 @@ type VinDocumentDataSlicesSlice =
  */
 interface VinDocumentData {
 	/**
-	 * Title field in *Vin*
+	 * Titre field in *Vin*
 	 *
 	 * - **Field Type**: Title
 	 * - **Placeholder**: *None*
@@ -898,6 +898,17 @@ interface VinDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
 	bouche: prismic.KeyTextField;
+
+	/**
+	 * résumé field in *Vin*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: vin.resume
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	resume: prismic.RichTextField;
 
 	/**
 	 * Slice Zone field in *Vin*
