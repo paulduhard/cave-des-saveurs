@@ -4,77 +4,114 @@
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import Aside from '$lib/components/Aside.svelte';
+
+	export let data;
+
+	let appellationNames = {};
+
+	let filterData = {
+		colors: [],
+		selectedColor: null,
+		domains: [],
+		selectedDomain: null,
+		appellations: [],
+		displayedAppellations: []
+	};
+
+	let filteredWines = [];
 
 	function getWineUrl(wine) {
 		return `/vin/${wine.uid}`;
 	}
 
-	export let data;
-
-	let colors = [];
-	let selectedColors = [];
-	let filteredWines = [];
-
 	const client = createClient(repositoryName);
 
 	onMount(async () => {
 		try {
-			const response = await client.getAllByType('couleur');
-			colors = response.map((color) => ({
+			const colorResponse = await client.getAllByType('couleur');
+			filterData.colors = colorResponse.map((color) => ({
 				uid: color.uid,
 				name: color.data.couleur
 			}));
+
+			const domainResponse = await client.getAllByType('domaine');
+			filterData.domains = domainResponse.map((domain) => ({
+				uid: domain.uid,
+				name: domain.data.domaine || 'Unknown Domain' // Provide a fallback value
+			}));
+
+			const appellationResponse = await client.getAllByType('appellation');
+			appellationResponse.forEach((appellation) => {
+				appellationNames[appellation.uid] = appellation.data.nom; // Assuming 'nom' is the field for the appellation name
+			});
+
+			// Extract appellations from wine data
+			const appellations = new Set();
+			data.wines.forEach((wine) => {
+				if (wine.data.appellation && wine.data.appellation.uid) {
+					appellations.add(
+						JSON.stringify({
+							uid: wine.data.appellation.uid,
+							domainUid: wine.data.domaine.uid
+						})
+					);
+				}
+			});
+			filterData.appellations = Array.from(appellations).map(JSON.parse);
+			console.log('Extracted appellations:', filterData.appellations);
+			console.log('Appellation names:', appellationNames);
+
+			applyFilters();
 		} catch (error) {
-			console.error('Error fetching colors:', error);
-			colors = [];
+			console.error('Error in onMount:', error);
+			// ... error handling ...
 		}
 	});
 
-	$: {
-		if (selectedColors.length === 0) {
-			filteredWines = data.wines;
-		} else {
-			filteredWines = data.wines.filter((wine) => selectedColors.includes(wine.data.couleur.uid));
+	function handleFilterChange(filterType, value) {
+		if (filterType === 'color') {
+			filterData.selectedColor = value === filterData.selectedColor ? null : value;
+		} else if (filterType === 'domain') {
+			filterData.selectedDomain = value === filterData.selectedDomain ? null : value;
+			updateDisplayedAppellations();
 		}
+		applyFilters();
 	}
 
-	function handleColorChange(color) {
-		if (selectedColors.includes(color)) {
-			selectedColors = selectedColors.filter((c) => c !== color);
+	function updateDisplayedAppellations() {
+		if (filterData.selectedDomain) {
+			filterData.displayedAppellations = filterData.appellations.filter(
+				(app) => app.domainUid === filterData.selectedDomain
+			);
 		} else {
-			selectedColors = [...selectedColors, color];
+			filterData.displayedAppellations = [];
 		}
-		console.log('Selected colors:', selectedColors);
-		// Here you can add logic to filter products based on selected colors
+		console.log('Updated displayed appellations:', filterData.displayedAppellations);
+		filterData = { ...filterData }; // Force Svelte to update
+	}
+
+	function applyFilters() {
+		filteredWines = data.wines.filter((wine) => {
+			const colorMatch =
+				!filterData.selectedColor || wine.data.couleur.uid === filterData.selectedColor;
+			const domainMatch =
+				!filterData.selectedDomain || wine.data.domaine.uid === filterData.selectedDomain;
+			return colorMatch && domainMatch;
+		});
+	}
+
+	$: {
+		applyFilters();
 	}
 </script>
 
 <div class="flex">
-	<aside class="bg-gray-100 w-1/5 p-4">
-		<h2 class="mb-4 text-xl uppercase">Couleurs</h2>
-		<form class="space-y-2">
-			{#each colors as color}
-				<div>
-					<label class="cursor-pointer items-center">
-						<input
-							type="checkbox"
-							value={color.uid}
-							checked={selectedColors.includes(color.uid)}
-							on:change={() => handleColorChange(color.uid)}
-							class="form-checkbox text-blue-600 mr-3 h-5 w-5 cursor-pointer"
-						/>
-						<span class="text-lg">{color.name}</span>
-					</label>
-				</div>
-			{/each}
-		</form>
-	</aside>
+	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
 	<main class="w-4/5 p-4">
 		{#if data.region}
-			<h1 class="mb-4 font-span text-6xl font-bold">
-				{data.region.region || 'Region'}
-			</h1>
+			<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
 			<PrismicRichText field={data.region.description} />
 		{:else}
 			<p>No region data available.</p>
