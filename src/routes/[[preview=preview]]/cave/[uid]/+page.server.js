@@ -1,3 +1,4 @@
+import { asText } from '@prismicio/client';
 import { createClient } from '$lib/prismicio';
 import { repositoryName } from '$lib/prismicio';
 
@@ -25,15 +26,28 @@ export async function load({ params }) {
 			})
 		);
 
+		const title = asText(region.data.title) || region.data.region || 'Région';
+		const metaTitle = region.data.meta_title || title;
+		const metaDescription = region.data.meta_description || '';
+		const metaImage = region.data.meta_image?.url || '';
+
 		return {
 			region: region.data,
-			wines: winesWithDomains
+			wines: winesWithDomains,
+			title,
+			meta_title: metaTitle,
+			meta_description: metaDescription,
+			meta_image: metaImage
 		};
 	} catch (error) {
 		console.error('Error fetching region data:', error);
 		return {
 			region: null,
-			wines: []
+			wines: [],
+			title: 'Région non trouvée',
+			meta_title: 'Région non trouvée',
+			meta_description: '',
+			meta_image: ''
 		};
 	}
 }
