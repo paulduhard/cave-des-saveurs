@@ -12,7 +12,7 @@
 		<ul>
 			{#each settings.data.navigation as item (item.label)}
 				<li>
-					<PrismicLink field={item.link} class="inline-flex min-h-11 items-center">
+					<PrismicLink field={item.link} class="inline-flex min-h-11 items-center text-secondary">
 						{item.label}
 					</PrismicLink>
 				</li>

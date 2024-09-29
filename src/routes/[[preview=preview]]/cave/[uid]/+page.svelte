@@ -72,7 +72,9 @@
 
 	<main class="w-4/5 p-4">
 		{#if data.region}
-			<h1 class="mb-4 text-2xl font-bold">{data.region.region || 'Region'}</h1>
+			<h1 class="mb-4 font-span text-6xl font-bold">
+				{data.region.region || 'Region'}
+			</h1>
 			<PrismicRichText field={data.region.description} />
 		{:else}
 			<p>No region data available.</p>
@@ -82,16 +84,20 @@
 			{#if filteredWines && filteredWines.length > 0}
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 					{#each filteredWines as wine}
-						<div transition:fade={{ duration: 300 }}>
+						<div transition:fade={{ duration: 600 }}>
 							<a
 								href={getWineUrl(wine)}
 								class="flex flex-col items-start justify-center p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
 							>
 								<PrismicImage field={wine.data.image} class="self-center" />
-								{wine.fullDomainData.domaine}
+								<span class="font-span text-xl">{wine.fullDomainData.domaine}</span>
 								<PrismicRichText field={wine.data.title} />
 								<PrismicRichText field={wine.data.resume} />
-								<button class="mt-4 inline-block border px-8 py-2"> Découvrir </button>
+								<button
+									class="mt-4 inline-block border px-8 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+								>
+									Découvrir
+								</button>
 							</a>
 						</div>
 					{/each}

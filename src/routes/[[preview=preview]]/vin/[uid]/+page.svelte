@@ -8,9 +8,9 @@
 	export let data;
 </script>
 
-<div class="ml-12">
+<div class="ml-12 font-sofia text-xl font-normal">
+	<div class="font-span text-4xl font-bold">{data.domaine}</div>
 	<PrismicRichText field={data.page.data.title} />
-	<div>{data.domaine}</div>
 </div>
 
 <!-- Example of how to render tags
@@ -44,14 +44,22 @@
 			</div>
 		</div>
 
-		<div class="bg-gray-500 my-8 flex w-[542px] flex-col gap-4 py-6">
+		<div class="my-8 flex w-[542px] flex-col gap-4 bg-secondary py-6">
 			<div class="px-22 text-center text-[15px] tracking-tight">
 				Chez nous, tout se passe en boutique ! Nous vous invitons à nous contacter par téléphone ou
 				mail pour passer commande.
 			</div>
 			<div class="flex justify-center gap-8">
-				<div class="border px-6 py-2">04 90 47 11 81</div>
-				<div class="border px-6 py-2">contact@cave-des-saveurs.com</div>
+				<a
+					href="tel:+33490471181"
+					class=" border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+					>04 90 47 11 81</a
+				>
+				<a
+					href="mailto:contact@cave-des-saveurs.com"
+					class=" border border-primary px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+					>contact@cave-des-saveurs.com</a
+				>
 			</div>
 		</div>
 	</div>
