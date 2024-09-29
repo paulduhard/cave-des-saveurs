@@ -3,6 +3,7 @@
 	import { createClient } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	function getWineUrl(wine) {
 		return `/vin/${wine.uid}`;
@@ -50,11 +51,11 @@
 
 <div class="flex">
 	<aside class="bg-gray-100 w-1/5 p-4">
-		<h2 class="mb-4 text-xl font-bold">Couleurs</h2>
+		<h2 class="mb-4 text-xl uppercase">Couleurs</h2>
 		<form class="space-y-2">
 			{#each colors as color}
 				<div>
-					<label class="flex cursor-pointer items-center">
+					<label class="cursor-pointer items-center">
 						<input
 							type="checkbox"
 							value={color.uid}
@@ -71,32 +72,38 @@
 
 	<main class="w-4/5 p-4">
 		{#if data.region}
-			<h1 class="mb-4 text-2xl font-bold">{data.region.region || 'Region'}</h1>
+			<h1 class="mb-4 font-span text-6xl font-bold">
+				{data.region.region || 'Region'}
+			</h1>
 			<PrismicRichText field={data.region.description} />
 		{:else}
 			<p>No region data available.</p>
 		{/if}
 
-		<div class="mt-24">
+		<div class="my-24 mr-12">
 			{#if filteredWines && filteredWines.length > 0}
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 					{#each filteredWines as wine}
-						<div class="flex flex-col items-start justify-center p-4">
-							<PrismicImage field={wine.data.image} />
-							{wine.fullDomainData.domaine}
-							<PrismicRichText field={wine.data.title} />
-							<PrismicRichText field={wine.data.resume} />
+						<div transition:fade={{ duration: 600 }}>
 							<a
 								href={getWineUrl(wine)}
-								class="text-white hover:bg-blue-700 mt-4 inline-block border px-8 py-2 transition-colors"
+								class="flex flex-col items-start justify-center p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
 							>
-								Découvrir
+								<PrismicImage field={wine.data.image} class="self-center" />
+								<span class="font-span text-xl">{wine.fullDomainData.domaine}</span>
+								<PrismicRichText field={wine.data.title} />
+								<PrismicRichText field={wine.data.resume} />
+								<button
+									class="mt-4 inline-block border px-8 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+								>
+									Découvrir
+								</button>
 							</a>
 						</div>
 					{/each}
 				</div>
 			{:else}
-				<p>No wines found for the selected colors.</p>
+				<p transition:fade={{ duration: 300 }}>Aucun vin trouvé pour cette couleur.</p>
 			{/if}
 		</div>
 	</main>
