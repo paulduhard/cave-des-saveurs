@@ -11,8 +11,8 @@
 	let filterData = {
 		colors: [],
 		selectedColors: [],
-		regions: [],
-		selectedRegions: []
+		domains: [],
+		selectedDomain: null
 	};
 
 	let filteredWines = [];
@@ -20,10 +20,6 @@
 	function getWineUrl(wine) {
 		return `/vin/${wine.uid}`;
 	}
-
-	// let colors = [];
-	// let selectedColors = [];
-	// let filteredWines = [];
 
 	const client = createClient(repositoryName);
 
@@ -36,19 +32,18 @@
 			}));
 			console.log('Colors fetched:', filterData.colors);
 
-			// Optionally fetch regions here
-			// const regionResponse = await client.getAllByType('region');
-			// filterData.regions = regionResponse.map((region) => ({
-			//     uid: region.uid,
-			//     name: region.data.region
-			// }));
+			const domainResponse = await client.getAllByType('domaine');
+			filterData.domains = domainResponse.map((domain) => ({
+				uid: domain.uid,
+				name: domain.data.domaine || 'Unknown Domain' // Provide a fallback value
+			}));
+			console.log('Domains fetched:', filterData.domains);
 
 			applyFilters();
 		} catch (error) {
 			console.error('Error fetching filters:', error);
-			// Initialize with empty arrays if fetch fails
 			filterData.colors = [];
-			filterData.regions = [];
+			filterData.domains = [];
 		}
 	});
 
@@ -61,12 +56,8 @@
 					filterData.selectedColors = [...filterData.selectedColors, value];
 				}
 				break;
-			case 'region':
-				if (filterData.selectedRegions.includes(value)) {
-					filterData.selectedRegions = filterData.selectedRegions.filter((r) => r !== value);
-				} else {
-					filterData.selectedRegions = [...filterData.selectedRegions, value];
-				}
+			case 'domain':
+				filterData.selectedDomain = value;
 				break;
 		}
 		applyFilters();
@@ -77,10 +68,10 @@
 			const colorMatch =
 				filterData.selectedColors.length === 0 ||
 				filterData.selectedColors.includes(wine.data.couleur.uid);
-			const regionMatch =
-				filterData.selectedRegions.length === 0 ||
-				filterData.selectedRegions.includes(wine.data.region.uid);
-			return colorMatch && regionMatch;
+			const domainMatch =
+				!filterData.selectedDomain ||
+				(wine.data.domaine && wine.data.domaine.uid === filterData.selectedDomain);
+			return colorMatch && domainMatch;
 		});
 	}
 

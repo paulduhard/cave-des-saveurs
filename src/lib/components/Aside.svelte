@@ -1,10 +1,29 @@
 <script>
-	export let filterData;
+	export let filterData = { colors: [], selectedColors: [], domains: [], selectedDomains: null };
 	export let handleFilterChange;
 </script>
 
 <aside class="bg-gray-100 w-1/5 p-4">
-	<h2 class="mb-4 text-2xl font-bold">Filtres</h2>
+	<div class="mb-6">
+		<h3 class="mb-2 text-xl uppercase">Nos vins par domaines</h3>
+		{#if filterData.domains && filterData.domains.length > 0}
+			{#each filterData.domains as domain}
+				<label class="mb-2 flex items-center">
+					<input
+						type="radio"
+						name="domain"
+						value={domain.uid}
+						checked={filterData.selectedDomain === domain.uid}
+						on:change={() => handleFilterChange('domain', domain.uid)}
+						class="mr-2"
+					/>
+					{domain.name}
+				</label>
+			{/each}
+		{:else}
+			<p>Aucun domaine disponible</p>
+		{/if}
+	</div>
 
 	<div class="mb-6">
 		<h3 class="mb-2 text-xl uppercase">Couleurs</h3>
@@ -18,22 +37,6 @@
 					class="mr-2"
 				/>
 				{color.name}
-			</label>
-		{/each}
-	</div>
-
-	<div class="mb-6">
-		<h3 class="mb-2 text-xl font-semibold">Régions</h3>
-		{#each filterData.regions as region}
-			<label class="mb-2 flex items-center">
-				<input
-					type="checkbox"
-					value={region.uid}
-					checked={filterData.selectedRegions.includes(region.uid)}
-					on:change={() => handleFilterChange('region', region.uid)}
-					class="mr-2"
-				/>
-				{region.name}
 			</label>
 		{/each}
 	</div>
