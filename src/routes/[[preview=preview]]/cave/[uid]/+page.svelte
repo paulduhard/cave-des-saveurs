@@ -5,6 +5,11 @@
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import Aside from '$lib/components/Aside.svelte';
+	import { goto } from '$app/navigation';
+
+	function goToHome() {
+		goto('/'); // Navigates to the home page
+	}
 
 	export let data;
 
@@ -106,18 +111,17 @@
 	}
 </script>
 
-<header class="mx-12">
-	{#if data.region}
-		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
-	{:else}
-		<p>No region data available.</p>
-	{/if}
+<header class="mx-12 flex flex-grow items-center justify-between">
+	<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
+	<button class="mr-12 h-12 border border-primary px-20 font-light text-primary" on:click={goToHome}
+		>Alcools et spiritueux</button
+	>
 </header>
 
 <div class=" mx-12 flex">
 	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
-	<main class="w-3/4 px-6">
+	<main class="mx-6 w-3/4">
 		{#if data.region}
 			<PrismicRichText field={data.region.description} />
 		{:else}

@@ -44,7 +44,7 @@
 								on:change={() => handleFilterChange('domain', domain.uid)}
 								class="hidden"
 							/>
-							<div class="flex items-center justify-between">
+							<div class="flex items-center justify-between font-light">
 								<span
 									class="{filterData.selectedDomain === domain.uid
 										? 'font-bold underline'
@@ -76,7 +76,7 @@
 	<div class="mb-6 border-t border-primary">
 		<h3 class="mb-2 mt-2 text-xl uppercase">Couleurs</h3>
 		{#each filterData.colors as color}
-			<label class="mb-2 flex cursor-pointer items-center">
+			<label class="mb-2 flex cursor-pointer items-center font-light">
 				<input
 					type="checkbox"
 					value={color.uid}
