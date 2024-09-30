@@ -113,8 +113,9 @@
 
 <header class="mx-12 flex flex-grow items-center justify-between">
 	<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
-	<button class="mr-12 h-12 border border-primary px-20 font-light text-primary" on:click={goToHome}
-		>Alcools et spiritueux</button
+	<button
+		class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+		on:click={goToHome}>Alcools et spiritueux</button
 	>
 </header>
 
