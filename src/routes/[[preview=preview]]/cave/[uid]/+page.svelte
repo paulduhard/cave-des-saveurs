@@ -117,7 +117,7 @@
 <div class=" mx-12 flex">
 	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
-	<main class="w-3/4 p-4">
+	<main class="w-3/4 px-6">
 		{#if data.region}
 			<PrismicRichText field={data.region.description} />
 		{:else}
