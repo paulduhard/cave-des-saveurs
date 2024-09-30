@@ -111,47 +111,52 @@
 	}
 </script>
 
-<header class="mx-12 flex flex-grow items-center justify-between">
-	<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
-	<button
-		class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
-		on:click={goToHome}>Alcools et spiritueux</button
-	>
-</header>
+<div class="container mt-12">
+	<header class="mx-12 flex flex-grow items-center justify-between">
+		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
+		<button
+			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+			on:click={goToHome}>Alcools et spiritueux</button
+		>
+	</header>
 
-<div class=" mx-12 flex">
-	<Aside bind:filterData {handleFilterChange} {appellationNames} />
+	<div class=" mx-12 flex">
+		<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
-	<main class="mx-6 w-3/4">
-		<!-- ... existing code ... -->
-		<div class="my-24 mr-12">
-			{#if filteredWines && filteredWines.length > 0}
-				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-					{#each filteredWines as wine}
-						<div transition:fade={{ duration: 600 }} class="group flex h-full flex-col font-light">
-							<a
-								href={getWineUrl(wine)}
-								class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
+		<main class="mx-6 w-3/4">
+			<!-- ... existing code ... -->
+			<div class="my-24 mr-12">
+				{#if filteredWines && filteredWines.length > 0}
+					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+						{#each filteredWines as wine}
+							<div
+								transition:fade={{ duration: 600 }}
+								class="group flex h-full flex-col font-light"
 							>
-								<PrismicImage field={wine.data.image} class="self-center" />
-								<span class="font-span text-xl">{wine.fullDomainData.domaine}</span>
-								<span class="font-span"><PrismicRichText field={wine.data.title} /></span>
-								<PrismicRichText field={wine.data.resume} />
+								<a
+									href={getWineUrl(wine)}
+									class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
+								>
+									<PrismicImage field={wine.data.image} class="self-center" />
+									<span class="font-span text-xl">{wine.fullDomainData.domaine}</span>
+									<span class="font-span"><PrismicRichText field={wine.data.title} /></span>
+									<PrismicRichText field={wine.data.resume} />
 
-								<div class="mt-auto pt-4">
-									<button
-										class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary"
-									>
-										Découvrir
-									</button>
-								</div>
-							</a>
-						</div>
-					{/each}
-				</div>
-			{:else}
-				<p transition:fade={{ duration: 300 }}>Aucun vin trouvé pour cette couleur.</p>
-			{/if}
-		</div>
-	</main>
+									<div class="mt-auto pt-4">
+										<button
+											class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary"
+										>
+											Découvrir
+										</button>
+									</div>
+								</a>
+							</div>
+						{/each}
+					</div>
+				{:else}
+					<p transition:fade={{ duration: 300 }}>Aucun vin trouvé pour cette couleur.</p>
+				{/if}
+			</div>
+		</main>
+	</div>
 </div>
