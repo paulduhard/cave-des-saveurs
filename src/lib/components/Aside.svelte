@@ -1,4 +1,6 @@
 <script>
+	import ArrowIcon from './ArrowIcon.svelte';
+
 	export let filterData = {
 		colors: [],
 		selectedColor: null,
@@ -11,9 +13,9 @@
 	export let appellationNames = {};
 </script>
 
-<aside class="bg-gray-100 w-1/5 p-4">
-	<div class="mb-6">
-		<h3 class="mb-2 text-xl uppercase">Nos vins par domaines</h3>
+<aside class="bg-gray-100 w-1/4">
+	<div class="mb-6 border-t border-primary">
+		<h3 class="mb-2 mt-4 text-xl uppercase">Nos vins par domaines</h3>
 		{#if filterData.domains && filterData.domains.length > 0}
 			{#each filterData.domains as domain}
 				<div class="mb-2">
@@ -26,13 +28,16 @@
 							on:change={() => handleFilterChange('domain', domain.uid)}
 							class="hidden"
 						/>
-						<span
-							class="{filterData.selectedDomain === domain.uid
-								? 'font-bold underline'
-								: ''} hover:text-gray-700"
-						>
-							{domain.name}
-						</span>
+						<div class="flex items-center justify-between">
+							<span
+								class="{filterData.selectedDomain === domain.uid
+									? 'font-bold underline'
+									: ''} hover:text-gray-700"
+							>
+								{domain.name}
+							</span>
+							<ArrowIcon isSelected={filterData.selectedDomain === domain.uid} class="ml-2" />
+						</div>
 					</label>
 
 					{#if filterData.selectedDomain === domain.uid && filterData.displayedAppellations.length > 0}
@@ -51,8 +56,8 @@
 		{/if}
 	</div>
 
-	<div class="mb-6">
-		<h3 class="mb-2 text-xl uppercase">Couleurs</h3>
+	<div class="mb-6 border-t border-primary">
+		<h3 class="mb-2 mt-2 text-xl uppercase">Couleurs</h3>
 		{#each filterData.colors as color}
 			<label class="mb-2 flex cursor-pointer items-center">
 				<input

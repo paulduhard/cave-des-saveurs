@@ -106,17 +106,23 @@
 	}
 </script>
 
-<div class="flex">
+<header class="mx-12">
+	{#if data.region}
+		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
+	{:else}
+		<p>No region data available.</p>
+	{/if}
+</header>
+
+<div class=" mx-12 flex">
 	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
-	<main class="w-4/5 p-4">
+	<main class="w-3/4 p-4">
 		{#if data.region}
-			<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
 			<PrismicRichText field={data.region.description} />
 		{:else}
 			<p>No region data available.</p>
 		{/if}
-
 		<div class="my-24 mr-12">
 			{#if filteredWines && filteredWines.length > 0}
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
