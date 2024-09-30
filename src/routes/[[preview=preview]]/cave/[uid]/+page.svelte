@@ -122,16 +122,12 @@
 	<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
 	<main class="mx-6 w-3/4">
-		{#if data.region}
-			<PrismicRichText field={data.region.description} />
-		{:else}
-			<p>No region data available.</p>
-		{/if}
+		<!-- ... existing code ... -->
 		<div class="my-24 mr-12">
 			{#if filteredWines && filteredWines.length > 0}
 				<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 					{#each filteredWines as wine}
-						<div transition:fade={{ duration: 600 }} class="flex h-full flex-col font-light">
+						<div transition:fade={{ duration: 600 }} class="group flex h-full flex-col font-light">
 							<a
 								href={getWineUrl(wine)}
 								class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
@@ -143,7 +139,7 @@
 
 								<div class="mt-auto pt-4">
 									<button
-										class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+										class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary"
 									>
 										Découvrir
 									</button>
