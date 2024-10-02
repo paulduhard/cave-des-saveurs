@@ -124,7 +124,7 @@
 		<Aside bind:filterData {handleFilterChange} {appellationNames} />
 
 		<main class="mx-6 w-3/4">
-			<!-- ... existing code ... -->
+			<PrismicRichText field={data.region.description} />
 			<div class="my-24 mr-12">
 				{#if filteredWines && filteredWines.length > 0}
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -138,8 +138,8 @@
 									class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
 								>
 									<PrismicImage field={wine.data.image} class="self-center" />
-									<span class="font-span text-xl">{wine.fullDomainData.domaine}</span>
-									<span class="font-span"><PrismicRichText field={wine.data.title} /></span>
+									<span class="mt-8 font-span text-xl">{wine.fullDomainData.domaine}</span>
+									<span class="mb-2 font-span"><PrismicRichText field={wine.data.title} /></span>
 									<PrismicRichText field={wine.data.resume} />
 
 									<div class="mt-auto pt-4">
@@ -154,7 +154,12 @@
 						{/each}
 					</div>
 				{:else}
-					<p transition:fade={{ duration: 300 }}>Aucun vin trouvé pour cette couleur.</p>
+					<p
+						class="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 transform text-center"
+						transition:fade={{ duration: 300 }}
+					>
+						Aucun vin trouvé pour cette couleur.
+					</p>
 				{/if}
 			</div>
 		</main>
