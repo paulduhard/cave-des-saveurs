@@ -4,7 +4,7 @@
 	import Aside from '$lib/components/Aside.svelte';
 	import { components } from '$lib/slices';
 	import { goto } from '$app/navigation';
-	import VinCard from '$lib/components/vin/VinCard.svelte';
+	import VinGrid from '$lib/components/vin/VinGrid.svelte';
 
 	export let data;
 
@@ -37,7 +37,7 @@
 				{#if data.wines && data.wines.length > 0}
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{#each data.wines as wine (wine.id)}
-							<VinCard {wine} {getWineUrl} />
+							<VinGrid {wine} {getWineUrl} />
 						{/each}
 					</div>
 				{:else}

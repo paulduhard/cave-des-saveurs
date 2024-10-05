@@ -1,29 +1,45 @@
 <script>
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
-	import { fade } from 'svelte/transition';
 
-	export let wine;
-	export let getWineUrl;
+	export let data;
 </script>
 
-{#if wine}
-	<div transition:fade={{ duration: 600 }} class="group flex h-full flex-col font-light">
-		<a
-			href={getWineUrl(wine)}
-			class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
-		>
-			<PrismicImage field={wine.data.image} class="self-center" />
-			<span class="mt-8 font-span text-xl">{wine.fullDomainData?.domaine || ''}</span>
-			<span class="mb-2 font-span"><PrismicRichText field={wine.data.title} /></span>
-			<PrismicRichText field={wine.data.resume} />
+<div class="flex flex-col items-center justify-center md:flex-row">
+	<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
 
-			<div class="mt-auto pt-4">
-				<button
-					class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary"
-				>
-					Découvrir
-				</button>
+	<div>
+		<div class="text-primary">
+			<div>RÉGION : <span class="font-light">{data.region}</span></div>
+			<div>APPELLATION : <span class="font-light">{data.appellation}</span></div>
+			<div>TERROIR : <span class="font-light">{data.page.data.terroir}</span></div>
+			<div>COULEUR : <span class="font-light">{data.couleur}</span></div>
+			<div>CÉPAGE(S) : <span class="font-light">{data.page.data.cepages}</span></div>
+			<div>À L'OEIL : <span class="font-light">{data.page.data.oeil}</span></div>
+			<div>AU NEZ : <span class="font-light">{data.page.data.nez}</span></div>
+			<div>EN BOUCHE : <span class="font-light">{data.page.data.bouche}</span></div>
+			<div class="flex">
+				SE DÉGUSTE AVEC :&nbsp;
+				<span class="font-light"><PrismicRichText field={data.page.data.degustation} /></span>
 			</div>
-		</a>
+		</div>
+
+		<div class="my-8 flex w-[542px] flex-col gap-4 bg-secondary py-6">
+			<div class="px-22 text-center text-[15px] tracking-tight">
+				Chez nous, tout se passe en boutique ! Nous vous invitons à nous contacter par téléphone ou
+				mail pour passer commande.
+			</div>
+			<div class="flex justify-center gap-8">
+				<a
+					href="tel:+33490471181"
+					class="border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+					>04 90 47 11 81</a
+				>
+				<a
+					href="mailto:contact@cave-des-saveurs.com"
+					class="border border-primary px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+					>contact@cave-des-saveurs.com</a
+				>
+			</div>
+		</div>
 	</div>
-{/if}
+</div>
