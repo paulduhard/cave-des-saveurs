@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 
@@ -103,4 +103,4 @@
 			<p>Aucun domaine disponible</p>
 		{/if}
 	</div>
-</div>
+</div> -->

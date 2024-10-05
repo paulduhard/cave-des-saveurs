@@ -1,4 +1,4 @@
-<script>
+<!-- <script>
 	import { spring } from 'svelte/motion';
 	import { createEventDispatcher, onMount } from 'svelte';
 
@@ -161,4 +161,4 @@
 		background: transparent;
 		height: 2px;
 	}
-</style>
+</style> -->

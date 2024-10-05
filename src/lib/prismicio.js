@@ -35,6 +35,7 @@ const routes = [
 	},
 	{
 		type: 'vin',
+		// path: '/cave/:region/vin/:uid'
 		path: '/vin/:uid'
 	}
 ];

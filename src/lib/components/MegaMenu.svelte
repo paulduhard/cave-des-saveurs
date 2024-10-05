@@ -41,7 +41,7 @@
 	}
 </script>
 
-<nav class="my-6 flex justify-center gap-20">
+<nav class="bg-white sticky top-20 z-10 my-6 flex justify-center gap-20 pb-8">
 	<div class="region">
 		<p class="mb-2 uppercase">Nos vins par région</p>
 		<ul class="flex max-h-[215px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
