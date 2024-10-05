@@ -3,18 +3,18 @@ import * as prismic from '@prismicio/client';
 
 export async function load({ params }) {
 	const client = createClient();
-	const uid = params.uid;
+	const region = params.region;
 
 	const page = await client.getSingle('cave');
-	const region = await client.getByUID('region', uid);
+	const regionDoc = await client.getByUID('region', region);
 
 	const wines = await client.getAllByType('vin', {
-		filters: [prismic.filter.at('my.vin.region', region.id)]
+		filters: [prismic.filter.at('my.vin.region', regionDoc.id)]
 	});
 
 	const winesWithDomains = await Promise.all(
 		wines.map(async (wine) => {
-			if (wine.data.domaine) {
+			if (wine.data.domaine && prismic.isFilled.link(wine.data.domaine)) {
 				try {
 					const domaine = await client.getByID(wine.data.domaine.id);
 					return { ...wine, fullDomainData: domaine.data };
@@ -27,16 +27,16 @@ export async function load({ params }) {
 		})
 	);
 
-	const title = region.data.title
-		? prismic.asText(region.data.title)
-		: region.data.region || 'Région';
-	const metaTitle = region.data.meta_title || title;
-	const metaDescription = region.data.description || '';
-	const metaImage = region.data.image?.url || '';
+	const title = regionDoc.data.title
+		? prismic.asText(regionDoc.data.title)
+		: regionDoc.data.region || 'Région';
+	const metaTitle = regionDoc.data.meta_title || title;
+	const metaDescription = regionDoc.data.description || '';
+	const metaImage = regionDoc.data.image?.url || '';
 
 	return {
 		page,
-		region: region.data,
+		region: regionDoc.data,
 		wines: winesWithDomains,
 		title,
 		meta_title: metaTitle,

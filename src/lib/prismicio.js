@@ -35,8 +35,10 @@ const routes = [
 	},
 	{
 		type: 'vin',
-		// path: '/cave/:region/vin/:uid'
-		path: '/vin/:uid'
+		resolvers: {
+			region: 'region'
+		},
+		path: '/cave/:region/vin/:uid'
 	}
 ];
 

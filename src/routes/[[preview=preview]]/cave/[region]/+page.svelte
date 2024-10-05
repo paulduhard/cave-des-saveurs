@@ -13,7 +13,7 @@
 	}
 
 	function getWineUrl(wine) {
-		return `/vin/${wine.uid}`;
+		return `/cave/${wine.data.region.uid}/vin/${wine.uid}`;
 	}
 </script>
 
