@@ -1,5 +1,5 @@
 <script>
-	import { SliceZone, PrismicImage, PrismicRichText } from '@prismicio/svelte';
+	import { SliceZone, PrismicRichText } from '@prismicio/svelte';
 	import { page } from '$app/stores';
 	import Socials from '$lib/components//Socials.svelte';
 	import VinCard from '$lib/components/vin/VinCard.svelte';

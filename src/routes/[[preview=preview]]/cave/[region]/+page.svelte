@@ -3,14 +3,9 @@
 	import { PrismicRichText } from '@prismicio/svelte';
 	import Aside from '$lib/components/Aside.svelte';
 	import { components } from '$lib/slices';
-	import { goto } from '$app/navigation';
 	import VinGrid from '$lib/components/vin/VinGrid.svelte';
 
 	export let data;
-
-	function goToHome() {
-		goto('/');
-	}
 
 	function getWineUrl(wine) {
 		return `/cave/${wine.data.region.uid}/vin/${wine.uid}`;
@@ -22,9 +17,10 @@
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
-		<button
-			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
-			on:click={goToHome}>Alcools et spiritueux</button
+		<a
+			href="/"
+			class="mr-12 flex h-12 items-center justify-center border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+			>Alcools et spiritueux</a
 		>
 	</header>
 

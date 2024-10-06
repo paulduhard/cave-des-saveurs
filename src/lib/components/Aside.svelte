@@ -1,19 +1,19 @@
 <script>
 	import ColorFilter from './filters/vins/ColorFilter.svelte';
-</script>
-
-<!-- import DomainFilter from './filters/vins/DomainFilter.svelte';
+	import DomainFilter from './filters/vins/DomainFilter.svelte';
 	import AppellationFilter from './filters/vins/AppellationFilter.svelte';
 	import PriceFilter from './filters/vins/PriceFilter.svelte';
 
-	export let filterData;
-	export let handleFilterChange;
-	export let appellationNames;
+	// export let filterData;
+	// 	export let handleFilterChange;
+	// 	export let appellationNames;
 
-	function onFilterChange(event) {
-		const { type, value } = event.detail;
-		handleFilterChange(type, value);
-	} -->
+	// 	function onFilterChange(event) {
+	// 		const { type, value } = event.detail;
+	// 		handleFilterChange(type, value);
+	// 	}
+	//
+</script>
 
 <aside class="w-1/4">
 	<!-- <DomainFilter
