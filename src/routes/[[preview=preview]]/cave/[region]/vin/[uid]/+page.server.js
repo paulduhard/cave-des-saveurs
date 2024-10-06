@@ -42,9 +42,13 @@ export async function entries() {
 	const client = createClient();
 
 	try {
-		const pages = await client.getAllByType('vin');
+		const pages = await client.getAllByType('vin', {
+			fetchLinks: ['region.region'] // Fetch the region information
+		});
+
 		return pages.map((page) => ({
-			uid: page.uid
+			uid: page.uid,
+			region: page.data.region?.uid || 'default-region'
 		}));
 	} catch (e) {
 		console.error('Error fetching all wines:', e);
