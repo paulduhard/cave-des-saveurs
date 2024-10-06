@@ -20,7 +20,7 @@ export async function load({ params }) {
 
 		const winesWithDomains = await Promise.all(
 			wines.map(async (wine) => {
-				if (wine.data.domaine && prismic.isFilled.link(wine.data.domaine)) {
+				if (wine.data.domaine && prismic.isFilled.contentRelationship(wine.data.domaine)) {
 					try {
 						const domaine = await client.getByID(wine.data.domaine.id);
 						return { ...wine, fullDomainData: domaine.data };
@@ -33,6 +33,10 @@ export async function load({ params }) {
 			})
 		);
 
+		const domains = await client.getAllByType('domaine');
+		const appellations = await client.getAllByType('appellation');
+		const colors = await client.getAllByType('couleur');
+
 		const title = regionDoc.data?.title
 			? prismic.asText(regionDoc.data.title)
 			: regionDoc.data?.region || 'Région';
@@ -44,6 +48,9 @@ export async function load({ params }) {
 			page,
 			region: regionDoc.data,
 			wines: winesWithDomains,
+			domains,
+			appellations,
+			colors,
 			title,
 			meta_title: metaTitle,
 			meta_description: metaDescription,
@@ -52,7 +59,7 @@ export async function load({ params }) {
 	} catch (err) {
 		console.error('Error loading region data:', err);
 
-		if (err.status === 404) {
+		if (err instanceof prismic.PrismicError && err.status === 404) {
 			throw error(404, 'Région non trouvée');
 		} else {
 			throw error(500, 'Une erreur est survenue lors du chargement des données');

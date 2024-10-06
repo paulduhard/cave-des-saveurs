@@ -1,43 +1,9 @@
 <!-- <script>
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
-	import { createEventDispatcher } from 'svelte';
 
-	export let domains = [];
-	export let selectedDomain = null;
-	export let appellations = [];
-	export let selectedAppellation = null;
-	export let appellationNames = {};
 
 	let isDomainSectionExpanded = true;
 
-	const dispatch = createEventDispatcher();
-
-	function toggleDomainSection() {
-		isDomainSectionExpanded = !isDomainSectionExpanded;
-	}
-
-	function handleDomainChange(domainUid) {
-		if (selectedDomain === domainUid) {
-			dispatch('filterChange', { type: 'selectedDomain', value: null });
-			dispatch('filterChange', { type: 'selectedAppellation', value: null });
-		} else {
-			dispatch('filterChange', { type: 'selectedDomain', value: domainUid });
-			dispatch('filterChange', { type: 'selectedAppellation', value: null });
-		}
-	}
-
-	function handleAppellationChange(appellationUid) {
-		if (selectedAppellation === appellationUid) {
-			dispatch('filterChange', { type: 'selectedAppellation', value: null });
-		} else {
-			dispatch('filterChange', { type: 'selectedAppellation', value: appellationUid });
-		}
-	}
-
-	$: domainAppellations = domains.map((domain) => ({
-		...domain,
-		appellations: appellations.filter((app) => app.domainUid === domain.uid)
-	}));
 </script>
 
 <div class="mb-6 border-t border-primary">
