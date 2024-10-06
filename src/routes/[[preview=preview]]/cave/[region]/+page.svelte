@@ -4,12 +4,31 @@
 	import Aside from '$lib/components/Aside.svelte';
 	import { components } from '$lib/slices';
 	import VinGrid from '$lib/components/vin/VinGrid.svelte';
+	import { onMount } from 'svelte'; // Importation de onMount
+	import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
 
 	export let data;
 
 	function getWineUrl(wine) {
 		return `/cave/${wine.data.region.uid}/vin/${wine.uid}`;
 	}
+
+	// Initialisation des filtres dans onMount
+	onMount(() => {
+		if (data.region && data.region.domaines && data.region.domaines.length > 0) {
+			const firstDomaine = data.region.domaines[0];
+			const firstAppellation = firstDomaine.appellations[0];
+
+			vinFilters.setInitialData({
+				colors: data.colors,
+				domains: data.region.domaines,
+				appellations: data.region.appellations,
+				regions: [data.region],
+				wines: data.wines,
+				selectedRegion: data.region.uid
+			});
+		}
+	});
 </script>
 
 <SliceZone slices={data.page.data.slices} {components} />
@@ -25,17 +44,13 @@
 	</header>
 
 	<div class="mx-12 flex">
-		<Aside />
+		<Aside region={data.region} />
 
 		<main class="mx-6 w-3/4">
 			<PrismicRichText field={data.region.description} />
 			<div class="my-24 mr-12">
 				{#if data.wines && data.wines.length > 0}
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{#each data.wines as wine (wine.id)}
-							<VinGrid {wine} {getWineUrl} />
-						{/each}
-					</div>
+					<VinGrid wines={data.wines} {getWineUrl} /> <!-- Passage des vins à VinGrid -->
 				{:else}
 					<p>Aucun vin trouvé pour cette région.</p>
 				{/if}

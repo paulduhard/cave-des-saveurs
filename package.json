@@ -31,8 +31,8 @@
 		"svelte": "^4.2.8",
 		"svelte-check": "^3.6.2",
 		"tailwindcss": "^3.4.1",
-		"typescript": "^5.3.3",
-		"typescript-svelte-plugin": "^0.3.36",
+		// "typescript": "^5.3.3",
+		// "typescript-svelte-plugin": "^0.3.36",
 		"vite": "^5.0.9"
 	},
 	"type": "module",
