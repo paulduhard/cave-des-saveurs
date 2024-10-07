@@ -36,7 +36,6 @@ export async function load({ params }) {
 
 		const uniqueDomains = [...new Set(winesWithDomains.map((wine) => wine.fullDomainData?.name))];
 
-		// Créer une liste des appellations associées à chaque domaine
 		const appellationsByDomain = new Map();
 
 		winesWithDomains.forEach((wine) => {
@@ -52,7 +51,9 @@ export async function load({ params }) {
 		});
 
 		const {
-			title = 'Région',
+			title = regionDoc.data?.title
+				? prismic.asText(regionDoc.data.title)
+				: regionDoc.data?.region || 'Région',
 			meta_title = title,
 			description: meta_description = '',
 			image: meta_image = {}
