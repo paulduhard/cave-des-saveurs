@@ -1,20 +1,21 @@
 <script>
 	import { PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import { fade } from 'svelte/transition';
-	import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
-	import { derived } from 'svelte/store'; // Importation de derived
+	// import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
+	// import { derived } from 'svelte/store'; // Importation de derived
 
 	export let wines;
 	export let getWineUrl;
 
 	// Création d'un store dérivé pour filtrer les vins en fonction des filtres sélectionnés
-	const filteredWines = derived(vinFilters, ($vinFilters) => {
-		return $vinFilters.filteredWines;
-	});
+	// const filteredWines = derived(vinFilters, ($vinFilters) => {
+	// 	return $vinFilters.filteredWines;
+	// });
 </script>
 
-<div class="vin-grid">
-	{#each $filteredWines as wine}
+<div class="vin-grid grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+	<!-- {#each $filteredWines as wine} -->
+	{#each wines as wine}
 		{#if wine}
 			<div transition:fade={{ duration: 600 }} class="group flex h-full flex-col font-light">
 				<a

@@ -6,6 +6,10 @@
 	import { vinFilters } from '$lib/stores/vinFilters';
 	import { onMount } from 'svelte';
 
+	// export let region;
+	export let domains;
+	export let appellationsByDomain;
+
 	let filterData = {};
 	let appellationNames = {};
 
@@ -22,20 +26,18 @@
 
 <aside class="w-1/4">
 	<DomainFilter
-		domains={filterData.domains}
+		domainAppellations={appellationsByDomain}
 		selectedDomain={filterData.selectedDomain}
-		appellations={filterData.appellations}
 		selectedAppellation={filterData.selectedAppellation}
 		{appellationNames}
-		selectedRegion={filterData.selectedRegion}
 		on:filterChange={handleFilterChange}
 	/>
 
 	{#if filterData.selectedDomain}
 		<AppellationFilter
-			appellations={filterData.appellations}
+			appellations={appellationsByDomain}
 			selectedAppellation={filterData.selectedAppellation}
-			domains={filterData.domains}
+			{domains}
 			{appellationNames}
 			selectedRegion={filterData.selectedRegion}
 			on:filterChange={handleFilterChange}

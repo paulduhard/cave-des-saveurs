@@ -1,4 +1,4 @@
-<!-- <script>
+<script>
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 	import { createEventDispatcher } from 'svelte';
 
@@ -9,7 +9,6 @@
 	export let selectedRegion = null;
 
 	let isAppellationSectionExpanded = false;
-
 	const dispatch = createEventDispatcher();
 
 	function toggleAppellationSection() {
@@ -80,4 +79,4 @@
 			<p>Aucune appellation disponible pour cette région</p>
 		{/if}
 	</div>
-</div> -->
+</div>

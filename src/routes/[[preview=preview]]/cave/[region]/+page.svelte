@@ -4,8 +4,8 @@
 	import Aside from '$lib/components/Aside.svelte';
 	import { components } from '$lib/slices';
 	import VinGrid from '$lib/components/vin/VinGrid.svelte';
-	import { onMount } from 'svelte'; // Importation de onMount
-	import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
+	// import { onMount } from 'svelte'; // Importation de onMount
+	// import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
 
 	export let data;
 
@@ -14,21 +14,21 @@
 	}
 
 	// Initialisation des filtres dans onMount
-	onMount(() => {
-		if (data.region && data.region.domaines && data.region.domaines.length > 0) {
-			const firstDomaine = data.region.domaines[0];
-			const firstAppellation = firstDomaine.appellations[0];
+	// onMount(() => {
+	// 	if (data.region && data.region.domaines && data.region.domaines.length > 0) {
+	// 		const firstDomaine = data.region.domaines[0];
+	// 		const firstAppellation = firstDomaine.appellations[0];
 
-			vinFilters.setInitialData({
-				colors: data.colors,
-				domains: data.region.domaines,
-				appellations: data.region.appellations,
-				regions: [data.region],
-				wines: data.wines,
-				selectedRegion: data.region.uid
-			});
-		}
-	});
+	// 		vinFilters.setInitialData({
+	// 			colors: data.colors,
+	// 			domains: data.region.domaines,
+	// 			appellations: data.region.appellations,
+	// 			regions: [data.region],
+	// 			wines: data.wines,
+	// 			selectedRegion: data.region.uid
+	// 		});
+	// 	}
+	// });
 </script>
 
 <SliceZone slices={data.page.data.slices} {components} />
@@ -44,13 +44,17 @@
 	</header>
 
 	<div class="mx-12 flex">
-		<Aside region={data.region} />
+		<Aside
+			region={data.region}
+			domains={data.domains}
+			appellationsByDomain={data.appellationsByDomain}
+		/>
 
 		<main class="mx-6 w-3/4">
 			<PrismicRichText field={data.region.description} />
 			<div class="my-24 mr-12">
 				{#if data.wines && data.wines.length > 0}
-					<VinGrid wines={data.wines} {getWineUrl} /> <!-- Passage des vins à VinGrid -->
+					<VinGrid wines={data.wines} {getWineUrl} />
 				{:else}
 					<p>Aucun vin trouvé pour cette région.</p>
 				{/if}

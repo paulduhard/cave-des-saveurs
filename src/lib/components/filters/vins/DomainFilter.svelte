@@ -1,9 +1,26 @@
-<!-- <script>
+<script>
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
+	import { createEventDispatcher } from 'svelte';
 
+	export let domainAppellations = [];
+	export let selectedDomain = null;
+	export let selectedAppellation = null;
+	export let appellationNames = {};
 
 	let isDomainSectionExpanded = true;
+	const dispatch = createEventDispatcher();
 
+	function toggleDomainSection() {
+		isDomainSectionExpanded = !isDomainSectionExpanded;
+	}
+
+	function handleDomainChange(domainUid) {
+		dispatch('filterChange', { type: 'selectedDomain', value: domainUid });
+	}
+
+	function handleAppellationChange(appellationUid) {
+		dispatch('filterChange', { type: 'selectedAppellation', value: appellationUid });
+	}
 </script>
 
 <div class="mb-6 border-t border-primary">
@@ -69,4 +86,4 @@
 			<p>Aucun domaine disponible</p>
 		{/if}
 	</div>
-</div> -->
+</div>

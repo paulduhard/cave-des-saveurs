@@ -18,43 +18,61 @@ export async function load({ params }) {
 			filters: [prismic.filter.at('my.vin.region', regionDoc.id)]
 		});
 
-		const winesWithDomains = await Promise.all(
-			wines.map(async (wine) => {
-				if (wine.data.domaine && prismic.isFilled.contentRelationship(wine.data.domaine)) {
-					try {
-						const domaine = await client.getByID(wine.data.domaine.id);
-						return { ...wine, fullDomainData: domaine.data };
-					} catch (error) {
-						console.error(`Error fetching domain for wine ${wine.id}:`, error);
-						return wine;
-					}
+		const wineDomainIDs = wines.map((wine) => wine.data.domaine?.id).filter((id) => !!id);
+
+		const domainesMap = new Map();
+		if (wineDomainIDs.length > 0) {
+			const domaines = await client.getAllByIDs(wineDomainIDs);
+
+			domaines.forEach((domaine) => {
+				domainesMap.set(domaine.id, domaine);
+			});
+		}
+
+		const winesWithDomains = wines.map((wine) => {
+			const domaine = domainesMap.get(wine.data.domaine?.id);
+			return { ...wine, fullDomainData: domaine?.data || null };
+		});
+
+		const uniqueDomains = [...new Set(winesWithDomains.map((wine) => wine.fullDomainData?.name))];
+
+		// Créer une liste des appellations associées à chaque domaine
+		const appellationsByDomain = new Map();
+
+		winesWithDomains.forEach((wine) => {
+			const domainName = wine.fullDomainData?.name;
+			const appellation = wine.data.appellation?.name;
+
+			if (domainName && appellation) {
+				if (!appellationsByDomain.has(domainName)) {
+					appellationsByDomain.set(domainName, new Set());
 				}
-				return wine;
-			})
-		);
+				appellationsByDomain.get(domainName).add(appellation);
+			}
+		});
 
-		const domains = await client.getAllByType('domaine');
-		const appellations = await client.getAllByType('appellation');
-		const colors = await client.getAllByType('couleur');
-
-		const title = regionDoc.data?.title
-			? prismic.asText(regionDoc.data.title)
-			: regionDoc.data?.region || 'Région';
-		const metaTitle = regionDoc.data?.meta_title || title;
-		const metaDescription = regionDoc.data?.description || '';
-		const metaImage = regionDoc.data?.image?.url || '';
+		const {
+			title = 'Région',
+			meta_title = title,
+			description: meta_description = '',
+			image: meta_image = {}
+		} = regionDoc.data;
 
 		return {
 			page,
 			region: regionDoc.data,
 			wines: winesWithDomains,
-			domains,
-			appellations,
-			colors,
+			domains: uniqueDomains,
+			appellationsByDomain: Array.from(appellationsByDomain.entries()).map(
+				([domain, appellations]) => ({
+					domain,
+					appellations: Array.from(appellations)
+				})
+			),
 			title,
-			meta_title: metaTitle,
-			meta_description: metaDescription,
-			meta_image: metaImage
+			meta_title,
+			meta_description,
+			meta_image: meta_image.url || ''
 		};
 	} catch (err) {
 		console.error('Error loading region data:', err);
