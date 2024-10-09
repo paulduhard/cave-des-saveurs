@@ -4,8 +4,8 @@
 	import Aside from '$lib/components/Aside.svelte';
 	import { components } from '$lib/slices';
 	import VinGrid from '$lib/components/vin/VinGrid.svelte';
-	// import { onMount } from 'svelte'; // Importation de onMount
-	// import { vinFilters } from '$lib/stores/vinFilters'; // Importation du store vinFilters
+	import { vinFilters } from '$lib/stores/vinFilters';
+	import { get } from 'svelte/store';
 
 	export let data;
 
@@ -13,27 +13,29 @@
 		return `/cave/${wine.data.region.uid}/vin/${wine.uid}`;
 	}
 
-	// Initialisation des filtres dans onMount
-	// onMount(() => {
-	// 	if (data.region && data.region.domaines && data.region.domaines.length > 0) {
-	// 		const firstDomaine = data.region.domaines[0];
-	// 		const firstAppellation = firstDomaine.appellations[0];
+	// Initialiser les données dans le store vinFilters
+	vinFilters.setInitialData({
+		colors: data.colors,
+		domains: data.domains,
+		appellations: data.appellationsByDomain.flatMap((d) => d.appellations),
+		regions: [],
+		wines: data.wines,
+		selectedRegion: data.region.uid
+	});
 
-	// 		vinFilters.setInitialData({
-	// 			colors: data.colors,
-	// 			domains: data.region.domaines,
-	// 			appellations: data.region.appellations,
-	// 			regions: [data.region],
-	// 			wines: data.wines,
-	// 			selectedRegion: data.region.uid
-	// 		});
-	// 	}
-	// });
+	// Ajoutez des logs pour vérifier les données
+	console.log('colors:', data.colors);
+
+	// Obtenez les vins filtrés
+	let filteredWines = [];
+	vinFilters.subscribe((value) => {
+		filteredWines = value.filteredWines;
+	});
 </script>
 
 <SliceZone slices={data.page.data.slices} {components} />
 
-<div class="container mt-12">
+<div class="container mx-auto mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
 		<a
@@ -44,17 +46,13 @@
 	</header>
 
 	<div class="mx-12 flex">
-		<Aside
-			region={data.region}
-			domains={data.domains}
-			appellationsByDomain={data.appellationsByDomain}
-		/>
+		<Aside domains={data.domains} appellationsByDomain={data.appellationsByDomain} />
 
 		<main class="mx-6 w-3/4">
 			<PrismicRichText field={data.region.description} />
 			<div class="my-24 mr-12">
-				{#if data.wines && data.wines.length > 0}
-					<VinGrid wines={data.wines} {getWineUrl} />
+				{#if filteredWines && filteredWines.length > 0}
+					<VinGrid wines={filteredWines} {getWineUrl} />
 				{:else}
 					<p>Aucun vin trouvé pour cette région.</p>
 				{/if}

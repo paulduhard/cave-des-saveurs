@@ -2,13 +2,39 @@ import { createClient } from '$lib/prismicio';
 import * as prismic from '@prismicio/client';
 import { error } from '@sveltejs/kit';
 
+// Fonction utilitaire pour récupérer les documents par leurs IDs
+async function fetchDocumentsByIDs(client, ids) {
+	if (ids.length === 0) return new Map();
+	const documents = await client.getAllByIDs(ids);
+	const documentsMap = new Map();
+	documents.forEach((doc) => {
+		documentsMap.set(doc.id, doc);
+	});
+	return documentsMap;
+}
+
+// Fonction utilitaire pour associer les domaines et les appellations aux vins
+function associateDomainsAndAppellations(wines, domainesMap, appellationsMap) {
+	return wines.map((wine) => {
+		const domaine = domainesMap.get(wine.data.domaine?.id);
+		const appellation = appellationsMap.get(wine.data.appellation?.id);
+		return {
+			...wine,
+			fullDomainData: domaine?.data || null,
+			fullAppellationData: appellation?.data || null
+		};
+	});
+}
+
 export async function load({ params }) {
 	const client = createClient();
 	const region = params.region;
 
 	try {
-		const page = await client.getSingle('cave');
-		const regionDoc = await client.getByUID('region', region);
+		const [page, regionDoc] = await Promise.all([
+			client.getSingle('cave'),
+			client.getByUID('region', region)
+		]);
 
 		if (!regionDoc) {
 			throw error(404, 'Région non trouvée');
@@ -18,51 +44,30 @@ export async function load({ params }) {
 			filters: [prismic.filter.at('my.vin.region', regionDoc.id)]
 		});
 
-		// Récupérer les IDs des domaines et des appellations
-		const wineDomainIDs = wines.map((wine) => wine.data.domaine?.uid).filter((id) => !!id);
-		const wineAppellationIDs = wines.map((wine) => wine.data.appellation?.uid).filter((id) => !!id);
+		const wineDomainIDs = wines.map((wine) => wine.data.domaine?.id).filter((id) => !!id);
+		const wineAppellationIDs = wines.map((wine) => wine.data.appellation?.id).filter((id) => !!id);
+		const wineColorIDs = wines.map((wine) => wine.data.couleur?.id).filter((id) => !!id); // Ajouté
 
-		// Récupérer les domaines par leurs IDs
-		const domainesMap = new Map();
-		if (wineDomainIDs.length > 0) {
-			const domaines = await client.getAllByIDs(wineDomainIDs);
+		const [domainesMap, appellationsMap, colorsMap] = await Promise.all([
+			fetchDocumentsByIDs(client, wineDomainIDs),
+			fetchDocumentsByIDs(client, wineAppellationIDs),
+			fetchDocumentsByIDs(client, wineColorIDs) // Ajouté
+		]);
 
-			domaines.forEach((domaine) => {
-				domainesMap.set(domaine.uid, domaine);
-			});
-		}
+		const winesWithDomainsAndAppellations = associateDomainsAndAppellations(
+			wines,
+			domainesMap,
+			appellationsMap
+		);
 
-		// Récupérer les appellations par leurs IDs
-		const appellationsMap = new Map();
-		if (wineAppellationIDs.length > 0) {
-			const appellations = await client.getAllByIDs(wineAppellationIDs);
-
-			appellations.forEach((appellation) => {
-				appellationsMap.set(appellation.uid, appellation);
-			});
-		}
-
-		// Associer les domaines et les appellations aux vins
-		const winesWithDomainsAndAppellations = wines.map((wine) => {
-			const domaine = domainesMap.get(wine.data.domaine?.uid);
-			const appellation = appellationsMap.get(wine.data.appellation?.uid);
-			return {
-				...wine,
-				fullDomainData: domaine?.data || null,
-				fullAppellationData: appellation?.data || null
-			};
-		});
-
-		// Extraire les domaines uniques
 		const uniqueDomains = [
 			...new Set(winesWithDomainsAndAppellations.map((wine) => wine.fullDomainData?.domaine))
 		];
 
-		// Associer les appellations aux domaines
 		const appellationsByDomain = new Map();
 		winesWithDomainsAndAppellations.forEach((wine) => {
 			const domainName = wine.fullDomainData?.domaine;
-			const appellationName = wine.fullAppellationData?.name;
+			const appellationName = wine.fullAppellationData?.nom;
 
 			if (domainName && appellationName) {
 				if (!appellationsByDomain.has(domainName)) {
@@ -71,6 +76,11 @@ export async function load({ params }) {
 				appellationsByDomain.get(domainName).add(appellationName);
 			}
 		});
+
+		const colors = Array.from(colorsMap.values()).map((color) => ({
+			uid: color.id,
+			name: color.data.couleur // Utilisez la bonne propriété ici
+		}));
 
 		const {
 			title = regionDoc.data?.title
@@ -92,6 +102,7 @@ export async function load({ params }) {
 					appellations: Array.from(appellations)
 				})
 			),
+			colors, // Ajouté
 			title,
 			meta_title,
 			meta_description,

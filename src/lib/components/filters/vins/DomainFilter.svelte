@@ -5,7 +5,6 @@
 	export let domainAppellations = [];
 	export let selectedDomain = null;
 	export let selectedAppellation = null;
-	export let appellationNames = {};
 
 	let isDomainSectionExpanded = true;
 	const dispatch = createEventDispatcher();
@@ -53,7 +52,7 @@
 									? 'font-bold underline'
 									: ''} hover:text-gray-700"
 							>
-								{domain.name}
+								{domain.domain}
 							</span>
 							<ArrowIcon isSelected={selectedDomain === domain.uid} class="ml-2" />
 						</div>
@@ -72,7 +71,7 @@
 											on:change={() => handleAppellationChange(appellation.uid)}
 											class="mr-2"
 										/>
-										{appellationNames[appellation.uid] || 'Nom inconnu'}
+										{appellation}
 									</label>
 								</li>
 							{/each}

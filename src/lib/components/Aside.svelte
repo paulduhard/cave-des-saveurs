@@ -5,22 +5,21 @@
 	import PriceFilter from './filters/vins/PriceFilter.svelte';
 	import { vinFilters } from '$lib/stores/vinFilters';
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
-	// export let region;
-	export let domains;
-	export let appellationsByDomain;
+	export let domains = [];
+	export let appellationsByDomain = [];
 
 	let filterData = {};
-	let appellationNames = {};
 
 	const handleFilterChange = (event) => {
 		const { type, value } = event.detail;
 		vinFilters.updateFilter(type, value);
-		vinFilters.applyFilters(filterData.wines);
+		vinFilters.applyFilters(); // Applique les filtres
 	};
 
 	onMount(() => {
-		filterData = $vinFilters;
+		filterData = get(vinFilters);
 	});
 </script>
 
@@ -29,17 +28,15 @@
 		domainAppellations={appellationsByDomain}
 		selectedDomain={filterData.selectedDomain}
 		selectedAppellation={filterData.selectedAppellation}
-		{appellationNames}
 		on:filterChange={handleFilterChange}
 	/>
 
 	{#if filterData.selectedDomain}
 		<AppellationFilter
-			appellations={appellationsByDomain}
+			appellations={appellationsByDomain.find(
+				(domain) => domain.domain === filterData.selectedDomain
+			)?.appellations || []}
 			selectedAppellation={filterData.selectedAppellation}
-			{domains}
-			{appellationNames}
-			selectedRegion={filterData.selectedRegion}
 			on:filterChange={handleFilterChange}
 		/>
 	{/if}

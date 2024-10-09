@@ -12,12 +12,17 @@ function createVinFilters() {
 		selectedRegion: null,
 		minPrice: 5,
 		maxPrice: 200,
-		filteredWines: []
+		filteredWines: [],
+		wines: [] // Ajouté pour stocker tous les vins
 	});
 
 	return {
 		subscribe,
 		setInitialData: (data) => {
+			const firstDomainUid = data.domains[0]?.uid || null;
+			const firstAppellationUid =
+				data.appellations.find((app) => app.domainUid === firstDomainUid)?.uid || null;
+
 			set({
 				colors: data.colors,
 				domains: data.domains,
@@ -26,10 +31,10 @@ function createVinFilters() {
 				minPrice: 5,
 				maxPrice: 200,
 				filteredWines: data.wines,
+				wines: data.wines, // Ajouté pour stocker tous les vins
 				selectedColor: null,
-				selectedDomain: data.domains[0]?.uid || null,
-				selectedAppellation:
-					data.appellations.find((app) => app.domainUid === data.domains[0]?.uid)?.uid || null,
+				selectedDomain: firstDomainUid,
+				selectedAppellation: firstAppellationUid,
 				selectedRegion: data.selectedRegion
 			});
 		},
@@ -47,9 +52,10 @@ function createVinFilters() {
 				return state;
 			});
 		},
-		applyFilters: (allWines) => {
+		applyFilters: () => {
 			update((state) => {
-				state.filteredWines = allWines.filter((wine) => {
+				console.log('Applying filters with state:', state); // Log l'état actuel des filtres
+				state.filteredWines = state.wines.filter((wine) => {
 					const regionMatch =
 						!state.selectedRegion || wine.data.region.uid === state.selectedRegion;
 					const colorMatch = !state.selectedColor || wine.data.couleur.uid === state.selectedColor;
@@ -57,9 +63,19 @@ function createVinFilters() {
 						!state.selectedDomain || wine.data.domaine.uid === state.selectedDomain;
 					const appellationMatch =
 						!state.selectedAppellation || wine.data.appellation.uid === state.selectedAppellation;
-					const priceMatch = wine.data.price >= state.minPrice && wine.data.price <= state.maxPrice;
+					const priceMatch = wine.data.prix >= state.minPrice && wine.data.prix <= state.maxPrice;
+
+					// Ajoutez des logs pour chaque critère de filtrage
+					console.log(`Wine: ${wine.uid}`);
+					console.log(`Region Match: ${regionMatch}`);
+					console.log(`Color Match: ${colorMatch}`);
+					console.log(`Domain Match: ${domainMatch}`);
+					console.log(`Appellation Match: ${appellationMatch}`);
+					console.log(`Price Match: ${priceMatch}`);
+
 					return regionMatch && colorMatch && domainMatch && appellationMatch && priceMatch;
 				});
+				console.log('Filtered wines:', state.filteredWines); // Log les vins filtrés
 				return state;
 			});
 		}
