@@ -20,7 +20,8 @@
 		domains: [],
 		selectedDomain: null,
 		appellations: [],
-		displayedAppellations: []
+		displayedAppellations: [],
+		priceRange: { min: minPrice, max: maxPrice }
 	};
 	export let handleFilterChange;
 	export let appellationNames = {};
@@ -41,7 +42,7 @@
 			event.target.value = value;
 		}
 		leftValue.set(value);
-		handleFilterChange('price', { min: Math.round(value), max: currentMaxPrice });
+		handleFilterChange('prix', { min: Math.round(value), max: currentMaxPrice });
 	}
 
 	function handleRightChange(event) {
@@ -55,7 +56,7 @@
 			event.target.value = value;
 		}
 		rightValue.set(value);
-		handleFilterChange('price', { min: currentMinPrice, max: Math.round(value) });
+		handleFilterChange('prix', { min: currentMinPrice, max: Math.round(value) });
 	}
 
 	function calculatePosition(value) {
@@ -136,7 +137,7 @@
 											{appellationNames[appellation.uid] || 'Nom inconnu'}
 										</button>
 										{#if filterData.selectedAppellation === appellation.uid}
-											<ul class="ml-4 mt-2 pl-2 text-sm">
+											<ul class="ml-4 mt-2 pb-2 pl-2 text-sm">
 												{#each getWinesByAppellation(appellation.uid) as wine}
 													<li><PrismicRichText field={wine.data.title} /></li>
 												{/each}

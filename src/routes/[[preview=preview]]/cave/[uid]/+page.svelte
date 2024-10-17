@@ -95,6 +95,8 @@
 			updateDisplayedAppellations();
 		} else if (filterType === 'appellation') {
 			filterData.selectedAppellation = value === filterData.selectedAppellation ? null : value;
+		} else if (filterType === 'prix') {
+			filterData.priceRange = value;
 		}
 		applyFilters();
 	}
@@ -120,7 +122,11 @@
 			const appellationMatch =
 				!filterData.selectedAppellation ||
 				wine.data.appellation.uid === filterData.selectedAppellation;
-			return colorMatch && domainMatch && appellationMatch;
+			const priceMatch =
+				!filterData.priceRange ||
+				(wine.data.prix >= filterData.priceRange.min &&
+					wine.data.prix <= filterData.priceRange.max);
+			return colorMatch && domainMatch && appellationMatch && priceMatch;
 		});
 	}
 
