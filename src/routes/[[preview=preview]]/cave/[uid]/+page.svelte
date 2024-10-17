@@ -67,6 +67,12 @@
 			console.log('Extracted appellations:', filterData.appellations);
 			console.log('Appellation names:', appellationNames);
 
+			// Set the first domain as selected by default
+			if (filterData.domains.length > 0) {
+				filterData.selectedDomain = filterData.domains[0].uid;
+				updateDisplayedAppellations();
+			}
+
 			applyFilters();
 		} catch (error) {
 			console.error('Error in onMount:', error);

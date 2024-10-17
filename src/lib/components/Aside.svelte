@@ -2,7 +2,6 @@
 	import ArrowIcon from './ArrowIcon.svelte';
 	import { spring } from 'svelte/motion';
 
-	// commit for vercel
 	let isDomainSectionExpanded = true;
 	let minPrice = 5;
 	let maxPrice = 200;
