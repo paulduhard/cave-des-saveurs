@@ -172,10 +172,7 @@
 						{/each}
 					</div>
 				{:else}
-					<p
-						class="absolute left-1/2 top-1/2 w-full -translate-x-1/2 -translate-y-1/2 transform text-center"
-						transition:fade={{ duration: 300 }}
-					>
+					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
 						Aucun vin trouvé pour cette couleur.
 					</p>
 				{/if}
