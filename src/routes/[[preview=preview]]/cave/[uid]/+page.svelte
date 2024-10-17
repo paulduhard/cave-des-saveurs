@@ -124,6 +124,14 @@
 		});
 	}
 
+	function getWinesByAppellation(appellationUid) {
+		return data.wines.filter(
+			(wine) =>
+				wine.data.appellation.uid === appellationUid &&
+				wine.data.domaine.uid === filterData.selectedDomain
+		);
+	}
+
 	$: {
 		applyFilters();
 	}
@@ -139,7 +147,7 @@
 	</header>
 
 	<div class=" mx-12 flex">
-		<Aside bind:filterData {handleFilterChange} {appellationNames} />
+		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
 			<PrismicRichText field={data.region.description} />

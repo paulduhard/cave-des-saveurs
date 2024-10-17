@@ -1,5 +1,6 @@
 <script>
 	import ArrowIcon from './ArrowIcon.svelte';
+	import { PrismicRichText } from '@prismicio/svelte';
 	import { spring } from 'svelte/motion';
 
 	let isDomainSectionExpanded = true;
@@ -23,6 +24,7 @@
 	};
 	export let handleFilterChange;
 	export let appellationNames = {};
+	export let getWinesByAppellation;
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -133,6 +135,13 @@
 										>
 											{appellationNames[appellation.uid] || 'Nom inconnu'}
 										</button>
+										{#if filterData.selectedAppellation === appellation.uid}
+											<ul class="ml-4 mt-2 pl-2 text-sm">
+												{#each getWinesByAppellation(appellation.uid) as wine}
+													<li><PrismicRichText field={wine.data.title} /></li>
+												{/each}
+											</ul>
+										{/if}
 									</li>
 								{/each}
 							</ul>
