@@ -9,15 +9,15 @@ type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
  */
 interface AppellationDocumentData {
 	/**
-	 * Nom field in *Appellation*
+	 * Appellation field in *Appellation*
 	 *
 	 * - **Field Type**: Text
 	 * - **Placeholder**: *None*
-	 * - **API ID Path**: appellation.nom
+	 * - **API ID Path**: appellation.appellation
 	 * - **Tab**: Main
 	 * - **Documentation**: https://prismic.io/docs/field#key-text
 	 */
-	nom: prismic.KeyTextField;
+	appellation: prismic.KeyTextField;
 
 	/**
 	 * Description field in *Appellation*

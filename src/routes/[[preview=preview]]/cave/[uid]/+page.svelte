@@ -21,7 +21,8 @@
 		domains: [],
 		selectedDomain: null,
 		appellations: [],
-		displayedAppellations: []
+		displayedAppellations: [],
+		selectedAppellation: null
 	};
 
 	let filteredWines = [];
@@ -48,7 +49,7 @@
 
 			const appellationResponse = await client.getAllByType('appellation');
 			appellationResponse.forEach((appellation) => {
-				appellationNames[appellation.uid] = appellation.data.nom; // Assuming 'nom' is the field for the appellation name
+				appellationNames[appellation.uid] = appellation.data.appellation;
 			});
 
 			// Extract appellations from wine data
@@ -84,8 +85,16 @@
 		if (filterType === 'color') {
 			filterData.selectedColor = value === filterData.selectedColor ? null : value;
 		} else if (filterType === 'domain') {
-			filterData.selectedDomain = value === filterData.selectedDomain ? null : value;
+			if (filterData.selectedDomain === value) {
+				// If the same domain is clicked again, reset the appellation
+				filterData.selectedAppellation = null;
+			} else {
+				filterData.selectedDomain = value;
+				filterData.selectedAppellation = null; // Reset appellation when domain changes
+			}
 			updateDisplayedAppellations();
+		} else if (filterType === 'appellation') {
+			filterData.selectedAppellation = value === filterData.selectedAppellation ? null : value;
 		}
 		applyFilters();
 	}
@@ -108,7 +117,10 @@
 				!filterData.selectedColor || wine.data.couleur.uid === filterData.selectedColor;
 			const domainMatch =
 				!filterData.selectedDomain || wine.data.domaine.uid === filterData.selectedDomain;
-			return colorMatch && domainMatch;
+			const appellationMatch =
+				!filterData.selectedAppellation ||
+				wine.data.appellation.uid === filterData.selectedAppellation;
+			return colorMatch && domainMatch && appellationMatch;
 		});
 	}
 

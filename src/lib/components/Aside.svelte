@@ -123,7 +123,17 @@
 						{#if filterData.selectedDomain === domain.uid && filterData.displayedAppellations.length > 0}
 							<ul class="ml-6 mt-2 pl-2 text-sm">
 								{#each filterData.displayedAppellations as appellation}
-									<li>{appellationNames[appellation.uid] || 'Nom inconnu'}</li>
+									<li>
+										<button
+											class="hover:text-gray-700 text-left {filterData.selectedAppellation ===
+											appellation.uid
+												? 'font-bold underline'
+												: ''}"
+											on:click={() => handleFilterChange('appellation', appellation.uid)}
+										>
+											{appellationNames[appellation.uid] || 'Nom inconnu'}
+										</button>
+									</li>
 								{/each}
 							</ul>
 						{:else if filterData.selectedDomain === domain.uid}

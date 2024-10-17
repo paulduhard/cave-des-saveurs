@@ -12,10 +12,10 @@
 					"label": "UID"
 				}
 			},
-			"nom": {
+			"appellation": {
 				"type": "Text",
 				"config": {
-					"label": "Nom",
+					"label": "Appellation",
 					"placeholder": ""
 				}
 			},

@@ -7,19 +7,14 @@ export async function load({ params, fetch, cookies }) {
 
 	try {
 		const page = await client.getByUID('vin', params.uid, {
-			fetchLinks: [
-				'region.region',
-				'couleur.couleur',
-				'domaine.domaine',
-				'appellation.nom' // Changed to fetch 'nom' instead of 'appellation'
-			]
+			fetchLinks: ['region.region', 'couleur.couleur', 'domaine.domaine', 'appellation.appellation']
 		});
 
 		// Extract data from linked documents
 		const regionName = page.data.region?.data?.region ?? 'Non spécifié';
 		const couleurName = page.data.couleur?.data?.couleur ?? 'Non spécifié';
 		const domaineName = page.data.domaine?.data?.domaine ?? 'Non spécifié';
-		const appellationName = page.data.appellation?.data?.nom ?? 'Non spécifié';
+		const appellationName = page.data.appellation?.data?.appellation ?? 'Non spécifié';
 
 		return {
 			page,
