@@ -17,6 +17,8 @@
 
 	let selectedDomainName = '';
 	let selectedDomainDescription = null;
+	let selectedAppellationName = '';
+	let selectedAppellationDescription = null;
 
 	let filterData = {
 		colors: [],
@@ -52,6 +54,12 @@
 			}));
 
 			const appellationResponse = await client.getAllByType('appellation');
+			filterData.appellations = appellationResponse.map((appellation) => ({
+				uid: appellation.uid,
+				name: appellation.data.appellation,
+				description: appellation.data.description || null // Include description
+			}));
+
 			appellationResponse.forEach((appellation) => {
 				appellationNames[appellation.uid] = appellation.data.appellation;
 			});
@@ -92,16 +100,25 @@
 				filterData.selectedAppellation = null;
 				selectedDomainName = ''; // Réinitialiser le nom du domaine
 				selectedDomainDescription = null; // Réinitialiser la description du domaine
+				selectedAppellationName = ''; // Réinitialiser le nom de l'appellation
+				selectedAppellationDescription = null; // Réinitialiser la description de l'appellation
 			} else {
 				filterData.selectedDomain = value;
 				filterData.selectedAppellation = null; // Réinitialiser l'appellation lorsque le domaine change
 				const selectedDomain = filterData.domains.find((domain) => domain.uid === value);
 				selectedDomainName = selectedDomain ? selectedDomain.name : '';
 				selectedDomainDescription = selectedDomain ? selectedDomain.description : null;
+				selectedAppellationName = ''; // Réinitialiser le nom de l'appellation
+				selectedAppellationDescription = null; // Réinitialiser la description de l'appellation
 			}
 			updateDisplayedAppellations();
 		} else if (filterType === 'appellation') {
 			filterData.selectedAppellation = value === filterData.selectedAppellation ? null : value;
+			const selectedAppellation = filterData.appellations.find((app) => app.uid === value);
+			selectedAppellationName = selectedAppellation
+				? appellationNames[selectedAppellation.uid]
+				: '';
+			selectedAppellationDescription = selectedAppellation ? selectedAppellation.description : null;
 		} else if (filterType === 'prix') {
 			filterData.priceRange = value;
 		}
@@ -152,12 +169,15 @@
 
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
-		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-500 ease-in-out">
-			<span class={selectedDomainName ? 'text-4xl' : 'text-6xl'}>
+		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-300 ease-in-out">
+			<span class={selectedDomainName || selectedAppellationName ? 'text-4xl' : 'text-6xl'}>
 				{data.region.region || 'Region'}
 			</span>
 			{#if selectedDomainName}
 				<span class="text-2xl"> > {selectedDomainName}</span>
+			{/if}
+			{#if selectedAppellationName}
+				<span class="text-2xl"> > {selectedAppellationName}</span>
 			{/if}
 		</h1>
 		<button
@@ -170,15 +190,20 @@
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
-			{#if selectedDomainDescription}
+			{#if selectedAppellationDescription}
+				<PrismicRichText
+					field={selectedAppellationDescription}
+					class="opacity-100 transition-opacity duration-300 ease-in-out"
+				/>
+			{:else if selectedDomainDescription}
 				<PrismicRichText
 					field={selectedDomainDescription}
-					class="opacity-100 transition-opacity duration-500 ease-in-out"
+					class="opacity-100 transition-opacity duration-300 ease-in-out"
 				/>
 			{:else}
 				<PrismicRichText
 					field={data.region.description}
-					class="opacity-100 transition-opacity duration-500 ease-in-out"
+					class="opacity-100 transition-opacity duration-300 ease-in-out"
 				/>
 			{/if}
 			<div class="my-24 mr-12">
