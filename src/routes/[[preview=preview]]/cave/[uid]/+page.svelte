@@ -15,6 +15,9 @@
 
 	let appellationNames = {};
 
+	let selectedDomainName = '';
+	let selectedDomainDescription = null;
+
 	let filterData = {
 		colors: [],
 		selectedColors: new Set(),
@@ -44,7 +47,8 @@
 			const domainResponse = await client.getAllByType('domaine');
 			filterData.domains = domainResponse.map((domain) => ({
 				uid: domain.uid,
-				name: domain.data.domaine || 'Unknown Domain' // Provide a fallback value
+				name: domain.data.domaine || 'Unknown Domain', // Provide a fallback value
+				description: domain.data.description || null // Include description
 			}));
 
 			const appellationResponse = await client.getAllByType('appellation');
@@ -86,9 +90,14 @@
 			if (filterData.selectedDomain === value) {
 				// Si le même domaine est cliqué à nouveau, réinitialiser l'appellation
 				filterData.selectedAppellation = null;
+				selectedDomainName = ''; // Réinitialiser le nom du domaine
+				selectedDomainDescription = null; // Réinitialiser la description du domaine
 			} else {
 				filterData.selectedDomain = value;
 				filterData.selectedAppellation = null; // Réinitialiser l'appellation lorsque le domaine change
+				const selectedDomain = filterData.domains.find((domain) => domain.uid === value);
+				selectedDomainName = selectedDomain ? selectedDomain.name : '';
+				selectedDomainDescription = selectedDomain ? selectedDomain.description : null;
 			}
 			updateDisplayedAppellations();
 		} else if (filterType === 'appellation') {
@@ -143,7 +152,14 @@
 
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
-		<h1 class="mb-4 font-span text-6xl font-bold">{data.region.region || 'Region'}</h1>
+		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-500 ease-in-out">
+			<span class={selectedDomainName ? 'text-4xl' : 'text-6xl'}>
+				{data.region.region || 'Region'}
+			</span>
+			{#if selectedDomainName}
+				<span class="text-2xl"> > {selectedDomainName}</span>
+			{/if}
+		</h1>
 		<button
 			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
 			on:click={goToHome}>Alcools et spiritueux</button
@@ -154,7 +170,17 @@
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
-			<PrismicRichText field={data.region.description} />
+			{#if selectedDomainDescription}
+				<PrismicRichText
+					field={selectedDomainDescription}
+					class="opacity-100 transition-opacity duration-500 ease-in-out"
+				/>
+			{:else}
+				<PrismicRichText
+					field={data.region.description}
+					class="opacity-100 transition-opacity duration-500 ease-in-out"
+				/>
+			{/if}
 			<div class="my-24 mr-12">
 				{#if filteredWines && filteredWines.length > 0}
 					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
