@@ -136,13 +136,13 @@
 										>
 											{appellationNames[appellation.uid] || 'Nom inconnu'}
 										</button>
-										{#if filterData.selectedAppellation === appellation.uid}
+										<!-- {#if filterData.selectedAppellation === appellation.uid}
 											<ul class="ml-4 mt-2 pb-2 pl-2 text-sm">
 												{#each getWinesByAppellation(appellation.uid) as wine}
 													<li><PrismicRichText field={wine.data.title} /></li>
 												{/each}
 											</ul>
-										{/if}
+										{/if} -->
 									</li>
 								{/each}
 							</ul>

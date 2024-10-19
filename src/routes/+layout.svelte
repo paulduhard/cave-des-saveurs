@@ -6,6 +6,8 @@
 
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+
+	export let data;
 </script>
 
 <svelte:head>
@@ -22,7 +24,7 @@
 	{/if}
 </svelte:head>
 
-<Header settings={$page.data.settings} />
+<Header settings={data.settings} regions={data.regions} colors={data.colors} />
 <main>
 	<slot />
 </main>

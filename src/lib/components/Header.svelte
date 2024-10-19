@@ -6,6 +6,10 @@
 	/** @type {import("@prismicio/client").Content.SettingsDocument} */
 	export let settings;
 
+	// Importez les données des régions et des couleurs
+	export let regions = [];
+	export let colors = [];
+
 	let isMegaMenuVisible = false;
 
 	function toggleMegaMenu() {
@@ -46,5 +50,5 @@
 </header>
 
 {#if isMegaMenuVisible}
-	<MegaMenu />
+	<MegaMenu {regions} {colors} />
 {/if}

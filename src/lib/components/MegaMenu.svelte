@@ -1,44 +1,8 @@
 <script>
-	import { onMount } from 'svelte';
 	import { PrismicLink } from '@prismicio/svelte';
-	import { createClient } from '@prismicio/client';
 
-	let regions = [];
-	let colors = [];
-
-	import { repositoryName } from '$lib/prismicio';
-
-	const client = createClient(repositoryName);
-
-	onMount(async () => {
-		await Promise.all([fetchRegions(), fetchColors()]);
-	});
-
-	function sortByOrderMenu(items) {
-		return items.sort((a, b) => {
-			if (a.data.ordre_menu === undefined) return 1;
-			if (b.data.ordre_menu === undefined) return -1;
-			return a.data.ordre_menu - b.data.ordre_menu;
-		});
-	}
-
-	async function fetchRegions() {
-		try {
-			const response = await client.getAllByType('region');
-			regions = sortByOrderMenu(response);
-		} catch (error) {
-			console.error('Error fetching regions:', error);
-		}
-	}
-
-	async function fetchColors() {
-		try {
-			const response = await client.getAllByType('couleur'); // Assurez-vous que 'color' est le bon type dans Prismic
-			colors = sortByOrderMenu(response);
-		} catch (error) {
-			console.error('Error fetching colors:', error);
-		}
-	}
+	export let regions = [];
+	export let colors = [];
 </script>
 
 <nav class="my-6 flex justify-center gap-20">
