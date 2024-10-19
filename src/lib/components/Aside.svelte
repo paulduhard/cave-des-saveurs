@@ -113,7 +113,7 @@
 			{#if filterData.domains && filterData.domains.length > 0}
 				{#each filterData.domains as domain}
 					<div class="mb-2">
-						<label class="block cursor-pointer">
+						<label class="block cursor-pointer hover:underline focus:no-underline">
 							<input
 								type="radio"
 								name="domain"
@@ -125,7 +125,7 @@
 							<div class="flex items-center justify-between font-light">
 								<span
 									class="{filterData.selectedDomain === domain.uid
-										? 'font-bold underline'
+										? 'font-bold'
 										: ''} hover:text-gray-700"
 								>
 									{domain.name}
@@ -139,9 +139,9 @@
 								{#each filterData.displayedAppellations as appellation}
 									<li>
 										<button
-											class="hover:text-gray-700 text-left {filterData.selectedAppellation ===
+											class="text-left hover:underline {filterData.selectedAppellation ===
 											appellation.uid
-												? 'font-bold underline'
+												? 'font-bold'
 												: ''}"
 											on:click={() => localHandleFilterChange('appellation', appellation.uid)}
 										>

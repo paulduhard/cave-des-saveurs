@@ -5,10 +5,10 @@
 	export let colors = [];
 </script>
 
-<nav class="my-6 flex justify-center gap-20">
+<nav class="my-6 flex justify-center gap-32">
 	<div class="region">
 		<p class="mb-2 uppercase">Nos vins par région</p>
-		<ul class="flex max-h-[215px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
+		<ul class="flex max-h-[175px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			{#each regions as region (region.id)}
 				<li>
 					<PrismicLink href={`/cave/${region.uid}`} class="hover:underline">
@@ -31,7 +31,7 @@
 
 	<div class="alcools">
 		<p class="uppercase">Alcools et spiritueux</p>
-		<ul class="flex max-h-[215px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
+		<ul class="flex max-h-[150px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			<li>Cognacs</li>
 			<li>Armagnacs</li>
 			<li>Whiskies</li>
