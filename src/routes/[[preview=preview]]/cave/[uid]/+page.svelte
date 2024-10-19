@@ -17,7 +17,7 @@
 
 	let filterData = {
 		colors: [],
-		selectedColor: null,
+		selectedColors: new Set(),
 		domains: [],
 		selectedDomain: null,
 		appellations: [],
@@ -113,7 +113,8 @@
 	function applyFilters() {
 		filteredWines = data.wines.filter((wine) => {
 			const colorMatch =
-				!filterData.selectedColor || wine.data.couleur.uid === filterData.selectedColor;
+				filterData.selectedColors.size === 0 ||
+				filterData.selectedColors.has(wine.data.couleur.uid);
 			const domainMatch =
 				!filterData.selectedDomain || wine.data.domaine.uid === filterData.selectedDomain;
 			const appellationMatch =

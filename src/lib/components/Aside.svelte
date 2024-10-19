@@ -84,8 +84,16 @@
 	});
 
 	function localHandleFilterChange(filterType, value) {
-		// Appeler la fonction passée en prop
-		handleFilterChange(filterType, value);
+		if (filterType === 'color') {
+			if (filterData.selectedColors.has(value)) {
+				filterData.selectedColors.delete(value);
+			} else {
+				filterData.selectedColors.add(value);
+			}
+			handleFilterChange(filterType, new Set(filterData.selectedColors));
+		} else {
+			handleFilterChange(filterType, value);
+		}
 	}
 </script>
 
