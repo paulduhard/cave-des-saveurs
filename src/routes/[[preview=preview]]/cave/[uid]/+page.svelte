@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
 	import { createClient } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
@@ -11,28 +11,29 @@
 		goto('/'); // Navigates to the home page
 	}
 
-	export let data;
+	export let data: any;
 
-	let appellationNames = {};
+	let appellationNames: Record<string, string> = {};
 
 	let selectedDomainName = '';
-	let selectedDomainDescription = null;
+	let selectedDomainDescription: string | null = null;
 	let selectedAppellationName = '';
-	let selectedAppellationDescription = null;
+	let selectedAppellationDescription: string | null = null;
 
 	let filterData = {
-		colors: [],
-		selectedColors: new Set(),
-		domains: [],
-		selectedDomain: null,
-		appellations: [],
-		displayedAppellations: [],
-		selectedAppellation: null
+		colors: [] as string[], // Tableau de chaînes de caractères
+		selectedColors: new Set<string>(), // Ensemble de chaînes de caractères
+		domains: [] as string[], // Tableau de chaînes de caractères
+		selectedDomain: null as string | null, // Chaîne de caractères ou null
+		appellations: [] as string[], // Tableau de chaînes de caractères
+		displayedAppellations: [] as string[], // Tableau de chaînes de caractères
+		selectedAppellation: null as string | null, // Chaîne de caractères ou null
+		priceRange: null as number | null // Nombre ou null
 	};
 
-	let filteredWines = [];
+	let filteredWines: string[] = [];
 
-	function getWineUrl(wine) {
+	function getWineUrl(wine: any) {
 		return `/vin/${wine.uid}`;
 	}
 
@@ -41,32 +42,32 @@
 	onMount(async () => {
 		try {
 			const colorResponse = await client.getAllByType('couleur');
-			filterData.colors = colorResponse.map((color) => ({
+			filterData.colors = colorResponse.map((color: any) => ({
 				uid: color.uid,
 				name: color.data.couleur
 			}));
 
 			const domainResponse = await client.getAllByType('domaine');
-			filterData.domains = domainResponse.map((domain) => ({
+			filterData.domains = domainResponse.map((domain: any) => ({
 				uid: domain.uid,
 				name: domain.data.domaine || 'Unknown Domain', // Provide a fallback value
 				description: domain.data.description || null // Include description
 			}));
 
 			const appellationResponse = await client.getAllByType('appellation');
-			filterData.appellations = appellationResponse.map((appellation) => ({
+			filterData.appellations = appellationResponse.map((appellation: any) => ({
 				uid: appellation.uid,
 				name: appellation.data.appellation,
 				description: appellation.data.description || null // Include description
 			}));
 
-			appellationResponse.forEach((appellation) => {
+			appellationResponse.forEach((appellation: any) => {
 				appellationNames[appellation.uid] = appellation.data.appellation;
 			});
 
 			// Extract appellations from wine data
-			const appellations = new Set();
-			data.wines.forEach((wine) => {
+			const appellations = new Set<string>();
+			data.wines.forEach((wine: any) => {
 				if (wine.data.appellation && wine.data.appellation.uid) {
 					appellations.add(
 						JSON.stringify({
@@ -76,7 +77,9 @@
 					);
 				}
 			});
-			filterData.appellations = Array.from(appellations).map(JSON.parse);
+			filterData.appellations = Array.from(appellations).map((appellation: string) =>
+				JSON.parse(appellation)
+			);
 
 			// Set the first domain as selected by default
 			if (filterData.domains.length > 0) {
@@ -91,7 +94,7 @@
 		}
 	});
 
-	function handleFilterChange(filterType, value) {
+	function handleFilterChange(filterType: string, value: string) {
 		if (filterType === 'color') {
 			filterData.selectedColor = value === filterData.selectedColor ? null : value;
 		} else if (filterType === 'domain') {
@@ -105,7 +108,7 @@
 			} else {
 				filterData.selectedDomain = value;
 				filterData.selectedAppellation = null; // Réinitialiser l'appellation lorsque le domaine change
-				const selectedDomain = filterData.domains.find((domain) => domain.uid === value);
+				const selectedDomain = filterData.domains.find((domain: any) => domain.uid === value);
 				selectedDomainName = selectedDomain ? selectedDomain.name : '';
 				selectedDomainDescription = selectedDomain ? selectedDomain.description : null;
 				selectedAppellationName = ''; // Réinitialiser le nom de l'appellation
@@ -114,7 +117,7 @@
 			updateDisplayedAppellations();
 		} else if (filterType === 'appellation') {
 			filterData.selectedAppellation = value === filterData.selectedAppellation ? null : value;
-			const selectedAppellation = filterData.appellations.find((app) => app.uid === value);
+			const selectedAppellation = filterData.appellations.find((app: any) => app.uid === value);
 			selectedAppellationName = selectedAppellation
 				? appellationNames[selectedAppellation.uid]
 				: '';
@@ -128,7 +131,7 @@
 	function updateDisplayedAppellations() {
 		if (filterData.selectedDomain) {
 			filterData.displayedAppellations = filterData.appellations.filter(
-				(app) => app.domainUid === filterData.selectedDomain
+				(app: any) => app.domainUid === filterData.selectedDomain
 			);
 		} else {
 			filterData.displayedAppellations = [];
@@ -137,7 +140,7 @@
 	}
 
 	function applyFilters() {
-		filteredWines = data.wines.filter((wine) => {
+		filteredWines = data.wines.filter((wine: any) => {
 			const colorMatch =
 				filterData.selectedColors.size === 0 ||
 				filterData.selectedColors.has(wine.data.couleur.uid);
@@ -154,9 +157,9 @@
 		});
 	}
 
-	function getWinesByAppellation(appellationUid) {
+	function getWinesByAppellation(appellationUid: string) {
 		return data.wines.filter(
-			(wine) =>
+			(wine: any) =>
 				wine.data.appellation.uid === appellationUid &&
 				wine.data.domaine.uid === filterData.selectedDomain
 		);
