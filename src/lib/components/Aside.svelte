@@ -1,6 +1,5 @@
 <script>
 	import ArrowIcon from './ArrowIcon.svelte';
-	import { PrismicRichText } from '@prismicio/svelte';
 	import { spring } from 'svelte/motion';
 
 	let isDomainSectionExpanded = true;
@@ -25,7 +24,6 @@
 	};
 	export let handleFilterChange;
 	export let appellationNames = {};
-	export let getWinesByAppellation;
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -84,6 +82,11 @@
 		window.addEventListener('resize', handleResize);
 		return () => window.removeEventListener('resize', handleResize);
 	});
+
+	function localHandleFilterChange(filterType, value) {
+		// Appeler la fonction passée en prop
+		handleFilterChange(filterType, value);
+	}
 </script>
 
 <aside class="bg-gray-100 w-1/4">
@@ -108,7 +111,7 @@
 								name="domain"
 								value={domain.uid}
 								checked={filterData.selectedDomain === domain.uid}
-								on:change={() => handleFilterChange('domain', domain.uid)}
+								on:change={() => localHandleFilterChange('domain', domain.uid)}
 								class="hidden"
 							/>
 							<div class="flex items-center justify-between font-light">
@@ -132,17 +135,10 @@
 											appellation.uid
 												? 'font-bold underline'
 												: ''}"
-											on:click={() => handleFilterChange('appellation', appellation.uid)}
+											on:click={() => localHandleFilterChange('appellation', appellation.uid)}
 										>
 											{appellationNames[appellation.uid] || 'Nom inconnu'}
 										</button>
-										<!-- {#if filterData.selectedAppellation === appellation.uid}
-											<ul class="ml-4 mt-2 pb-2 pl-2 text-sm">
-												{#each getWinesByAppellation(appellation.uid) as wine}
-													<li><PrismicRichText field={wine.data.title} /></li>
-												{/each}
-											</ul>
-										{/if} -->
 									</li>
 								{/each}
 							</ul>
@@ -211,7 +207,7 @@
 					type="checkbox"
 					value={color.uid}
 					checked={filterData.selectedColor === color.uid}
-					on:change={() => handleFilterChange('color', color.uid)}
+					on:change={() => localHandleFilterChange('color', color.uid)}
 					class="mr-2"
 				/>
 				{color.name}

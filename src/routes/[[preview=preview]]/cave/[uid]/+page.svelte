@@ -65,8 +65,6 @@
 				}
 			});
 			filterData.appellations = Array.from(appellations).map(JSON.parse);
-			console.log('Extracted appellations:', filterData.appellations);
-			console.log('Appellation names:', appellationNames);
 
 			// Set the first domain as selected by default
 			if (filterData.domains.length > 0) {
@@ -86,11 +84,11 @@
 			filterData.selectedColor = value === filterData.selectedColor ? null : value;
 		} else if (filterType === 'domain') {
 			if (filterData.selectedDomain === value) {
-				// If the same domain is clicked again, reset the appellation
+				// Si le même domaine est cliqué à nouveau, réinitialiser l'appellation
 				filterData.selectedAppellation = null;
 			} else {
 				filterData.selectedDomain = value;
-				filterData.selectedAppellation = null; // Reset appellation when domain changes
+				filterData.selectedAppellation = null; // Réinitialiser l'appellation lorsque le domaine change
 			}
 			updateDisplayedAppellations();
 		} else if (filterType === 'appellation') {
@@ -109,7 +107,6 @@
 		} else {
 			filterData.displayedAppellations = [];
 		}
-		console.log('Updated displayed appellations:', filterData.displayedAppellations);
 		filterData = { ...filterData }; // Force Svelte to update
 	}
 
