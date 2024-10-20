@@ -32,6 +32,7 @@
 	};
 
 	let filteredWines: string[] = [];
+	let expandedDomainUid: string | null = null;
 
 	function getWineUrl(wine: any) {
 		return `/vin/${wine.uid}`;
@@ -81,12 +82,6 @@
 				JSON.parse(appellation)
 			);
 
-			// Set the first domain as selected by default
-			// if (filterData.domains.length > 0) {
-			// 	filterData.selectedDomain = filterData.domains[0].uid;
-			// 	updateDisplayedAppellations();
-			// }
-
 			applyFilters();
 		} catch (error) {
 			console.error('Error in onMount:', error);
@@ -129,9 +124,10 @@
 	}
 
 	function updateDisplayedAppellations() {
-		if (filterData.selectedDomain) {
+		if (filterData.selectedDomain || expandedDomainUid) {
+			const domainUid = filterData.selectedDomain || expandedDomainUid;
 			filterData.displayedAppellations = filterData.appellations.filter(
-				(app: any) => app.domainUid === filterData.selectedDomain
+				(app: any) => app.domainUid === domainUid
 			);
 		} else {
 			filterData.displayedAppellations = [];
@@ -187,12 +183,6 @@
 			<button class="cursor-pointer text-6xl" on:click={resetFilters}>
 				{data.region.region || 'Region'}
 			</button>
-			<!-- {#if selectedDomainName}
-				<span class="text-2xl"> > {selectedDomainName}</span>
-			{/if}
-			{#if selectedAppellationName}
-				<span class="text-2xl"> > {selectedAppellationName}</span>
-			{/if} -->
 		</h1>
 		<button
 			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
@@ -200,14 +190,28 @@
 		>
 	</header>
 
-	<div class=" mx-12 flex">
+	<div class="mx-12 flex">
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
-				<h2 class="border-gray-300 mb-4 w-fit max-w-lg border-b pb-2 text-4xl">
+				<h2
+					class="mb-2 w-fit text-3xl transition-all duration-300 ease-in-out {selectedAppellationName
+						? 'border-none text-lg'
+						: 'border-b border-primary'}"
+				>
 					{selectedDomainName}
+					{#if selectedAppellationName}
+						<span class="border-none text-xl">{' > '}</span>
+					{/if}
 				</h2>
+			{/if}
+			{#if selectedAppellationName}
+				<h3
+					class="mb-4 w-fit border-b border-primary pb-2 text-3xl font-semibold transition-all duration-300 ease-in-out"
+				>
+					{selectedAppellationName}
+				</h3>
 			{/if}
 			{#if selectedAppellationDescription}
 				<PrismicRichText
