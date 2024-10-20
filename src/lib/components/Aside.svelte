@@ -176,7 +176,7 @@
 
 	<!-- New Price Range Filter -->
 	<div class="border-black mb-6 border-t">
-		<h3 class="mb-2 mt-2 text-xl uppercase">Prix</h3>
+		<h3 class="mt-2 text-xl uppercase">Prix</h3>
 		<div class="relative pb-2 pt-10">
 			<div class="slider-container relative h-[2px] w-full">
 				<div class="bg-gray-300 absolute left-0 right-0 top-0 h-full"></div>
@@ -222,18 +222,25 @@
 
 	<div class="mb-6 border-t border-primary">
 		<h3 class="mb-2 mt-2 text-xl uppercase">Couleurs</h3>
-		{#each filterData.colors as color}
-			<label class="mb-2 flex cursor-pointer items-center font-light">
-				<input
-					type="checkbox"
-					value={color.uid}
-					checked={filterData.selectedColor === color.uid}
-					on:change={() => localHandleFilterChange('color', color.uid)}
-					class="mr-2"
-				/>
-				{color.name}
-			</label>
-		{/each}
+		<div class="grid grid-cols-3 gap-x-2 gap-y-4">
+			{#each filterData.colors as color}
+				<label class="flex cursor-pointer items-center font-light">
+					<input
+						type="checkbox"
+						value={color.uid}
+						checked={filterData.selectedColors.has(color.uid)}
+						on:change={() => localHandleFilterChange('color', color.uid)}
+						class="sr-only"
+					/>
+					<div class="border-gray-300 relative mr-2 h-[17px] w-[17px] flex-shrink-0 border">
+						{#if filterData.selectedColors.has(color.uid)}
+							<div class="absolute inset-0 m-[2px] bg-primary"></div>
+						{/if}
+					</div>
+					<span class="truncate">{color.name}</span>
+				</label>
+			{/each}
+		</div>
 	</div>
 </aside>
 
