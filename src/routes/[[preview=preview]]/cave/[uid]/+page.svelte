@@ -165,6 +165,17 @@
 		);
 	}
 
+	function resetFilters() {
+		filterData.selectedDomain = null;
+		filterData.selectedAppellation = null;
+		selectedDomainName = '';
+		selectedDomainDescription = null;
+		selectedAppellationName = '';
+		selectedAppellationDescription = null;
+		updateDisplayedAppellations();
+		applyFilters();
+	}
+
 	$: {
 		applyFilters();
 	}
@@ -173,9 +184,9 @@
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-300 ease-in-out">
-			<span class="text-6xl">
+			<button class="cursor-pointer text-6xl" on:click={resetFilters}>
 				{data.region.region || 'Region'}
-			</span>
+			</button>
 			<!-- {#if selectedDomainName}
 				<span class="text-2xl"> > {selectedDomainName}</span>
 			{/if}
