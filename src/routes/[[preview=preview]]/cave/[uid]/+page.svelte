@@ -6,6 +6,7 @@
 	import { fade } from 'svelte/transition';
 	import Aside from '$lib/components/Aside.svelte';
 	import { goto } from '$app/navigation';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 
 	function goToHome() {
 		goto('/'); // Navigates to the home page
@@ -179,8 +180,11 @@
 
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
-		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-300 ease-in-out">
-			<button class="cursor-pointer text-6xl" on:click={resetFilters}>
+		<h1>
+			<button
+				class="mb-4 cursor-pointer font-span text-3xl text-5xl font-bold transition-all duration-300 ease-in-out"
+				on:click={resetFilters}
+			>
 				{data.region.region || 'Region'}
 			</button>
 		</h1>
@@ -196,19 +200,19 @@
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
 				<h2
-					class="mb-2 w-1/3 min-w-fit text-3xl transition-all duration-300 ease-in-out {selectedAppellationName
-						? 'border-none text-lg'
+					class="mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all duration-300 ease-in-out {selectedAppellationName
+						? 'mb-0 border-none pb-0 text-lg'
 						: 'border-b border-primary'}"
 				>
 					{selectedDomainName}
 					{#if selectedAppellationName}
-						<span class="border-none text-xl">{' > '}</span>
+						<ArrowIcon class="-rotate-90" />
 					{/if}
 				</h2>
 			{/if}
 			{#if selectedAppellationName}
 				<h3
-					class="mb-4 w-1/3 min-w-fit border-b border-primary pb-2 text-3xl transition-all duration-300 ease-in-out"
+					class="mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-4xl transition-all duration-300 ease-in-out"
 				>
 					{selectedAppellationName}
 				</h3>
