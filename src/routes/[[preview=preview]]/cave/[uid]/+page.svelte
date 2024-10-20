@@ -190,14 +190,14 @@
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1>
 			<button
-				class="mb-4 cursor-pointer font-span text-3xl text-5xl font-bold transition-all duration-300 ease-in-out"
+				class="duration-600 mb-4 cursor-pointer font-span text-3xl text-5xl font-bold transition-all ease-in-out"
 				on:click={resetFilters}
 			>
 				{data.region.region || 'Region'}
 			</button>
 		</h1>
 		<button
-			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+			class="duration-600 mr-12 h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary"
 			on:click={goToHome}>Alcools et spiritueux</button
 		>
 	</header>
@@ -209,7 +209,7 @@
 			{#if selectedDomainName}
 				<h2>
 					<button
-						class="mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all duration-300 ease-in-out {selectedAppellationName
+						class="duration-600 mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all ease-in-out {selectedAppellationName
 							? 'mb-0 border-none pb-0 text-lg'
 							: 'pointer-events-none border-b border-primary'}"
 						on:click={resetAppellations}
@@ -224,7 +224,7 @@
 			{#if selectedAppellationName}
 				<h3>
 					<button
-						class="pointer-events-none mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all duration-300 ease-in-out"
+						class="duration-600 pointer-events-none mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all ease-in-out"
 					>
 						{selectedAppellationName}
 					</button>
@@ -233,17 +233,17 @@
 			{#if selectedAppellationDescription}
 				<PrismicRichText
 					field={selectedAppellationDescription}
-					class="opacity-100 transition-opacity duration-300 ease-in-out"
+					class="duration-600 opacity-100 transition-opacity ease-in-out"
 				/>
 			{:else if selectedDomainDescription}
 				<PrismicRichText
 					field={selectedDomainDescription}
-					class="opacity-100 transition-opacity duration-300 ease-in-out"
+					class="duration-600 opacity-100 transition-opacity ease-in-out"
 				/>
 			{:else}
 				<PrismicRichText
 					field={data.region.description}
-					class="opacity-100 transition-opacity duration-300 ease-in-out"
+					class="duration-600 opacity-100 transition-opacity ease-in-out"
 				/>
 			{/if}
 			<div class="my-24 mr-12">
@@ -256,7 +256,7 @@
 							>
 								<a
 									href={getWineUrl(wine)}
-									class="flex flex-grow flex-col items-start p-4 transition-shadow duration-300 ease-in-out hover:shadow-lg"
+									class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
 								>
 									<PrismicImage field={wine.data.image} class="self-center" />
 									<span class="mt-8 font-span text-xl">{wine.fullDomainData.domaine}</span>
@@ -265,7 +265,7 @@
 
 									<div class="mt-auto pt-4">
 										<button
-											class="inline-block border px-8 py-2 font-light text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-secondary"
+											class="duration-600 inline-block border px-8 py-2 font-light text-primary transition-all group-hover:bg-primary group-hover:text-secondary"
 										>
 											Découvrir
 										</button>
@@ -275,7 +275,7 @@
 						{/each}
 					</div>
 				{:else}
-					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
+					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 600 }}>
 						Aucun vin trouvé pour cette couleur.
 					</p>
 				{/if}
