@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import ArrowIcon from './ArrowIcon.svelte';
 	import { spring } from 'svelte/motion';
 
@@ -22,7 +22,7 @@
 		displayedAppellations: [],
 		priceRange: { min: minPrice, max: maxPrice }
 	};
-	export let handleFilterChange;
+	export let handleFilterChange: (filterType: string, value: any) => void;
 	export let appellationNames = {};
 
 	function toggleDomainSection() {
@@ -83,7 +83,7 @@
 		return () => window.removeEventListener('resize', handleResize);
 	});
 
-	function localHandleFilterChange(filterType, value) {
+	function localHandleFilterChange(filterType: string, value: any) {
 		if (filterType === 'color') {
 			if (filterData.selectedColors.has(value)) {
 				filterData.selectedColors.delete(value);
