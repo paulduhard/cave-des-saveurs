@@ -119,7 +119,11 @@
 			{#if filterData.domains && filterData.domains.length > 0}
 				{#each filterData.domains as domain}
 					<div class="mb-2">
-						<label class="block cursor-pointer hover:underline focus:no-underline">
+						<label
+							class="block {filterData.selectedDomain === domain.uid
+								? 'cursor-default'
+								: 'cursor-pointer hover:underline'} focus:no-underline"
+						>
 							<input
 								type="radio"
 								name="domain"
@@ -144,15 +148,18 @@
 							<ul class="ml-6 mt-2 pl-2 text-sm">
 								{#each filterData.displayedAppellations as appellation}
 									<li>
-										<button
-											class="text-left hover:underline {filterData.selectedAppellation ===
-											appellation.uid
-												? 'font-bold'
-												: ''}"
-											on:click={() => localHandleFilterChange('appellation', appellation.uid)}
-										>
-											{appellationNames[appellation.uid] || 'Nom inconnu'}
-										</button>
+										{#if filterData.selectedAppellation === appellation.uid}
+											<span class="font-bold">
+												{appellationNames[appellation.uid] || 'Nom inconnu'}
+											</span>
+										{:else}
+											<button
+												class="cursor-pointer text-left hover:underline"
+												on:click={() => localHandleFilterChange('appellation', appellation.uid)}
+											>
+												{appellationNames[appellation.uid] || 'Nom inconnu'}
+											</button>
+										{/if}
 									</li>
 								{/each}
 							</ul>

@@ -35,6 +35,38 @@
 	let filteredWines: string[] = [];
 	let expandedDomainUid: string | null = null;
 
+	$: groupedWines = filterData.selectedAppellation
+		? { [filterData.selectedAppellation]: filteredWines }
+		: filterData.selectedDomain
+			? filteredWines.reduce((acc, wine) => {
+					const appellationUid = wine.data.appellation.uid;
+					if (!acc[appellationUid]) {
+						acc[appellationUid] = [];
+					}
+					acc[appellationUid].push(wine);
+					return acc;
+				}, {})
+			: filteredWines.reduce((acc, wine) => {
+					const key = `${wine.data.appellation.uid}|${wine.data.domaine.uid}`;
+					if (!acc[key]) {
+						acc[key] = [];
+					}
+					acc[key].push(wine);
+					return acc;
+				}, {});
+
+	function getGroupTitle(key) {
+		if (filterData.selectedDomain) {
+			return appellationNames[key] || 'Appellation inconnue';
+		} else {
+			const [appellationUid, domainUid] = key.split('|');
+			const appellationName = appellationNames[appellationUid] || 'Appellation inconnue';
+			const domainName =
+				filterData.domains.find((d) => d.uid === domainUid)?.name || 'Domaine inconnu';
+			return { domainName, appellationName };
+		}
+	}
+
 	function getWineUrl(wine: any) {
 		return `/vin/${wine.uid}`;
 	}
@@ -186,7 +218,7 @@
 	}
 </script>
 
-<div class="container mt-12">
+<div class="container mx-auto mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1>
 			<button
@@ -209,9 +241,9 @@
 			{#if selectedDomainName}
 				<h2>
 					<button
-						class="duration-600 mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all ease-in-out {selectedAppellationName
+						class="duration-600 inline-flex w-2/5 min-w-fit items-center gap-2 text-4xl transition-all ease-in-out {selectedAppellationName
 							? 'mb-0 border-none pb-0 text-lg'
-							: 'pointer-events-none border-b border-primary'}"
+							: 'pointer-events-none mb-4 border-b border-primary pb-4'}"
 						on:click={resetAppellations}
 					>
 						{selectedDomainName}
@@ -224,7 +256,7 @@
 			{#if selectedAppellationName}
 				<h3>
 					<button
-						class="duration-600 pointer-events-none mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all ease-in-out"
+						class="duration-600 pointer-events-none mb-4 w-1/3 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all ease-in-out"
 					>
 						{selectedAppellationName}
 					</button>
@@ -246,37 +278,54 @@
 					class="duration-600 opacity-100 transition-opacity ease-in-out"
 				/>
 			{/if}
-			<div class="my-24 mr-12">
-				{#if filteredWines && filteredWines.length > 0}
-					<div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{#each filteredWines as wine}
-							<div
-								transition:fade={{ duration: 600 }}
-								class="group flex h-full flex-col font-light"
-							>
-								<a
-									href={getWineUrl(wine)}
-									class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
-								>
-									<PrismicImage field={wine.data.image} class="self-center" />
-									<span class="mt-8 font-span text-xl">{wine.fullDomainData.domaine}</span>
-									<span class="mb-2 font-span"><PrismicRichText field={wine.data.title} /></span>
-									<PrismicRichText field={wine.data.resume} />
 
-									<div class="mt-auto pt-4">
-										<button
-											class="duration-600 inline-block border px-8 py-2 font-light text-primary transition-all group-hover:bg-primary group-hover:text-secondary"
-										>
-											Découvrir
-										</button>
-									</div>
-								</a>
-							</div>
-						{/each}
-					</div>
+			<div class="my-12 mr-12">
+				{#if Object.keys(groupedWines).length > 0}
+					{#each Object.entries(groupedWines) as [key, wines]}
+						{#if !filterData.selectedAppellation}
+							<h3
+								class="mb-4 flex w-1/3 min-w-fit items-center border-b border-primary pb-2 text-lg"
+							>
+								{#if filterData.selectedDomain}
+									<span>{getGroupTitle(key)}</span>
+								{:else}
+									{@const { domainName, appellationName } = getGroupTitle(key)}
+									<span>{domainName}</span>
+									<ArrowIcon class="mx-2 -rotate-90 transform" />
+									<span>{appellationName}</span>
+								{/if}
+							</h3>
+						{/if}
+						<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+							{#each wines as wine}
+								<div
+									transition:fade={{ duration: 600 }}
+									class="group flex h-full flex-col font-light"
+								>
+									<a
+										href={getWineUrl(wine)}
+										class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
+									>
+										<PrismicImage field={wine.data.image} class="self-center" />
+										<span class="mt-8 font-span text-xl">{wine.fullDomainData.domaine}</span>
+										<span class="mb-2 font-span"><PrismicRichText field={wine.data.title} /></span>
+										<PrismicRichText field={wine.data.resume} />
+
+										<div class="mt-auto pt-4">
+											<button
+												class="duration-600 inline-block border border-primary px-8 py-2 font-light text-primary transition-all group-hover:bg-primary group-hover:text-secondary"
+											>
+												Découvrir
+											</button>
+										</div>
+									</a>
+								</div>
+							{/each}
+						</div>
+					{/each}
 				{:else}
 					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 600 }}>
-						Aucun vin trouvé pour cette couleur.
+						Aucun vin trouvé pour cette sélection.
 					</p>
 				{/if}
 			</div>

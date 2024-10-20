@@ -8,7 +8,7 @@
 	export let data;
 </script>
 
-<div class="container mt-12">
+<div class="container mx-auto mt-12">
 	<div class="ml-12 font-sofia text-xl font-normal">
 		<div class="font-span text-4xl font-bold">{data.domaine}</div>
 		<PrismicRichText field={data.page.data.title} />
