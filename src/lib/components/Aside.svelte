@@ -91,6 +91,12 @@
 				filterData.selectedColors.add(value);
 			}
 			handleFilterChange(filterType, new Set(filterData.selectedColors));
+		} else if (filterType === 'domain') {
+			if (filterData.selectedDomain === value) {
+				// Si le même domaine est cliqué à nouveau, réinitialiser l'appellation
+				filterData.selectedAppellation = null;
+			}
+			handleFilterChange(filterType, value);
 		} else {
 			handleFilterChange(filterType, value);
 		}
