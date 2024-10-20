@@ -196,7 +196,7 @@
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
 				<h2
-					class="mb-2 w-fit text-3xl transition-all duration-300 ease-in-out {selectedAppellationName
+					class="mb-2 w-1/3 min-w-fit text-3xl transition-all duration-300 ease-in-out {selectedAppellationName
 						? 'border-none text-lg'
 						: 'border-b border-primary'}"
 				>
@@ -208,7 +208,7 @@
 			{/if}
 			{#if selectedAppellationName}
 				<h3
-					class="mb-4 w-fit border-b border-primary pb-2 text-3xl font-semibold transition-all duration-300 ease-in-out"
+					class="mb-4 w-1/3 min-w-fit border-b border-primary pb-2 text-3xl transition-all duration-300 ease-in-out"
 				>
 					{selectedAppellationName}
 				</h3>
