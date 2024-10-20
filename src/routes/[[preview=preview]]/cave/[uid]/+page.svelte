@@ -173,6 +173,14 @@
 		applyFilters();
 	}
 
+	function resetAppellations() {
+		filterData.selectedAppellation = null;
+		selectedAppellationName = '';
+		selectedAppellationDescription = null;
+		updateDisplayedAppellations();
+		applyFilters();
+	}
+
 	$: {
 		applyFilters();
 	}
@@ -199,22 +207,27 @@
 
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
-				<h2
-					class="mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all duration-300 ease-in-out {selectedAppellationName
-						? 'mb-0 border-none pb-0 text-lg'
-						: 'border-b border-primary'}"
-				>
-					{selectedDomainName}
-					{#if selectedAppellationName}
-						<ArrowIcon class="-rotate-90" />
-					{/if}
+				<h2>
+					<button
+						class="mb-4 inline-flex w-2/5 min-w-fit items-center gap-2 pb-4 text-4xl transition-all duration-300 ease-in-out {selectedAppellationName
+							? 'mb-0 border-none pb-0 text-lg'
+							: 'pointer-events-none border-b border-primary'}"
+						on:click={resetAppellations}
+					>
+						{selectedDomainName}
+						{#if selectedAppellationName}
+							<ArrowIcon class="-rotate-90" />
+						{/if}
+					</button>
 				</h2>
 			{/if}
 			{#if selectedAppellationName}
-				<h3
-					class="mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-4xl transition-all duration-300 ease-in-out"
-				>
-					{selectedAppellationName}
+				<h3>
+					<button
+						class="pointer-events-none mb-4 w-2/5 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all duration-300 ease-in-out"
+					>
+						{selectedAppellationName}
+					</button>
 				</h3>
 			{/if}
 			{#if selectedAppellationDescription}
