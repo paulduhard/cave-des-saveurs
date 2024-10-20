@@ -248,7 +248,7 @@
 					>
 						{selectedDomainName}
 						{#if selectedAppellationName}
-							<ArrowIcon class="-rotate-90" />
+							<ArrowIcon class="translate-y-[2px] -rotate-90 transform" />
 						{/if}
 					</button>
 				</h2>
@@ -287,11 +287,12 @@
 								class="mb-4 flex w-1/3 min-w-fit items-center border-b border-primary pb-2 text-lg"
 							>
 								{#if filterData.selectedDomain}
+									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
 									<span>{getGroupTitle(key)}</span>
 								{:else}
 									{@const { domainName, appellationName } = getGroupTitle(key)}
 									<span>{domainName}</span>
-									<ArrowIcon class="mx-2 -rotate-90 transform" />
+									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
 									<span>{appellationName}</span>
 								{/if}
 							</h3>
