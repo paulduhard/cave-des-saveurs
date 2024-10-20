@@ -82,10 +82,10 @@
 			);
 
 			// Set the first domain as selected by default
-			if (filterData.domains.length > 0) {
-				filterData.selectedDomain = filterData.domains[0].uid;
-				updateDisplayedAppellations();
-			}
+			// if (filterData.domains.length > 0) {
+			// 	filterData.selectedDomain = filterData.domains[0].uid;
+			// 	updateDisplayedAppellations();
+			// }
 
 			applyFilters();
 		} catch (error) {
@@ -173,15 +173,15 @@
 <div class="container mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1 class="mb-4 font-span text-6xl font-bold transition-all duration-300 ease-in-out">
-			<span class={selectedDomainName || selectedAppellationName ? 'text-4xl' : 'text-6xl'}>
+			<span class="text-6xl">
 				{data.region.region || 'Region'}
 			</span>
-			{#if selectedDomainName}
+			<!-- {#if selectedDomainName}
 				<span class="text-2xl"> > {selectedDomainName}</span>
 			{/if}
 			{#if selectedAppellationName}
 				<span class="text-2xl"> > {selectedAppellationName}</span>
-			{/if}
+			{/if} -->
 		</h1>
 		<button
 			class="mr-12 h-12 border border-primary px-20 font-light text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
@@ -193,6 +193,11 @@
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
+			{#if selectedDomainName}
+				<h2 class="border-gray-300 mb-4 w-fit max-w-lg border-b pb-2 text-4xl">
+					{selectedDomainName}
+				</h2>
+			{/if}
 			{#if selectedAppellationDescription}
 				<PrismicRichText
 					field={selectedAppellationDescription}

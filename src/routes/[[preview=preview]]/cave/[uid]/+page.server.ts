@@ -1,14 +1,43 @@
-import { asText } from '@prismicio/client';
+import { asText, PrismicDocument } from '@prismicio/client';
 import { createClient } from '$lib/prismicio';
 import { repositoryName } from '$lib/prismicio';
 
-export async function load({ params }) {
+interface RegionData {
+	title: any;
+	region: string;
+	meta_title: string;
+	meta_description: string;
+	meta_image: { url: string } | null;
+	description: any;
+}
+
+interface WineData {
+	uid: string;
+	data: {
+		domaine: { uid: string };
+		couleur: { uid: string };
+		appellation: { uid: string };
+		image: any;
+		title: any;
+		resume: any;
+		prix: number;
+	};
+	fullDomainData?: any;
+}
+
+interface LoadParams {
+	params: {
+		uid: string;
+	};
+}
+
+export async function load({ params }: LoadParams) {
 	const client = createClient(repositoryName);
 	const uid = params.uid;
 
 	try {
-		const region = await client.getByUID('region', uid);
-		const winesResponse = await client.getAllByType('vin');
+		const region: PrismicDocument<RegionData> = await client.getByUID('region', uid);
+		const winesResponse: PrismicDocument<WineData>[] = await client.getAllByType('vin');
 
 		// Fetch domain data for each wine
 		const winesWithDomains = await Promise.all(
