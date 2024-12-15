@@ -222,7 +222,7 @@
 	<header class="mx-12 flex flex-grow items-center justify-between">
 		<h1>
 			<button
-				class="duration-600 mb-4 cursor-pointer font-span text-3xl text-5xl font-bold transition-all ease-in-out"
+				class="mb-4 cursor-pointer font-span text-5xl font-bold transition-all duration-500 ease-in-out"
 				on:click={resetFilters}
 			>
 				{data.region.region || 'Region'}

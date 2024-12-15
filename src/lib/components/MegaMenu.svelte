@@ -3,6 +3,8 @@
 
 	export let regions = [];
 	export let colors = [];
+
+	$: sortedColors = colors.slice().sort((a, b) => a.data.ordre_menu - b.data.ordre_menu);
 </script>
 
 <nav class="my-6 flex justify-center gap-32">
@@ -20,7 +22,7 @@
 	</div>
 	<ul>
 		<p class="mb-2 uppercase">Nos vins par couleur</p>
-		{#each colors as color (color.id)}
+		{#each sortedColors as color (color.id)}
 			<li>
 				<PrismicLink href={`/cave/${color.uid}`} class="hover:underline">
 					{color.data.couleur}

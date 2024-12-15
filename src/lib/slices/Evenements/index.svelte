@@ -17,12 +17,12 @@
 		</div>
 		<div class="text-sm font-thin tracking-wider">
 			{#if isExternalLink(slice.primary.link.url)}
-				<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary">
+				<PrismicLink field={slice.primary.link} class="group hover:bg-secondary hover:text-primary">
 					{slice.primary.label}
 					<img
 						src="/assets/icone-external-link.svg"
 						alt="lien externe"
-						class="mb-1 ml-2 inline h-4 w-4"
+						class="group-hover:filter-secondary mb-1 ml-2 inline h-4 w-4"
 					/>
 				</PrismicLink>
 			{:else}
@@ -41,12 +41,12 @@
 		</div>
 		<div class="mt-2 text-sm font-thin tracking-wider">
 			{#if isExternalLink(slice.primary.link.url)}
-				<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary">
+				<PrismicLink field={slice.primary.link} class="group hover:bg-secondary hover:text-primary">
 					{slice.primary.label}
 					<img
 						src="/assets/icone-external-link.svg"
 						alt="lien externe"
-						class="mb-1 ml-2 inline h-4 w-4"
+						class="group-hover:filter-secondary mb-1 ml-2 inline h-4 w-4"
 					/>
 				</PrismicLink>
 			{:else}

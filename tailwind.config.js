@@ -10,8 +10,26 @@ export default {
 			fontFamily: {
 				sofia: ['sofia-pro', 'sans-serif'],
 				span: ['span', 'serif']
+			},
+			filter: {
+				primary:
+					'invert(8%) sepia(52%) saturate(3570%) hue-rotate(353deg) brightness(95%) contrast(119%)',
+				secondary:
+					'invert(99%) sepia(5%) saturate(191%) hue-rotate(308deg) brightness(97%) contrast(93%);'
 			}
 		}
 	},
-	plugins: []
+	plugins: [
+		function ({ addUtilities, theme }) {
+			const filterUtilities = Object.entries(theme('filter', {})).reduce(
+				(acc, [key, value]) => ({
+					...acc,
+					[`.filter-${key}`]: { filter: value }
+				}),
+				{}
+			);
+
+			addUtilities(filterUtilities);
+		}
+	]
 };
