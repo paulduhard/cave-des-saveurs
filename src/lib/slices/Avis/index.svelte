@@ -41,22 +41,24 @@
 	data-slice-variation={slice.variation}
 	class="bg-secondary pb-12 text-center"
 >
-	<div class="px-24 pt-8 text-2xl underline decoration-1 underline-offset-8 md:px-0 md:text-4xl">
+	<div class="pt-8 text-2xl underline decoration-1 underline-offset-8 md:px-0 md:text-4xl lg:px-24">
 		<PrismicRichText field={slice.primary.title} />
 	</div>
-	<div class="pt-20">
+	<div class="pt-8 md:pt-20">
 		{#each slice.items as item, index}
 			<div class={index === activeIndex ? '' : 'hidden'}>
 				<div class="uppercase">
 					<PrismicRichText field={item.subtitle} />
 				</div>
-				<div class="flex min-h-36 items-center pt-4 md:px-[15%]">
+				<div class="flex min-h-36 items-center px-4 pt-4 md:px-[15%]">
 					<button on:click={previousSlide}>
-						<img src="/assets/chevron-gauche.svg" alt="Précédent" class="h-6 w-6" />
+						<img src="/assets/chevron-gauche.svg" alt="Précédent" class="h-24 w-24 md:h-6 md:w-6" />
 					</button>
-					<div class="mx-24"><PrismicRichText field={item.text} /></div>
+					<div class="mx-8 text-xs md:mx-24 md:text-base">
+						<PrismicRichText field={item.text} />
+					</div>
 					<button on:click={nextSlide}>
-						<img src="/assets/chevron-droit.svg" alt="Suivant" class="h-6 w-6" />
+						<img src="/assets/chevron-droit.svg" alt="Suivant" class="h-24 w-24 md:h-6 md:w-6" />
 					</button>
 				</div>
 			</div>
