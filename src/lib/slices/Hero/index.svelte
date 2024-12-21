@@ -9,12 +9,15 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="mb-28 text-center"
+		class="mb-28 p-8 text-center"
 	>
-		<div class="mx-8 mt-8">
-			<PrismicImage field={slice.primary.image} />
+		<div class="relative h-[200px] md:h-[400px]">
+			<PrismicImage
+				field={slice.primary.image}
+				class="absolute inset-0 h-full w-full object-cover"
+			/>
 		</div>
-		<div class="pt-8 text-2xl md:text-4xl">
+		<div class="mt-8 text-2xl md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
 		<div class="mx-8 mt-4 text-xs md:mt-8 md:px-[25%] md:text-lg">
