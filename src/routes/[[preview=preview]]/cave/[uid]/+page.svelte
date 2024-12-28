@@ -229,7 +229,7 @@
 			</button>
 		</h1>
 		<button
-			class="duration-600 mr-12 h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary"
+			class="duration-600 mr-12 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
 			on:click={goToHome}>Alcools et spiritueux</button
 		>
 	</header>
