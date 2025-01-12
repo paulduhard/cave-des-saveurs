@@ -3,6 +3,7 @@
 	import { spring } from 'svelte/motion';
 
 	let isDomainSectionExpanded = true;
+	let isAppellationSectionExpanded = true;
 	let minPrice = 5;
 	let maxPrice = 200;
 	let leftValue = spring(minPrice);
@@ -15,11 +16,11 @@
 
 	export let filterData = {
 		colors: [],
-		selectedColor: null,
+		selectedColors: new Set(),
 		domains: [],
 		selectedDomain: null,
 		appellations: [],
-		displayedAppellations: [],
+		selectedAppellation: null,
 		priceRange: { min: minPrice, max: maxPrice }
 	};
 	export let handleFilterChange: (filterType: string, value: any) => void;
@@ -27,6 +28,10 @@
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
+	}
+
+	function toggleAppellationSection() {
+		isAppellationSectionExpanded = !isAppellationSectionExpanded;
 	}
 
 	function handleLeftChange(event) {
@@ -91,12 +96,6 @@
 				filterData.selectedColors.add(value);
 			}
 			handleFilterChange(filterType, new Set(filterData.selectedColors));
-		} else if (filterType === 'domain') {
-			if (filterData.selectedDomain === value) {
-				// Si le même domaine est cliqué à nouveau, réinitialiser l'appellation
-				filterData.selectedAppellation = null;
-			}
-			handleFilterChange(filterType, value);
 		} else {
 			handleFilterChange(filterType, value);
 		}
@@ -104,6 +103,7 @@
 </script>
 
 <aside class="bg-gray-100 w-1/4">
+	<!-- Domain Section -->
 	<div class="mb-6 border-t border-primary">
 		<button
 			class="mb-2 mt-4 flex w-full items-center justify-between text-left text-xl uppercase"
@@ -140,36 +140,59 @@
 								>
 									{domain.name}
 								</span>
-								<ArrowIcon isSelected={filterData.selectedDomain === domain.uid} class="ml-2" />
 							</div>
 						</label>
-
-						{#if filterData.selectedDomain === domain.uid && filterData.displayedAppellations.length > 0}
-							<ul class="ml-6 mt-2 pl-2 text-sm">
-								{#each filterData.displayedAppellations as appellation}
-									<li>
-										{#if filterData.selectedAppellation === appellation.uid}
-											<span class="font-bold">
-												{appellationNames[appellation.uid] || 'Nom inconnu'}
-											</span>
-										{:else}
-											<button
-												class="cursor-pointer text-left hover:underline"
-												on:click={() => localHandleFilterChange('appellation', appellation.uid)}
-											>
-												{appellationNames[appellation.uid] || 'Nom inconnu'}
-											</button>
-										{/if}
-									</li>
-								{/each}
-							</ul>
-						{:else if filterData.selectedDomain === domain.uid}
-							<p class="ml-4 mt-2 text-sm italic">Aucune appellation trouvée</p>
-						{/if}
 					</div>
 				{/each}
 			{:else}
 				<p>Aucun domaine disponible</p>
+			{/if}
+		</div>
+	</div>
+
+	<!-- Appellation Section -->
+	<div class="mb-6 border-t border-primary">
+		<button
+			class="mb-2 mt-4 flex w-full items-center justify-between text-left text-xl uppercase"
+			on:click={toggleAppellationSection}
+			aria-expanded={isAppellationSectionExpanded}
+			aria-controls="appellation-list"
+		>
+			NOS VINS PAR APPELLATIONS
+			<ArrowIcon isSelected={isAppellationSectionExpanded} class="ml-2" />
+		</button>
+
+		<div id="appellation-list" class={isAppellationSectionExpanded ? '' : 'hidden'}>
+			{#if filterData.appellations && filterData.appellations.length > 0}
+				{#each filterData.appellations as appellation}
+					<div class="mb-2">
+						<label
+							class="block {filterData.selectedAppellation === appellation.uid
+								? 'cursor-default'
+								: 'cursor-pointer hover:underline'} focus:no-underline"
+						>
+							<input
+								type="radio"
+								name="appellation"
+								value={appellation.uid}
+								checked={filterData.selectedAppellation === appellation.uid}
+								on:change={() => localHandleFilterChange('appellation', appellation.uid)}
+								class="hidden"
+							/>
+							<div class="flex items-center justify-between font-light">
+								<span
+									class="{filterData.selectedAppellation === appellation.uid
+										? 'font-bold'
+										: ''} hover:text-gray-700"
+								>
+									{appellationNames[appellation.uid] || 'Nom inconnu'}
+								</span>
+							</div>
+						</label>
+					</div>
+				{/each}
+			{:else}
+				<p>Aucune appellation disponible</p>
 			{/if}
 		</div>
 	</div>
