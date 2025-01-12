@@ -96,8 +96,28 @@
 				filterData.selectedColors.add(value);
 			}
 			handleFilterChange(filterType, new Set(filterData.selectedColors));
+		} else if (filterType === 'domain') {
+			filterData.selectedDomain = value;
+			handleFilterChange(filterType, value);
+			generateAppellationWordCloud();
 		} else {
 			handleFilterChange(filterType, value);
+		}
+	}
+
+	function generateAppellationWordCloud() {
+		const selectedDomain = filterData.domains.find(
+			(domain) => domain.uid === filterData.selectedDomain
+		);
+		if (selectedDomain) {
+			const uniqueAppellations = new Set(
+				selectedDomain.appellations.map((appellation) => appellation.uid)
+			);
+			filterData.appellations = Array.from(uniqueAppellations).map((uid) => {
+				return selectedDomain.appellations.find((appellation) => appellation.uid === uid);
+			});
+		} else {
+			filterData.appellations = [];
 		}
 	}
 </script>
@@ -164,33 +184,16 @@
 
 		<div id="appellation-list" class={isAppellationSectionExpanded ? '' : 'hidden'}>
 			{#if filterData.appellations && filterData.appellations.length > 0}
-				{#each filterData.appellations as appellation}
-					<div class="mb-2">
-						<label
-							class="block {filterData.selectedAppellation === appellation.uid
-								? 'cursor-default'
-								: 'cursor-pointer hover:underline'} focus:no-underline"
+				<div class="word-cloud">
+					{#each filterData.appellations as appellation}
+						<span
+							class="appellation-word"
+							on:click={() => localHandleFilterChange('appellation', appellation.uid)}
 						>
-							<input
-								type="radio"
-								name="appellation"
-								value={appellation.uid}
-								checked={filterData.selectedAppellation === appellation.uid}
-								on:change={() => localHandleFilterChange('appellation', appellation.uid)}
-								class="hidden"
-							/>
-							<div class="flex items-center justify-between font-light">
-								<span
-									class="{filterData.selectedAppellation === appellation.uid
-										? 'font-bold'
-										: ''} hover:text-gray-700"
-								>
-									{appellationNames[appellation.uid] || 'Nom inconnu'}
-								</span>
-							</div>
-						</label>
-					</div>
-				{/each}
+							{appellationNames[appellation.uid] || 'Nom inconnu'}
+						</span>
+					{/each}
+				</div>
 			{:else}
 				<p>Aucune appellation disponible</p>
 			{/if}
@@ -308,5 +311,15 @@
 	.range-input::-moz-range-track {
 		background: transparent;
 		height: 2px;
+	}
+
+	.word-cloud {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.appellation-word {
+		cursor: pointer;
 	}
 </style>
