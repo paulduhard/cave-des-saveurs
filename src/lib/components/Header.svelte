@@ -12,9 +12,17 @@
 
 	let isMegaMenuVisible = false;
 	let isBurgerMenuVisible = false;
+	let closeMegaMenuTimeout;
 
-	function toggleMegaMenu() {
-		isMegaMenuVisible = !isMegaMenuVisible;
+	function openMegaMenu() {
+		clearTimeout(closeMegaMenuTimeout);
+		isMegaMenuVisible = true;
+	}
+
+	function closeMegaMenu() {
+		closeMegaMenuTimeout = setTimeout(() => {
+			isMegaMenuVisible = false;
+		}, 300); // Délai de 300ms avant de fermer le menu
 	}
 
 	function toggleBurgerMenu() {
@@ -47,9 +55,9 @@
 		<ul class="flex content-center gap-16 md:gap-6">
 			{#each settings.data.navigation as item, index (item.label)}
 				<li
-					class="uppercase hover:underline"
-					on:mouseenter={index === 1 ? toggleMegaMenu : null}
-					on:mouseleave={index === 1 ? toggleMegaMenu : null}
+					class="relative uppercase hover:underline"
+					on:mouseenter={index === 1 ? openMegaMenu : null}
+					on:mouseleave={index === 1 ? closeMegaMenu : null}
 				>
 					{#if item.external_link}
 						<PrismicLink
@@ -61,7 +69,7 @@
 							<span class="sr-only">External link</span>
 						</PrismicLink>
 					{:else if index === 1}
-						<span class="cursor-pointer uppercase" on:click={toggleMegaMenu}>
+						<span class="cursor-pointer uppercase" on:click={openMegaMenu}>
 							{item.label}
 						</span>
 					{:else}
@@ -90,7 +98,7 @@
 							<span class="sr-only">External link</span>
 						</PrismicLink>
 					{:else if index === 1}
-						<span class="cursor-pointer uppercase" on:click={toggleMegaMenu}>
+						<span class="cursor-pointer uppercase" on:click={openMegaMenu}>
 							{item.label}
 						</span>
 					{:else}
@@ -105,5 +113,7 @@
 {/if}
 
 {#if isMegaMenuVisible}
-	<MegaMenu {regions} {colors} />
+	<div on:mouseenter={openMegaMenu} on:mouseleave={closeMegaMenu}>
+		<MegaMenu {regions} {colors} />
+	</div>
 {/if}
