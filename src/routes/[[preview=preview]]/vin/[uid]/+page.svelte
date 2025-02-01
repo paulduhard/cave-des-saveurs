@@ -8,7 +8,7 @@
 	export let data;
 </script>
 
-<div class="container mx-auto mt-12">
+<div class="mx-auto mt-12">
 	<div class="ml-12 font-sofia text-xl font-normal">
 		<div class="font-span text-4xl font-bold">{data.domaine}</div>
 		<PrismicRichText field={data.page.data.title} />
@@ -21,7 +21,7 @@
 	</span>
 {/each} -->
 
-	<div class="flex flex-col items-center justify-center md:flex-row">
+	<div class="mb-20 flex flex-col items-center justify-center md:flex-row">
 		<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
 
 		<div>

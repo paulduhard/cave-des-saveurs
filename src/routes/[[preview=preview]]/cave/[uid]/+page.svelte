@@ -111,9 +111,9 @@
 					);
 				}
 			});
-			filterData.appellations = Array.from(appellations).map((appellation: string) =>
-				JSON.parse(appellation)
-			);
+
+			// Sort appellations alphabetically by name
+			filterData.appellations.sort((a, b) => a.name.localeCompare(b.name));
 
 			applyFilters();
 		} catch (error) {
@@ -235,7 +235,7 @@
 	</header>
 
 	<div class="mx-12 flex">
-		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
+		<!-- <Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} /> -->
 
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
@@ -330,6 +330,24 @@
 					</p>
 				{/if}
 			</div>
+			<!-- <div class="flex">
+				<div class="my-12">
+					<h2 class="text-2xl font-bold">Toutes les appellations</h2>
+					<ul>
+						{#each filterData.appellations as appellation, index}
+							<li>{index + 1}. {appellation.name}</li>
+						{/each}
+					</ul>
+				</div>
+				<div class="my-12">
+					<h2 class="text-2xl font-bold">Tous les domaines</h2>
+					<ul>
+						{#each filterData.domains as domaine, index}
+							<li>{index + 1}. {domaine.name}</li>
+						{/each}
+					</ul>
+				</div>
+			</div> -->
 		</main>
 	</div>
 </div>
