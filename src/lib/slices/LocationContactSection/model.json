@@ -1,0 +1,33 @@
+{
+  "type": "SharedSlice",
+  "id": "location_contact_section",
+  "name": "LocationContactSection",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "The default variation of the location contact section.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "location_plan": {
+          "type": "Image",
+          "config": {
+            "label": "Location Plan",
+            "constraint": {},
+            "thumbnails": []
+          }
+        },
+        "contact_info": {
+          "type": "StructuredText",
+          "config": {
+            "multi": "paragraph,strong,em,hyperlink",
+            "label": "Contact Info"
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

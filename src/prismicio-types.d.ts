@@ -380,6 +380,8 @@ export type OrigineDocument<Lang extends string = string> = prismic.PrismicDocum
 >;
 
 type PageDocumentDataSlicesSlice =
+	| LocationContactSectionSlice
+	| NewsletterSignupSlice
 	| SpacerSlice
 	| ProduitsSlice
 	| BannerReviewSlice
@@ -526,7 +528,7 @@ export interface SettingsDocumentDataNavigationItem {
 	 * - **API ID Path**: settings.navigation[].link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Paramètres → Navigation*
@@ -572,7 +574,7 @@ export interface SettingsDocumentDataItemItem {
 	 * - **API ID Path**: settings.item[].lien
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	lien: prismic.LinkField;
+	lien: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 type SettingsDocumentDataSlices3Slice = never;
@@ -756,18 +758,6 @@ interface VinDocumentData {
 	title: prismic.TitleField;
 
 	/**
-	 * Nouveau field in *Vin*
-	 *
-	 * - **Field Type**: Boolean
-	 * - **Placeholder**: *None*
-	 * - **Default Value**: false
-	 * - **API ID Path**: vin.nouveau
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#boolean
-	 */
-	nouveau: prismic.BooleanField;
-
-	/**
 	 * Image field in *Vin*
 	 *
 	 * - **Field Type**: Image
@@ -845,17 +835,6 @@ interface VinDocumentData {
 	terroir: prismic.KeyTextField;
 
 	/**
-	 * Prix field in *Vin*
-	 *
-	 * - **Field Type**: Number
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: vin.prix
-	 * - **Tab**: Main
-	 * - **Documentation**: https://prismic.io/docs/field#number
-	 */
-	prix: prismic.NumberField;
-
-	/**
 	 * Couleur field in *Vin*
 	 *
 	 * - **Field Type**: Content Relationship
@@ -865,6 +844,18 @@ interface VinDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
 	couleur: prismic.ContentRelationshipField<'couleur'>;
+
+	/**
+	 * Prix field in *Vin*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Sélectionner la fourchette de prix
+	 * - **Default Value**: 5-10
+	 * - **API ID Path**: vin.prix
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#select
+	 */
+	prix: prismic.SelectField<'5-10' | '11-20' | '21-40' | '41-80' | '81-120' | '121', 'filled'>;
 
 	/**
 	 * À l'oeil field in *Vin*
@@ -909,6 +900,18 @@ interface VinDocumentData {
 	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
 	 */
 	resume: prismic.RichTextField;
+
+	/**
+	 * Nouveauté field in *Vin*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: vin.nouveaute
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/field#boolean
+	 */
+	nouveaute: prismic.BooleanField;
 
 	/**
 	 * Slice Zone field in *Vin*
@@ -1003,7 +1006,7 @@ export interface BannerEventSliceDefaultPrimary {
 	 * - **API ID Path**: banner_event.default.primary.link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Evenements → Standard → Primary*
@@ -1051,7 +1054,7 @@ export interface BannerEventSliceBannerEventXlPrimary {
 	 * - **API ID Path**: banner_event.bannerEventXl.primary.link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Evenements → Large → Primary*
@@ -1158,7 +1161,7 @@ export interface BannerReviewSliceDefaultPrimary {
 	 * - **API ID Path**: banner_review.default.primary.link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Avis → Default → Primary*
@@ -1260,7 +1263,7 @@ export interface BannerSocialSliceDefaultItem {
 	 * - **API ID Path**: banner_social.items[].link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
@@ -1332,7 +1335,7 @@ export interface HeroSliceDefaultPrimary {
 	 * - **API ID Path**: hero.default.primary.link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Hero → HeroImage → Primary*
@@ -1411,6 +1414,126 @@ type HeroSliceVariation = HeroSliceDefault | HeroSliceHeroTextOnly;
 export type HeroSlice = prismic.SharedSlice<'hero', HeroSliceVariation>;
 
 /**
+ * Primary content in *LocationContactSection → Default → Primary*
+ */
+export interface LocationContactSectionSliceDefaultPrimary {
+	/**
+	 * Location Plan field in *LocationContactSection → Default → Primary*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: location_contact_section.default.primary.location_plan
+	 * - **Documentation**: https://prismic.io/docs/field#image
+	 */
+	location_plan: prismic.ImageField<never>;
+
+	/**
+	 * Contact Info field in *LocationContactSection → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: location_contact_section.default.primary.contact_info
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	contact_info: prismic.RichTextField;
+}
+
+/**
+ * Default variation for LocationContactSection Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: The default variation of the location contact section.
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LocationContactSectionSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<LocationContactSectionSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *LocationContactSection*
+ */
+type LocationContactSectionSliceVariation = LocationContactSectionSliceDefault;
+
+/**
+ * LocationContactSection Shared Slice
+ *
+ * - **API ID**: `location_contact_section`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type LocationContactSectionSlice = prismic.SharedSlice<
+	'location_contact_section',
+	LocationContactSectionSliceVariation
+>;
+
+/**
+ * Primary content in *NewsletterSignup → Default → Primary*
+ */
+export interface NewsletterSignupSliceDefaultPrimary {
+	/**
+	 * Prompt Text field in *NewsletterSignup → Default → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.default.primary.prompt_text
+	 * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+	 */
+	prompt_text: prismic.RichTextField;
+
+	/**
+	 * Placeholder Email field in *NewsletterSignup → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.default.primary.placeholder_email
+	 * - **Documentation**: https://prismic.io/docs/field#key-text
+	 */
+	placeholder_email: prismic.KeyTextField;
+
+	/**
+	 * Submit Action field in *NewsletterSignup → Default → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.default.primary.submit_action
+	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+	 */
+	submit_action: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * Default variation for NewsletterSignup Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Standard newsletter signup form with email input and submit button.
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NewsletterSignupSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<NewsletterSignupSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *NewsletterSignup*
+ */
+type NewsletterSignupSliceVariation = NewsletterSignupSliceDefault;
+
+/**
+ * NewsletterSignup Shared Slice
+ *
+ * - **API ID**: `newsletter_signup`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slice
+ */
+export type NewsletterSignupSlice = prismic.SharedSlice<
+	'newsletter_signup',
+	NewsletterSignupSliceVariation
+>;
+
+/**
  * Primary content in *Produits → Default → Primary*
  */
 export interface ProduitsSliceDefaultPrimary {
@@ -1432,7 +1555,7 @@ export interface ProduitsSliceDefaultPrimary {
 	 * - **API ID Path**: produits.default.primary.link
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link: prismic.LinkField;
+	link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label field in *Produits → Default → Primary*
@@ -1462,7 +1585,7 @@ export interface ProduitsSliceDefaultPrimary {
 	 * - **API ID Path**: produits.default.primary.link_2
 	 * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
 	 */
-	link_2: prismic.LinkField;
+	link_2: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
 	/**
 	 * Label 2 field in *Produits → Default → Primary*
@@ -1711,6 +1834,14 @@ declare module '@prismicio/client' {
 			HeroSliceVariation,
 			HeroSliceDefault,
 			HeroSliceHeroTextOnly,
+			LocationContactSectionSlice,
+			LocationContactSectionSliceDefaultPrimary,
+			LocationContactSectionSliceVariation,
+			LocationContactSectionSliceDefault,
+			NewsletterSignupSlice,
+			NewsletterSignupSliceDefaultPrimary,
+			NewsletterSignupSliceVariation,
+			NewsletterSignupSliceDefault,
 			ProduitsSlice,
 			ProduitsSliceDefaultPrimary,
 			ProduitsSliceVariation,

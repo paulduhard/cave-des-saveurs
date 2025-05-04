@@ -82,18 +82,22 @@
 			}));
 
 			const domainResponse = await client.getAllByType('domaine');
-			filterData.domains = domainResponse.map((domain: any) => ({
-				uid: domain.uid,
-				name: domain.data.domaine || 'Unknown Domain', // Provide a fallback value
-				description: domain.data.description || null // Include description
-			}));
+			filterData.domains = domainResponse
+				.map((domain: any) => ({
+					uid: domain.uid,
+					name: domain.data.domaine || 'Unknown Domain', // Provide a fallback value
+					description: domain.data.description || null // Include description
+				}))
+				.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
 
 			const appellationResponse = await client.getAllByType('appellation');
-			filterData.appellations = appellationResponse.map((appellation: any) => ({
-				uid: appellation.uid,
-				name: appellation.data.appellation,
-				description: appellation.data.description || null // Include description
-			}));
+			filterData.appellations = appellationResponse
+				.map((appellation: any) => ({
+					uid: appellation.uid,
+					name: appellation.data.appellation,
+					description: appellation.data.description || null // Include description
+				}))
+				.sort((a, b) => a.name.localeCompare(b.name, 'fr'));
 
 			appellationResponse.forEach((appellation: any) => {
 				appellationNames[appellation.uid] = appellation.data.appellation;
@@ -235,7 +239,7 @@
 	</header>
 
 	<div class="mx-12 flex">
-		<!-- <Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} /> -->
+		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
 		<main class="mx-6 w-3/4">
 			{#if selectedDomainName}
@@ -330,7 +334,7 @@
 					</p>
 				{/if}
 			</div>
-			<!-- <div class="flex">
+			<!-- <div class="flex justify-center gap-48">
 				<div class="my-12">
 					<h2 class="text-2xl font-bold">Toutes les appellations</h2>
 					<ul>

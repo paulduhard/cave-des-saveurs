@@ -31,18 +31,41 @@ interface LoadParams {
 	};
 }
 
-export async function load({ params }: LoadParams) {
-	const client = createClient(repositoryName);
+export async function load({ params }) {
+	const client = createClient();
 	const uid = params.uid;
 
 	try {
-		const region: PrismicDocument<RegionData> = await client.getByUID('region', uid);
-		const winesResponse: PrismicDocument<WineData>[] = await client.getAllByType('vin');
+		// Vérifions d'abord si la région existe
+		const region = await client.getByUID('region', uid);
+		if (!region) {
+			throw new Error(`Region not found: ${uid}`);
+		}
 
-		// Fetch domain data for each wine
+		// Récupérons tous les vins
+		const winesResponse = await client.getAllByType('vin');
+
+		// Debugging
+		console.log('Region UID:', uid);
+		console.log('Region data:', region.data);
+		console.log('Total wines:', winesResponse.length);
+
+		// Filtrage avec plus de vérifications
+		const filteredWines = winesResponse.filter((wine) => {
+			console.log('Wine data:', {
+				id: wine.id,
+				region: wine.data.region,
+				title: wine.data.title
+			});
+
+			return wine.data.region && wine.data.region.uid === uid;
+		});
+
+		console.log('Filtered wines:', filteredWines.length);
+
 		const winesWithDomains = await Promise.all(
-			winesResponse.map(async (wine) => {
-				if (wine.data.domaine.uid) {
+			filteredWines.map(async (wine) => {
+				if (wine.data.domaine?.uid) {
 					try {
 						const domaine = await client.getByUID('domaine', wine.data.domaine.uid);
 						return { ...wine, fullDomainData: domaine.data };
@@ -55,21 +78,17 @@ export async function load({ params }: LoadParams) {
 			})
 		);
 
-		const title = asText(region.data.title) || region.data.region || 'Région';
-		const metaTitle = region.data.meta_title || title;
-		const metaDescription = region.data.meta_description || '';
-		const metaImage = region.data.meta_image?.url || '';
-
 		return {
 			region: region.data,
 			wines: winesWithDomains,
-			title,
-			meta_title: metaTitle,
-			meta_description: metaDescription,
-			meta_image: metaImage
+			title: region.data.region || 'Région',
+			meta_title: region.data.meta_title || region.data.region,
+			meta_description: region.data.meta_description || '',
+			meta_image: region.data.meta_image?.url || ''
 		};
 	} catch (error) {
-		console.error('Error fetching region data:', error);
+		console.error('Error in load function:', error);
+		// Au lieu de throw, retournons un objet avec des données par défaut
 		return {
 			region: null,
 			wines: [],

@@ -1,0 +1,39 @@
+{
+	"type": "SharedSlice",
+	"id": "newsletter_signup",
+	"name": "NewsletterSignup",
+	"variations": [
+		{
+			"id": "default",
+			"name": "Default",
+			"description": "Standard newsletter signup form with email input and submit button.",
+			"version": "initial",
+			"imageUrl": "",
+			"docURL": "...",
+			"primary": {
+				"prompt_text": {
+					"type": "StructuredText",
+					"config": {
+						"multi": "paragraph,strong,em",
+						"label": "Prompt Text"
+					}
+				},
+				"placeholder_email": {
+					"type": "Text",
+					"config": {
+						"label": "Placeholder Email"
+					}
+				},
+				"submit_action": {
+					"type": "Link",
+					"config": {
+						"label": "Submit Action",
+						"allowText": false,
+						"repeat": false,
+						"select": null
+					}
+				}
+			}
+		}
+	]
+}
