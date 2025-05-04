@@ -8,15 +8,48 @@ export async function load({ fetch, cookies }) {
 	const settings = await client.getSingle('settings');
 
 	try {
-		const [regions, colors] = await Promise.all([
+		const [regions, colors, wines] = await Promise.all([
 			client.getAllByType('region'),
-			client.getAllByType('couleur')
+			client.getAllByType('couleur'),
+			client.getAllByType('vin')
 		]);
+
+		const allWines = wines.map((w) => {
+			const region = regions.find((r) => r.uid === w.data.region.uid);
+
+			console.log(region);
+
+			return {
+				...w.data,
+				// region: {
+				// 	title: region.data.region,
+				// 	description: region.data.description,
+				// 	id: region.id,
+				// 	slug: region.uid
+				// },
+				regionUID: region.uid
+			};
+		});
+
+		const uniqueRegions = allWines.reduce((acc, wine) => {
+			const region = wine.region;
+
+			// Check if the region is already in the accumulator
+			const exists = acc.some((r) => r.id === region.id);
+
+			if (!exists) {
+				acc.push(region);
+			}
+
+			return acc;
+		}, []);
 
 		return {
 			settings,
 			regions: sortByOrderMenu(regions),
-			colors: sortByOrderMenu(colors)
+			colors: sortByOrderMenu(colors),
+			allWines,
+			uniqueRegions
 		};
 	} catch (error) {
 		console.error('Error fetching data:', error);

@@ -80,7 +80,6 @@ export async function load({ params }) {
 		);
 
 		return {
-			regionUID: params.uid,
 			region: region.data,
 			wines: winesWithDomains,
 			title: region.data.region || 'Région',

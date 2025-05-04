@@ -13,7 +13,10 @@
 		<ul class="flex max-h-[175px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			{#each regions as region (region.id)}
 				<li>
-					<PrismicLink href={`/cave/${region.uid}`} class="hover:underline">
+					<PrismicLink
+						href={`/cave/${region.uid === 'all' ? 'all-wines' : region.uid}`}
+						class="hover:underline"
+					>
 						{region.data.region}
 					</PrismicLink>
 				</li>
