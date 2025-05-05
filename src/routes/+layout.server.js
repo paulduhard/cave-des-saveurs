@@ -17,7 +17,7 @@ export async function load({ fetch, cookies }) {
 		const allWines = wines.map((w) => {
 			const region = regions.find((r) => r.uid === w.data.region.uid);
 
-			console.log(region);
+			// console.log(region);
 
 			return {
 				...w.data,
