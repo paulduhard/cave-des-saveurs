@@ -14,15 +14,8 @@
 		<PrismicRichText field={slice.primary.text} />
 	</div>
 	<div class="flex items-baseline justify-center gap-12 pt-8">
-		{#each slice.items as item, index}
+		{#each slice.items as item}
 			<PrismicLink field={item.link}><PrismicImage field={item.icon} /></PrismicLink>
 		{/each}
 	</div>
 </section>
-
-<style>
-	section :global(img) {
-		/* width: 10px;
-		height: 10px; */
-	}
-</style>

@@ -69,9 +69,9 @@
 							<span class="sr-only">External link</span>
 						</PrismicLink>
 					{:else if index === 1}
-						<span class="cursor-pointer uppercase" on:click={openMegaMenu}>
+						<button class="cursor-pointer uppercase" on:click={openMegaMenu}>
 							{item.label}
-						</span>
+						</button>
 					{:else}
 						<PrismicLink field={item.link}>
 							{item.label}
@@ -98,9 +98,9 @@
 							<span class="sr-only">External link</span>
 						</PrismicLink>
 					{:else if index === 1}
-						<span class="cursor-pointer uppercase" on:click={openMegaMenu}>
+						<button class="cursor-pointer uppercase" on:click={openMegaMenu}>
 							{item.label}
-						</span>
+						</button>
 					{:else}
 						<PrismicLink field={item.link}>
 							{item.label}
@@ -113,7 +113,12 @@
 {/if}
 
 {#if isMegaMenuVisible}
-	<div on:mouseenter={openMegaMenu} on:mouseleave={closeMegaMenu}>
+	<div 
+		role="navigation" 
+		aria-label="Mega menu"
+		on:mouseenter={openMegaMenu} 
+		on:mouseleave={closeMegaMenu}
+	>
 		<MegaMenu {regions} {colors} />
 	</div>
 {/if}

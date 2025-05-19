@@ -1,20 +1,42 @@
 <script lang="ts">
+	import type { Writable } from 'svelte/store';
 	import ArrowIcon from './ArrowIcon.svelte';
 	import { spring } from 'svelte/motion';
+
+	interface Domain {
+		uid: string;
+		name: string;
+		appellations: Appellation[];
+	}
+
+	interface Appellation {
+		uid: string;
+		name: string;
+	}
+
+	interface FilterData {
+		colors: { uid: string; name: string }[];
+		selectedColors: Set<string>;
+		domains: Domain[];
+		selectedDomain: string | null;
+		appellations: Appellation[];
+		selectedAppellation: string | null;
+		priceRange: { min: number; max: number };
+	}
 
 	let isDomainSectionExpanded = true;
 	let isAppellationSectionExpanded = true;
 	let minPrice = 5;
 	let maxPrice = 200;
-	let leftValue = spring(minPrice);
-	let rightValue = spring(maxPrice);
+	let leftValue: Writable<number> = spring(minPrice);
+	let rightValue: Writable<number> = spring(maxPrice);
 
 	const minGap = 15; // Minimum gap in percentage
 
 	$: currentMinPrice = Math.round($leftValue);
 	$: currentMaxPrice = Math.round($rightValue);
 
-	export let filterData = {
+	export let filterData: FilterData = {
 		colors: [],
 		selectedColors: new Set(),
 		domains: [],
@@ -23,8 +45,11 @@
 		selectedAppellation: null,
 		priceRange: { min: minPrice, max: maxPrice }
 	};
-	export let handleFilterChange: (filterType: string, value: any) => void;
-	export let appellationNames = {};
+	export let handleFilterChange: (
+		filterType: 'color' | 'domain' | 'appellation' | 'prix',
+		value: string | { min: number; max: number }
+	) => void;
+	export let appellationNames: Record<string, string> = {};
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -34,35 +59,37 @@
 		isAppellationSectionExpanded = !isAppellationSectionExpanded;
 	}
 
-	function handleLeftChange(event) {
-		let value = parseFloat(event.target.value);
+	function handleLeftChange(event: Event): void {
+		let value = parseFloat((event.target as HTMLInputElement).value);
 		let rightValuePercentage = (($rightValue - minPrice) / (maxPrice - minPrice)) * 100;
 		let maxLeftValuePercentage = rightValuePercentage - minGap;
 		let maxLeftValue = (maxLeftValuePercentage / 100) * (maxPrice - minPrice) + minPrice;
 
 		if (value > maxLeftValue) {
 			value = maxLeftValue;
-			event.target.value = value;
+			const target = event.target as HTMLInputElement;
+			target.value = String(value);
 		}
 		leftValue.set(value);
 		handleFilterChange('prix', { min: Math.round(value), max: currentMaxPrice });
 	}
 
-	function handleRightChange(event) {
-		let value = parseFloat(event.target.value);
+	function handleRightChange(event: Event): void {
+		let value = parseFloat((event.target as HTMLInputElement).value);
 		let leftValuePercentage = (($leftValue - minPrice) / (maxPrice - minPrice)) * 100;
 		let minRightValuePercentage = leftValuePercentage + minGap;
 		let minRightValue = (minRightValuePercentage / 100) * (maxPrice - minPrice) + minPrice;
 
 		if (value < minRightValue) {
 			value = minRightValue;
-			event.target.value = value;
+			const target = event.target as HTMLInputElement;
+			target.value = String(value);
 		}
 		rightValue.set(value);
 		handleFilterChange('prix', { min: currentMinPrice, max: Math.round(value) });
 	}
 
-	function calculatePosition(value) {
+	function calculatePosition(value: number): number {
 		return ((value - minPrice) / (maxPrice - minPrice)) * 100;
 	}
 
@@ -88,15 +115,18 @@
 		return () => window.removeEventListener('resize', handleResize);
 	});
 
-	function localHandleFilterChange(filterType: string, value: any) {
-		if (filterType === 'color') {
+	function localHandleFilterChange(
+		filterType: 'color' | 'domain' | 'appellation' | 'prix',
+		value: string | { min: number; max: number }
+	): void {
+		if (filterType === 'color' && typeof value === 'string') {
 			if (filterData.selectedColors.has(value)) {
 				filterData.selectedColors.delete(value);
 			} else {
 				filterData.selectedColors.add(value);
 			}
 			handleFilterChange(filterType, new Set(filterData.selectedColors));
-		} else if (filterType === 'domain') {
+		} else if (filterType === 'domain' && typeof value === 'string') {
 			filterData.selectedDomain = value;
 			handleFilterChange(filterType, value);
 			generateAppellationWordCloud();
@@ -105,16 +135,17 @@
 		}
 	}
 
-	function generateAppellationWordCloud() {
+	function generateAppellationWordCloud(): void {
 		const selectedDomain = filterData.domains.find(
-			(domain) => domain.uid === filterData.selectedDomain
+			(domain: Domain) => domain.uid === filterData.selectedDomain
 		);
 		if (selectedDomain) {
 			const uniqueAppellations = new Set(
-				selectedDomain.appellations.map((appellation) => appellation.uid)
+				selectedDomain.appellations.map((appellation: Appellation) => appellation.uid)
 			);
-			filterData.appellations = Array.from(uniqueAppellations).map((uid) => {
-				return selectedDomain.appellations.find((appellation) => appellation.uid === uid);
+			filterData.appellations = Array.from(uniqueAppellations).map((uid: string) => {
+				const appellation = selectedDomain.appellations.find((a: Appellation) => a.uid === uid);
+				return appellation as Appellation;
 			});
 		} else {
 			filterData.appellations = [];
@@ -151,6 +182,7 @@
 								checked={filterData.selectedDomain === domain.uid}
 								on:change={() => localHandleFilterChange('domain', domain.uid)}
 								class="hidden"
+								aria-label={`Domaine ${domain.name}`}
 							/>
 							<div class="flex items-center justify-between font-light">
 								<span
@@ -186,12 +218,21 @@
 			{#if filterData.appellations && filterData.appellations.length > 0}
 				<div class="word-cloud">
 					{#each filterData.appellations as appellation}
-						<span
-							class="appellation-word"
+						<button
+							type="button"
+							class="appellation-word text-left"
 							on:click={() => localHandleFilterChange('appellation', appellation.uid)}
+							on:keydown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									localHandleFilterChange('appellation', appellation.uid);
+								}
+							}}
+							aria-pressed={filterData.selectedAppellation === appellation.uid}
+							aria-label={`Appellation ${appellationNames[appellation.uid] || 'Nom inconnu'}`}
 						>
 							{appellationNames[appellation.uid] || 'Nom inconnu'}
-						</span>
+						</button>
 					{/each}
 				</div>
 			{:else}
@@ -232,6 +273,7 @@
 					bind:value={$leftValue}
 					on:input={handleLeftChange}
 					class="range-input"
+					aria-label="Prix minimum"
 				/>
 				<input
 					type="range"
@@ -241,6 +283,7 @@
 					bind:value={$rightValue}
 					on:input={handleRightChange}
 					class="range-input"
+					aria-label="Prix maximum"
 				/>
 			</div>
 		</div>
@@ -257,6 +300,7 @@
 						checked={filterData.selectedColors.has(color.uid)}
 						on:change={() => localHandleFilterChange('color', color.uid)}
 						class="sr-only"
+						aria-label={`Couleur ${color.name}`}
 					/>
 					<div class="border-gray-300 relative mr-2 h-[17px] w-[17px] flex-shrink-0 border">
 						{#if filterData.selectedColors.has(color.uid)}
@@ -321,5 +365,14 @@
 
 	.appellation-word {
 		cursor: pointer;
+		background: none;
+		border: none;
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		font: inherit;
+	}
+	.appellation-word:hover {
+		text-decoration: underline;
 	}
 </style>
