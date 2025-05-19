@@ -14,38 +14,44 @@
 		return `/vin/${wine.uid}`;
 	}
 
-	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid)
+	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid) -> ça a l'air bon
 	// DANS +LAYOUT.SERVER.JS -> Mapper domaines/couleurs... de la même manière qu'on a fait pour REGIONS
 	// CLEANER le format du return dans LAYOUT pour avoir qqchose de consistant (souci avec uid vs slug vs id)
 	// RECHERCHER et CLEANER $: (Reactive $: statements) + PARAMS
 
 	$: wineResults = data.allWines.filter((w) => w.regionUID === data.regionUID);
-	console.log(data);
+	console.log(data.region.description[0]);
 
 	function getRegionByUID(regionUID: string) {
 		return data.regions.find((r) => r.uid === regionUID).data;
 	}
 </script>
 
+<!-- <h1>
+	{data.regionUID}
+	{data.allWines.length}
+</h1> -->
+
 <div class="container mx-auto mt-12">
-	<h1>
-		{data.regionUID}
-		{data.allWines.length}
-	</h1>
-	<!-- <header class="mx-12 flex flex-grow items-center justify-between">
-		<h1>
-			<button
-				class="mb-4 cursor-pointer font-span text-5xl font-bold transition-all duration-500 ease-in-out"
-				on:click={resetFilters}
-			>
-				{data.region.region || 'Region'}
-			</button>
+	<header class="mx-12 flex flex-grow items-center justify-between">
+		<h1
+			class="mb-4 font-span text-5xl font-bold transition-all duration-500
+			ease-in-out"
+		>
+			{data.region.region || 'Region'}
 		</h1>
 		<button
 			class="duration-600 mr-12 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
 			on:click={goToHome}>Alcools et spiritueux</button
 		>
-	</header> -->
+	</header>
+
+	<p
+		class="mb-4 font-span text-lg font-bold transition-all duration-500
+ease-in-out"
+	>
+		{data.region.description[0].text}
+	</p>
 
 	<div class="mx-12 flex">
 		<!-- <Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} /> -->
