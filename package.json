@@ -44,6 +44,7 @@
 		"@prismicio/helpers": "^2.3.9",
 		"@prismicio/migrate": "^0.0.2",
 		"@prismicio/svelte": "^1.5.0",
+		"@sveltejs/adapter-vercel": "^5.8.1",
 		"clsx": "^2.1.1",
 		"dotenv": "^17.2.1",
 		"eslint-plugin-svelte": "^3.11.0",
