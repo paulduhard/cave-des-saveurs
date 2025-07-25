@@ -13,15 +13,18 @@
 	let isMegaMenuVisible = false;
 	let isBurgerMenuVisible = false;
 	let closeMegaMenuTimeout;
+	let megaMenuOpacity = 0;
 
 	function openMegaMenu() {
 		clearTimeout(closeMegaMenuTimeout);
 		isMegaMenuVisible = true;
+		megaMenuOpacity = 1;
 	}
 
 	function closeMegaMenu() {
 		closeMegaMenuTimeout = setTimeout(() => {
 			isMegaMenuVisible = false;
+			megaMenuOpacity = 0;
 		}, 300); // Délai de 300ms avant de fermer le menu
 	}
 
@@ -30,7 +33,9 @@
 	}
 </script>
 
-<header class="flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-12">
+<header
+	class="sticky top-0 z-50 flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-12 transition-all duration-300 hover:z-50"
+>
 	<a href="/"><PrismicImage field={settings.data.logo_header} /></a>
 	<button class="block lg:hidden" on:click={toggleBurgerMenu}>
 		<!-- Burger icon -->
@@ -113,12 +118,14 @@
 {/if}
 
 {#if isMegaMenuVisible}
-	<div 
-		role="navigation" 
+	<div
+		role="navigation"
 		aria-label="Mega menu"
-		on:mouseenter={openMegaMenu} 
+		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
+		class="relative"
+		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out;"
 	>
-		<MegaMenu {regions} {colors} />
+		<MegaMenu {regions} {colors} class="mega-menu" />
 	</div>
 {/if}

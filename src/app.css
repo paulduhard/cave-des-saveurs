@@ -2,10 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.mega-menu {
+		position: fixed;
+		z-index: 1000;
+		background-color: white;
+		width: 100%;
+		top: var(--header-height);
+		left: 0;
+		padding-block: 20px 40px;
+		box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	}
+}
+
 @layer base {
 	:root {
 		--primary: #3d0404;
 		--secondary: #f0efed;
+		--header-height: 60px; /* Height of the header */
 	}
 
 	p {

@@ -10,6 +10,10 @@
 
 	export let data;
 
+	function goToHome() {
+		goto('/'); // Navigates to the home page
+	}
+
 	function getWineUrl(wine: any) {
 		return `/vin/${wine.uid}`;
 	}
@@ -20,7 +24,7 @@
 	// RECHERCHER et CLEANER $: (Reactive $: statements) + PARAMS
 
 	$: wineResults = data.allWines.filter((w) => w.regionUID === data.regionUID);
-	console.log(data.region.description[0]);
+	// console.log(data.region.description[0]);
 
 	function getRegionByUID(regionUID: string) {
 		return data.regions.find((r) => r.uid === regionUID).data;
@@ -126,7 +130,20 @@ ease-in-out"
 									class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
 								>
 									<!-- <p>{getRegionByUID(wine.regionUID).region}</p> -->
-									<PrismicImage field={wine.image} class="self-center" />
+									{#if wine.image.url}
+										<PrismicImage field={wine.image} class="self-center" />
+									{:else}
+										<div
+											class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg"
+										>
+											<img src="/assets/placeholder-rouge.png" alt="" class="opacity-50" />
+											<p
+												class="text-red absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-lg"
+											>
+												Photo à venir
+											</p>
+										</div>
+									{/if}
 									<!-- <span class="mt-8 font-span text-xl">{wine.domaine}</span> -->
 									<span class="mb-2 font-span"><PrismicRichText field={wine.title} /></span>
 									<PrismicRichText field={wine.resume} />

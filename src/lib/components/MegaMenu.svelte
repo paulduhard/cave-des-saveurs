@@ -7,7 +7,7 @@
 	$: sortedColors = colors.slice().sort((a, b) => a.data.ordre_menu - b.data.ordre_menu);
 </script>
 
-<nav class="my-6 flex justify-center gap-32">
+<nav class="mega-menu my-6 flex justify-center gap-32">
 	<div class="region">
 		<p class="mb-2 uppercase">Nos vins par région</p>
 		<ul class="flex max-h-[175px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">

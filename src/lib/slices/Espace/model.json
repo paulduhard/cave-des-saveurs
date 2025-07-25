@@ -1,32 +1,28 @@
 {
-  "id": "spacer",
-  "type": "SharedSlice",
-  "name": "Espace",
-  "description": "Spacer",
-  "variations": [
-    {
-      "id": "default",
-      "name": "Espace",
-      "docURL": "...",
-      "version": "initial",
-      "description": "Default",
-      "imageUrl": "",
-      "primary": {
-        "size": {
-          "type": "Select",
-          "config": {
-            "label": "Choix",
-            "placeholder": "",
-            "options": [
-              "Petit",
-              "Moyen",
-              "Grand"
-            ],
-            "default_value": "Petit"
-          }
-        }
-      },
-      "items": {}
-    }
-  ]
+	"id": "spacer",
+	"type": "SharedSlice",
+	"name": "Espace",
+	"description": "Spacer",
+	"variations": [
+		{
+			"id": "default",
+			"name": "Espace",
+			"docURL": "...",
+			"version": "initial",
+			"description": "Default",
+			"imageUrl": "",
+			"primary": {
+				"size": {
+					"type": "Select",
+					"config": {
+						"label": "Choix",
+						"placeholder": "",
+						"options": ["Petit", "Moyen", "Grand"],
+						"default_value": "Petit"
+					}
+				}
+			},
+			"items": {}
+		}
+	]
 }
