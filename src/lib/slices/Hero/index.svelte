@@ -27,7 +27,9 @@
 			<PrismicRichText field={slice.primary.text} />
 		</div>
 		<div class="mt-8 text-center text-base font-light text-primary">
-			<PrismicLink field={slice.primary.link} class=" hover:bg-primary hover:text-secondary"
+			<PrismicLink
+				field={slice.primary.link}
+				class="transition duration-300 ease-in-out hover:bg-primary hover:text-secondary"
 				>{slice.primary.label}</PrismicLink
 			>
 		</div>
