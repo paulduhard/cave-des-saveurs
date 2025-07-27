@@ -1,0 +1,76 @@
+[
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "map_address_contact",
+		"primary": {
+			"location_title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Où nous trouver ?"
+			},
+			"address": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "25 Rue des Suisses, 13200 Arles"
+			},
+			"contact_title": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "Nous contacter"
+			},
+			"contact_methods": {
+				"__TYPE__": "GroupContentType",
+				"value": [
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"method_type",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Select",
+									"value": "phone"
+								}
+							],
+							[
+								"value",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "04 90 47 11 81"
+								}
+							]
+						]
+					},
+					{
+						"__TYPE__": "GroupItemContent",
+						"value": [
+							[
+								"method_type",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Select",
+									"value": "email"
+								}
+							],
+							[
+								"value",
+								{
+									"__TYPE__": "FieldContent",
+									"type": "Text",
+									"value": "contact@cave-des-saveurs.com"
+								}
+							]
+						]
+					}
+				]
+			},
+			"map_iframe": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d739465.3935525451!2d3.4588143!3d43.6161874!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12b67614a54ed9db%3A0xd66dbdca743e92cb!2sLa%20Cave%20des%20Saveurs!5e0!3m2!1sen!2sfr!4v1753596382128!5m2!1sen!2sfr"
+			}
+		},
+		"items": []
+	}
+]

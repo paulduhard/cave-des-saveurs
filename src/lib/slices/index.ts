@@ -5,7 +5,7 @@ import Newsletter from './Newsletter/index.svelte';
 import Avis from './Avis/index.svelte';
 import Reseaux from './Reseaux/index.svelte';
 import Hero from './Hero/index.svelte';
-import LocationContactSection from './LocationContactSection/index.svelte';
+import LocationContactInfo from './LocationContactInfo/index.svelte';
 import NewsletterSignup from './NewsletterSignup/index.svelte';
 import Produits from './Produits/index.svelte';
 import Texte from './Texte/index.svelte';
@@ -18,7 +18,7 @@ export const components = {
 	banner_review: Avis,
 	banner_social: Reseaux,
 	hero: Hero,
-	location_contact_section: LocationContactSection,
+	location_contact_info: LocationContactInfo,
 	newsletter_signup: NewsletterSignup,
 	produits: Produits,
 	rich_text: Texte,

@@ -41,7 +41,7 @@
 		<div class="pt-8 text-2xl md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
-		<div class="mx-8 mt-4 text-xs md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
+		<div class="mx-8 mt-4 text-justify indent-8 text-xs md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
 			<PrismicRichText field={slice.primary.text} />
 		</div>
 	</section>

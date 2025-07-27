@@ -11,7 +11,7 @@
 		<div class="basis-1/3">
 			<PrismicLink field={slice.primary.link}>
 				<div class="relative">
-					<PrismicImage field={slice.primary.image} class="h-44 md:h-auto" /> h-44 w-full text-sm
+					<PrismicImage field={slice.primary.image} class="h-44 md:h-auto" />
 					<p class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xl text-primary">
 						{slice.primary.label}
 					</p>
@@ -21,7 +21,7 @@
 		<div class="basis-1/3">
 			<PrismicLink field={slice.primary.link_2}>
 				<div class="relative">
-					<PrismicImage field={slice.primary.image_2} class="h-44 md:h-auto" /> h-44 w-full text-sm
+					<PrismicImage field={slice.primary.image_2} class="h-44 md:h-auto" />
 					<p
 						class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary md:text-lg"
 					>

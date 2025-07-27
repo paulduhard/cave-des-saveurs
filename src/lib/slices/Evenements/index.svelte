@@ -1,5 +1,6 @@
 <script>
 	import { PrismicRichText, PrismicLink } from '@prismicio/svelte';
+	import { isFilled } from '@prismicio/client';
 	import { isExternalLink } from '../../functions.js';
 
 	/** @type {import("@prismicio/client").Content.BannerEventSlice} */
@@ -13,20 +14,33 @@
 		class="flex h-0 flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6 md:py-4"
 	>
 		<div class="font-light md:text-xl">
-			<PrismicRichText field={slice.primary.text} />
+			{#if isFilled.richText(slice.primary.text)}
+				<PrismicRichText field={slice.primary.text} />
+			{:else}
+				<p class="text-gray-400">No content available</p>
+			{/if}
 		</div>
 		<div class="text-sm font-thin tracking-wider">
-			{#if isExternalLink(slice.primary.link.url)}
-				<PrismicLink field={slice.primary.link} class="group hover:bg-secondary hover:text-primary">
-					{slice.primary.label}
-					<img
-						src="/assets/icone-external-link.svg"
-						alt="lien externe"
-						class="mb-1 ml-2 inline h-4 w-4 group-hover:filter-secondary"
-					/>
-				</PrismicLink>
+			{#if isFilled.link(slice.primary.link)}
+				{#if isExternalLink(slice.primary.link.url)}
+					<PrismicLink
+						field={slice.primary.link}
+						class="group hover:bg-secondary hover:text-primary"
+					>
+						{slice.primary.label}
+						<img
+							src="/assets/icone-external-link.svg"
+							alt="lien externe"
+							class="mb-1 ml-2 inline h-4 w-4 group-hover:filter-secondary"
+						/>
+					</PrismicLink>
+				{:else}
+					<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary">
+						{slice.primary.label}
+					</PrismicLink>
+				{/if}
 			{:else}
-				<PrismicLink field={slice.primary.link}>{slice.primary.label}</PrismicLink>
+				<p class="text-gray-400">No link available</p>
 			{/if}
 		</div>
 	</section>
@@ -37,22 +51,33 @@
 		class="flex flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6"
 	>
 		<div class="font-light md:text-4xl">
-			<PrismicRichText field={slice.primary.text} />
+			{#if isFilled.richText(slice.primary.text)}
+				<PrismicRichText field={slice.primary.text} />
+			{:else}
+				<p class="text-gray-400">No content available</p>
+			{/if}
 		</div>
 		<div class="mt-2 text-sm font-thin tracking-wider">
-			{#if isExternalLink(slice.primary.link.url)}
-				<PrismicLink field={slice.primary.link} class="group hover:bg-secondary hover:text-primary">
-					{slice.primary.label}
-					<img
-						src="/assets/icone-external-link.svg"
-						alt="lien externe"
-						class="mb-1 ml-2 inline h-4 w-4 group-hover:filter-secondary"
-					/>
-				</PrismicLink>
+			{#if isFilled.link(slice.primary.link)}
+				{#if isExternalLink(slice.primary.link.url)}
+					<PrismicLink
+						field={slice.primary.link}
+						class="group hover:bg-secondary hover:text-primary"
+					>
+						{slice.primary.label}
+						<img
+							src="/assets/icone-external-link.svg"
+							alt="lien externe"
+							class="mb-1 ml-2 inline h-4 w-4 group-hover:filter-secondary"
+						/>
+					</PrismicLink>
+				{:else}
+					<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary">
+						{slice.primary.label}
+					</PrismicLink>
+				{/if}
 			{:else}
-				<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary"
-					>{slice.primary.label}</PrismicLink
-				>
+				<p class="text-gray-400">No link available</p>
 			{/if}
 		</div>
 	</section>
