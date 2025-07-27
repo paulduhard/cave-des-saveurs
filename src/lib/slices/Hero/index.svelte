@@ -38,7 +38,7 @@
 		data-slice-variation={slice.variation}
 		class="bg-secondary pb-8 text-center"
 	>
-		<div class="pt-8 text-2xl md:text-4xl">
+		<div class="pt-8 font-span text-2xl font-semibold md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
 		<div class="mx-8 mt-4 text-justify indent-8 text-xs md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">

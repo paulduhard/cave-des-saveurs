@@ -15,7 +15,9 @@
 	</div>
 	<div class="flex items-baseline justify-center gap-12 pt-8">
 		{#each slice.items as item}
-			<PrismicLink field={item.link}><PrismicImage field={item.icon} /></PrismicLink>
+			<PrismicLink field={item.link} class="transition-transform hover:scale-90"
+				><PrismicImage field={item.icon} /></PrismicLink
+			>
 		{/each}
 	</div>
 </section>

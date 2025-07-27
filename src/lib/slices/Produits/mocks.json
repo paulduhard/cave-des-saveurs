@@ -86,6 +86,7 @@
 				]
 			},
 			"link": {
+				"key": "7b14dd1c-1a4c-45c6-85a1-876b15880bed",
 				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
@@ -93,6 +94,7 @@
 				}
 			},
 			"link_2": {
+				"key": "94869285-936f-44e7-988d-fbca469ac467",
 				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
