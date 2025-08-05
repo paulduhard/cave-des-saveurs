@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
-	import { createClient } from '@prismicio/client';
+	import { createClient, isFilled } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -18,7 +18,7 @@
 		return `/vin/${wine.uid}`;
 	}
 
-	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid) -> ça a l'air bon
+	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid)
 	// DANS +LAYOUT.SERVER.JS -> Mapper domaines/couleurs... de la même manière qu'on a fait pour REGIONS
 	// CLEANER le format du return dans LAYOUT pour avoir qqchose de consistant (souci avec uid vs slug vs id)
 	// RECHERCHER et CLEANER $: (Reactive $: statements) + PARAMS
@@ -31,10 +31,10 @@
 	}
 </script>
 
-<!-- <h1>
+<h1 class="mx-12 mt-12">
 	{data.regionUID}
 	{data.allWines.length}
-</h1> -->
+</h1>
 
 <div class="container mx-auto mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
@@ -51,7 +51,7 @@
 	</header>
 
 	<p
-		class="mb-4 font-span text-lg font-bold transition-all duration-500
+		class="mx-12 mb-4 font-span text-lg font-bold transition-all duration-500
 ease-in-out"
 	>
 		{data.region.description[0].text}
@@ -60,7 +60,7 @@ ease-in-out"
 	<div class="mx-12 flex">
 		<!-- <Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} /> -->
 
-		<main class="mx-6 w-3/4">
+		<main class="mx-6">
 			<!-- {#if selectedDomainName}
 				<h2>
 					<button
@@ -86,10 +86,10 @@ ease-in-out"
 				</h3>
 			{/if} -->
 			<!-- {#if selectedAppellationDescription}
-				<PrismicRichText
-					field={selectedAppellationDescription}
-					class="duration-600 opacity-100 transition-opacity ease-in-out"
-				/>
+			<PrismicRichText
+				field={selectedAppellationDescription}
+				class="duration-600 opacity-100 transition-opacity ease-in-out"
+			/>
 			{:else if selectedDomainDescription}
 				<PrismicRichText
 					field={selectedDomainDescription}
@@ -102,7 +102,7 @@ ease-in-out"
 				/>
 			{/if} -->
 
-			<div class="my-12 mr-12">
+			<div class="my-12">
 				{#if Object.keys(wineResults).length > 0}
 					<!-- {#if !filterData.selectedAppellation}
 							<h3
@@ -144,7 +144,9 @@ ease-in-out"
 											</p>
 										</div>
 									{/if}
-									<!-- <span class="mt-8 font-span text-xl">{wine.domaine}</span> -->
+
+									<span class="mt-8 font-span text-xl">{wine.domaineName}</span>
+
 									<span class="mb-2 font-span"><PrismicRichText field={wine.title} /></span>
 									<PrismicRichText field={wine.resume} />
 

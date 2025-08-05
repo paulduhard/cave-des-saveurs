@@ -25,7 +25,9 @@ export async function load({ params, fetch, cookies }) {
 			region: regionName,
 			couleur: couleurName,
 			domaine: domaineName,
-			appellation: appellationName
+			appellation: appellationName,
+			appellationDescription: page.data.appellation?.data?.description ?? null,
+			regionDescription: page.data.region?.data?.description ?? null
 		};
 	} catch (e) {
 		console.error('Error fetching wine data:', e);
