@@ -25,7 +25,7 @@
 				{#if isExternalLink(slice.primary.link.url)}
 					<PrismicLink
 						field={slice.primary.link}
-						class="group hover:bg-secondary hover:text-primary"
+						class="group transition-all duration-700 hover:bg-secondary hover:text-primary"
 					>
 						{slice.primary.label}
 						<img
@@ -35,7 +35,10 @@
 						/>
 					</PrismicLink>
 				{:else}
-					<PrismicLink field={slice.primary.link} class="hover:bg-secondary hover:text-primary">
+					<PrismicLink
+						field={slice.primary.link}
+						class="transition-all duration-700 hover:bg-secondary hover:text-primary"
+					>
 						{slice.primary.label}
 					</PrismicLink>
 				{/if}
@@ -62,13 +65,13 @@
 				{#if isExternalLink(slice.primary.link.url)}
 					<PrismicLink
 						field={slice.primary.link}
-						class="group hover:bg-secondary hover:text-primary"
+						class="group transition-all duration-700 hover:bg-secondary hover:text-primary"
 					>
 						{slice.primary.label}
 						<img
 							src="/assets/icone-external-link.svg"
 							alt="lien externe"
-							class="mb-1 ml-2 inline h-4 w-4 group-hover:filter-secondary"
+							class="mb-1 ml-2 inline h-4 w-4 transition-all duration-700 group-hover:filter-secondary"
 						/>
 					</PrismicLink>
 				{:else}

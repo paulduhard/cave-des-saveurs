@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
+	import { createClient, isFilled } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -39,7 +41,7 @@
 			{data.region.region || 'Region'}
 		</h1>
 		<button
-			class="duration-600 mr-12 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			class="duration-600 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
 			on:click={goToHome}>Alcools et spiritueux</button
 		>
 	</header>
@@ -121,7 +123,7 @@ ease-in-out"
 						{/each}
 					</div>
 				{:else}
-					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 600 }}>
+					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 700 }}>
 						Aucun vin trouvé pour cette sélection.
 					</p>
 				{/if}

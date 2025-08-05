@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
+	import { fade } from 'svelte/transition';
 	export let wine;
 
 	function getWineUrl(wine: any) {
@@ -7,10 +8,10 @@
 	}
 </script>
 
-<div transition:fade={{ duration: 600 }} class="group flex h-full flex-col font-light">
+<div transition:fade={{ duration: 700 }} class="group flex h-full flex-col font-light">
 	<a
 		href={getWineUrl(wine)}
-		class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
+		class="flex flex-grow flex-col items-start rounded-md p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl"
 	>
 		<!-- <p>{getRegionByUID(wine.regionUID).region}</p> -->
 		{#if wine.image.url}
@@ -32,7 +33,7 @@
 
 		<div class="mt-auto pt-4">
 			<button
-				class="duration-600 inline-block border border-primary px-8 py-2 font-light text-primary transition-all group-hover:bg-primary group-hover:text-secondary"
+				class="inline-block border border-primary px-8 py-2 font-light text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-secondary"
 			>
 				Découvrir
 			</button>

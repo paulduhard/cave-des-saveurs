@@ -12,14 +12,8 @@
 	<div class="flex items-baseline justify-center gap-12 pt-8">
 		{#each settings.data.item as item}
 			<PrismicLink
-				class="cursor-pointer transition-transform hover:scale-90 hover:cursor-pointer"
+				class="cursor-pointer transition-transform duration-700 ease-in-out hover:scale-90 hover:cursor-pointer"
 				field={item.lien}
-				on:mouseover={() => {
-					document.body.style.cursor = 'pointer';
-				}}
-				on:mouseout={() => {
-					document.body.style.cursor = 'default';
-				}}
 			>
 				<PrismicImage field={item.icone} />
 			</PrismicLink>
