@@ -20,7 +20,8 @@ export async function load({ fetch, cookies }) {
 			return {
 				...w.data,
 				regionUID: region.uid,
-				domaineName: w.data.domaine?.data?.domaine
+				domaineName: w.data.domaine?.data?.domaine,
+				uid: w.uid
 			};
 		});
 
