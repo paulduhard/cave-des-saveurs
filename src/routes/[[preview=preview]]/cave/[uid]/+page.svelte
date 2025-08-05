@@ -31,10 +31,10 @@
 	}
 </script>
 
-<h1 class="mx-12 mt-12">
+<!-- <p class="mx-12 mt-12">
 	{data.regionUID}
 	{data.allWines.length}
-</h1>
+</p> -->
 
 <div class="container mx-auto mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
@@ -137,17 +137,16 @@ ease-in-out"
 											class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg"
 										>
 											<img src="/assets/placeholder.png" alt="" class="opacity-50" />
-											<p
-												class="bg-red-50 text-red absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-lg"
+											<span
+												class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
 											>
 												Photo à venir
-											</p>
+											</span>
 										</div>
 									{/if}
 
-									<span class="mt-8 font-span text-xl">{wine.domaineName}</span>
-
-									<span class="mb-2 font-span"><PrismicRichText field={wine.title} /></span>
+									<span class="mt-8 font-span"><PrismicRichText field={wine.title} /></span>
+									<span class="mb-2 font-span text-xl">{wine.domaineName}</span>
 									<PrismicRichText field={wine.resume} />
 
 									<div class="mt-auto pt-4">
@@ -188,3 +187,10 @@ ease-in-out"
 		</main>
 	</div>
 </div>
+
+<style>
+	.bottle-img {
+		width: 60px;
+		height: 185px;
+	}
+</style>
