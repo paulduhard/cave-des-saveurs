@@ -1,21 +1,15 @@
 <script lang="ts">
-	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
-	import { createClient, isFilled } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import Aside from '$lib/components/Aside.svelte';
 	import { goto } from '$app/navigation';
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
-
+	import WineCard from '$lib/components/WineCard.svelte';
 	export let data;
 
 	function goToHome() {
 		goto('/'); // Navigates to the home page
-	}
-
-	function getWineUrl(wine: any) {
-		return `/vin/${wine.uid}`;
 	}
 
 	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid)
@@ -102,9 +96,7 @@ ease-in-out"
 				/>
 			{/if} -->
 
-			<div class="my-12">
-				{#if Object.keys(wineResults).length > 0}
-					<!-- {#if !filterData.selectedAppellation}
+			<!-- {#if !filterData.selectedAppellation}
 							<h3
 								class="mb-4 flex w-1/3 min-w-fit items-center border-b border-primary pb-2 text-lg"
 							>
@@ -119,45 +111,13 @@ ease-in-out"
 								{/if}
 							</h3>
 						{/if} -->
+
+			<!-- GRILLE DE RESULTATS DES CUVEES -->
+			<div class="my-12">
+				{#if Object.keys(wineResults).length > 0}
 					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{#each wineResults as wine}
-							<div
-								transition:fade={{ duration: 600 }}
-								class="group flex h-full flex-col font-light"
-							>
-								<a
-									href={getWineUrl(wine)}
-									class="duration-600 flex flex-grow flex-col items-start p-4 transition-shadow ease-in-out hover:shadow-lg"
-								>
-									<!-- <p>{getRegionByUID(wine.regionUID).region}</p> -->
-									{#if wine.image.url}
-										<PrismicImage field={wine.image} class="self-center" />
-									{:else}
-										<div
-											class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg"
-										>
-											<img src="/assets/placeholder.png" alt="" class="opacity-50" />
-											<span
-												class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
-											>
-												Photo à venir
-											</span>
-										</div>
-									{/if}
-
-									<span class="mt-8 font-span"><PrismicRichText field={wine.title} /></span>
-									<span class="mb-2 font-span text-xl">{wine.domaineName}</span>
-									<PrismicRichText field={wine.resume} />
-
-									<div class="mt-auto pt-4">
-										<button
-											class="duration-600 inline-block border border-primary px-8 py-2 font-light text-primary transition-all group-hover:bg-primary group-hover:text-secondary"
-										>
-											Découvrir
-										</button>
-									</div>
-								</a>
-							</div>
+							<WineCard {wine} />
 						{/each}
 					</div>
 				{:else}
@@ -166,31 +126,6 @@ ease-in-out"
 					</p>
 				{/if}
 			</div>
-			<!-- <div class="flex justify-center gap-48">
-				<div class="my-12">
-					<h2 class="text-2xl font-bold">Toutes les appellations</h2>
-					<ul>
-						{#each filterData.appellations as appellation, index}
-							<li>{index + 1}. {appellation.name}</li>
-						{/each}
-					</ul>
-				</div>
-				<div class="my-12">
-					<h2 class="text-2xl font-bold">Tous les domaines</h2>
-					<ul>
-						{#each filterData.domains as domaine, index}
-							<li>{index + 1}. {domaine.name}</li>
-						{/each}
-					</ul>
-				</div>
-			</div> -->
 		</main>
 	</div>
 </div>
-
-<style>
-	.bottle-img {
-		width: 60px;
-		height: 185px;
-	}
-</style>
