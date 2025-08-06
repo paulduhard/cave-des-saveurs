@@ -1,24 +1,37 @@
-<script>
+<script lang="ts">
 	import { PrismicLink } from '@prismicio/svelte';
+	import type { NumberField } from '@prismicio/types';
+	import type { PrismicDocument } from '@prismicio/types';
+	import type { RegionDocument, CouleurDocument } from '$lib/../../prismicio-types';
+	import type { LinkField } from '@prismicio/client';
 
-	export let regions = [];
-	export let colors = [];
+	type ItemWithOrdreMenu = {
+		data: {
+			ordre_menu?: NumberField;
+		};
+	};
 
-	$: sortedColors = colors.slice().sort((a, b) => a.data.ordre_menu - b.data.ordre_menu);
+	export let regions: RegionDocument[] = [];
+	export let colors: CouleurDocument[] = [];
+	export let className: string = '';
+
+	$: sortedColors = colors
+		.slice()
+		.sort((a, b) => (a.data.ordre_menu ?? 0) - (b.data.ordre_menu ?? 0));
 </script>
 
-<nav class="mega-menu my-6 flex justify-center gap-32">
+<nav class="my-6 flex justify-center gap-32">
 	<div class="region">
 		<p class="mb-2 uppercase text-primary">Nos vins par région</p>
 		<ul class="flex max-h-[175px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			{#each regions as region (region.id)}
 				<li>
-					<PrismicLink
+					<a
 						href={`/cave/${region.uid === 'all' ? 'all-wines' : region.uid}`}
 						class="hover:underline"
 					>
 						{region.data.region}
-					</PrismicLink>
+					</a>
 				</li>
 			{/each}
 		</ul>
@@ -27,14 +40,14 @@
 		<p class="mb-2 uppercase text-primary">Nos vins par couleur</p>
 		{#each sortedColors as color (color.id)}
 			<li>
-				<PrismicLink href={`/cave/${color.uid}`} class="hover:underline">
+				<a href={`/cave/${color.uid}`} class="hover:underline">
 					{color.data.couleur}
-				</PrismicLink>
+				</a>
 			</li>
 		{/each}
 	</ul>
 
-	<div class="alcools">
+	<div class="alcools {className}">
 		<p class="uppercase text-primary">Alcools et spiritueux</p>
 		<ul class="flex max-h-[150px] flex-col flex-wrap gap-x-12 overflow-y-auto pr-2">
 			<li>Cognacs</li>

@@ -3,10 +3,11 @@
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import type { Content } from '@prismicio/client';
+	import type { RegionDocument, CouleurDocument } from '$lib/../../prismicio-types';
 
 	export let settings: Content.SettingsDocument;
-	export let regions: any[] = [];
-	export let colors: any[] = [];
+	export let regions: RegionDocument[] = [];
+	export let colors: CouleurDocument[] = [];
 
 	let isMegaMenuVisible: boolean = false;
 	let isBurgerMenuVisible: boolean = false;
@@ -124,6 +125,6 @@
 		class="relative"
 		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out;"
 	>
-		<MegaMenu {regions} {colors} class="mega-menu" />
+		<MegaMenu {regions} {colors} />
 	</div>
 {/if}
