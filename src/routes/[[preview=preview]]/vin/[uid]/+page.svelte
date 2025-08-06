@@ -26,32 +26,44 @@
 
 		<div>
 			<div class="text-primary">
-				<div>RÉGION : <span class="font-light">{data.region}</span></div>
+				<div>RÉGION : <span class="font-light">{data.region || '***'}</span></div>
 				{#if data.regionDescription}
 					<div class="mt-2">
 						<PrismicRichText field={data.regionDescription} />
 					</div>
 				{/if}
 				<div>
-					APPELLATION : <span class="font-light">{data.appellation}</span>
+					APPELLATION : <span class="font-light">{data.appellation || '***'}</span>
 				</div>
 				{#if data.appellationDescription}
 					<div class="mt-2">
 						<PrismicRichText field={data.appellationDescription} />
 					</div>
 				{/if}
-				<div>TERROIR : <span class="font-light">{data.page.data.terroir}</span></div>
-				<div>COULEUR : <span class="font-light">{data.couleur}</span></div>
+				<div>
+					TERROIR : <span class="font-light">{data.page.data.terroir || '***'}</span>
+				</div>
+				<div>COULEUR : <span class="font-light">{data.couleur || '***'}</span></div>
 				<div>
 					CÉPAGE(S) :
-					<span class="font-light">{data.page.data.cepages}</span>
+					<span class="font-light">{data.page.data.cepages || '***'}</span>
 				</div>
-				<div>À L'OEIL : <span class="font-light">{data.page.data.oeil}</span></div>
-				<div>AU NEZ : <span class="font-light">{data.page.data.nez}</span></div>
-				<div>EN BOUCHE : <span class="font-light">{data.page.data.bouche}</span></div>
+				<div>
+					À L'OEIL : <span class="font-light">{data.page.data.oeil || '***'}</span>
+				</div>
+				<div>AU NEZ : <span class="font-light">{data.page.data.nez || '***'}</span></div>
+				<div>
+					EN BOUCHE : <span class="font-light">{data.page.data.bouche || '***'}</span>
+				</div>
 				<div class="flex">
 					SE DÉGUSTE AVEC :&nbsp;
-					<span class="font-light"><PrismicRichText field={data.page.data.degustation} /></span>
+					<span class="font-light">
+						{#if data.page.data.degustation && data.page.data.degustation.length > 0}
+							<PrismicRichText field={data.page.data.degustation} />
+						{:else}
+							***
+						{/if}
+					</span>
 				</div>
 			</div>
 
