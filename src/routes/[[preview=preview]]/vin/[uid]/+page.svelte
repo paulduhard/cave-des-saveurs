@@ -22,8 +22,18 @@
 {/each} -->
 
 	<div class="mb-20 flex flex-col items-center justify-center md:flex-row">
-		<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
-
+		{#if data.page.data.image.url}
+			<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
+		{:else}
+			<div class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg">
+				<img src="/assets/placeholder.png" alt="" class="opacity-50" />
+				<span
+					class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
+				>
+					Photo à venir
+				</span>
+			</div>
+		{/if}
 		<div>
 			<div class="text-primary">
 				<div>RÉGION : <span class="font-light">{data.region || '***'}</span></div>
