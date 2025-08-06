@@ -2,28 +2,37 @@
 	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
 	import { createClient, isFilled } from '@prismicio/client';
 	import { repositoryName } from '$lib/prismicio';
+	import WineCard from '$lib/components/WineCard.svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import Aside from '$lib/components/Aside.svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
-	import WineCard from '$lib/components/WineCard.svelte';
+
 	export let data;
+
+	let WineResults;
+
+	$: uid = $page.params.uid;
+	$: currentRegion = data.regions.find((r) => r.uid === uid);
+	$: regionData = currentRegion?.data;
+
+	$: wineResults = data.allWines?.filter((w) => w.regionUID === uid) || [];
 
 	function goToHome() {
 		goto('/'); // Navigates to the home page
 	}
 
-	// ESSAYER DE VIRER +PAGE.SERVER.TS (qui sert quasi plus à rien à part relayer params.region.uid)
 	// DANS +LAYOUT.SERVER.JS -> Mapper domaines/couleurs... de la même manière qu'on a fait pour REGIONS
 	// CLEANER le format du return dans LAYOUT pour avoir qqchose de consistant (souci avec uid vs slug vs id)
 	// RECHERCHER et CLEANER $: (Reactive $: statements) + PARAMS
 
-	$: wineResults = data.allWines.filter((w) => w.regionUID === data.regionUID);
+	// $: wineResults = data.allWines?.filter((w) => w.regionUID === data.regionUID);
 	// console.log(data.region.description[0]);
 
 	function getRegionByUID(regionUID: string) {
-		return data.regions.find((r) => r.uid === regionUID).data;
+		return data.regions.find((r) => r.uid === regionUID)?.data;
 	}
 </script>
 
@@ -38,7 +47,7 @@
 			class="mb-4 font-span text-5xl font-bold transition-all duration-500
 			ease-in-out"
 		>
-			{data.region.region || 'Region'}
+			{regionData?.region || 'Region'}
 		</h1>
 		<button
 			class="duration-600 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
@@ -50,7 +59,7 @@
 		class="mx-12 mb-4 font-span text-lg font-bold transition-all duration-500
 ease-in-out"
 	>
-		{data.region.description[0].text}
+		{regionData?.description?.[0]?.text || ''}
 	</p>
 
 	<div class="mx-12 flex">

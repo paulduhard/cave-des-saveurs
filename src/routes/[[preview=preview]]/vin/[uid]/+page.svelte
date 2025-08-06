@@ -1,7 +1,7 @@
 <script>
 	import { SliceZone, PrismicImage, PrismicRichText } from '@prismicio/svelte';
 	import { page } from '$app/state';
-	import Socials from '$lib/components//Socials.svelte';
+	import Socials from '$lib/components/Socials.svelte';
 
 	import { components } from '$lib/slices';
 

@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import { PrismicRichText, PrismicImage, PrismicLink } from '@prismicio/svelte';
 
-	/** @type {import("@prismicio/client").Content.SettingsDocument} */
-	export let settings;
+	import type { Content } from '@prismicio/client';
+	export let settings: Content.SettingsDocument;
 </script>
 
 <section class="flex flex-col justify-center gap-4 py-24 text-center md:h-[395px]">

@@ -2,15 +2,11 @@
 	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
 	import { fade } from 'svelte/transition';
 	export let wine;
-
-	function getWineUrl(wine: any) {
-		return `/vin/${wine.uid}`;
-	}
 </script>
 
 <div transition:fade={{ duration: 700 }} class="group flex h-full flex-col font-light">
 	<a
-		href={getWineUrl(wine)}
+		href={`/vin/${wine.uid}`}
 		class="flex flex-grow flex-col items-start rounded-md p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl"
 	>
 		<!-- <p>{getRegionByUID(wine.regionUID).region}</p> -->
