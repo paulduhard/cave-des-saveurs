@@ -1,45 +1,181 @@
 <script lang="ts">
-	import { PrismicRichText, PrismicImage } from '@prismicio/svelte';
-	import { createClient, isFilled } from '@prismicio/client';
-	import { repositoryName } from '$lib/prismicio';
 	import WineCard from '$lib/components/WineCard.svelte';
-	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import Aside from '$lib/components/Aside.svelte';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
+	import { page } from '$app/state';
+	import Aside from '$lib/components/Aside.svelte';
 
-	export let data;
+	export let data: any;
 
-	let WineResults;
-
-	$: uid = $page.params.uid;
-	$: currentRegion = data.regions.find((r) => r.uid === uid);
+	$: uid = page.params.uid;
+	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
 	$: regionData = currentRegion?.data;
 
-	$: wineResults = data.allWines?.filter((w) => w.regionUID === uid) || [];
+	$: wineResults = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+
+	// Filter data for Aside component
+	let filterData = {
+		colors: [] as Array<{ uid: string; name: string }>,
+		selectedColors: new Set<string>(),
+		domains: [] as Array<{
+			uid: string;
+			name: string;
+			appellations: Array<{ uid: string; name: string }>;
+		}>,
+		selectedDomain: null as string | null,
+		appellations: [] as Array<{ uid: string; name: string }>,
+		selectedAppellation: null as string | null,
+		priceRange: { min: 5, max: 200 }
+	};
+
+	// Initialize filter data from server data
+	$: if (data) {
+		filterData.colors =
+			data.colors?.map((color: any) => ({
+				uid: color.uid,
+				name: color.data?.couleur || color.uid
+			})) || [];
+
+		// Extract domains from wines
+		const domainMap = new Map();
+		const appellationMap = new Map();
+
+		data.allWines?.forEach((wine: any) => {
+			// Extract domain info
+			if (wine.domaineName && wine.domaineName !== 'Domaine non spécifié') {
+				const domainUid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
+				if (!domainMap.has(domainUid)) {
+					domainMap.set(domainUid, {
+						uid: domainUid,
+						name: wine.domaineName,
+						appellations: []
+					});
+				}
+			}
+
+			// Extract appellation info from wine data if it exists
+			if (wine.appellation?.data?.appellation) {
+				const appellationName = wine.appellation.data.appellation;
+				const appellationUid =
+					wine.appellation.uid || appellationName.toLowerCase().replace(/\s+/g, '-');
+
+				if (!appellationMap.has(appellationUid)) {
+					appellationMap.set(appellationUid, {
+						uid: appellationUid,
+						name: appellationName
+					});
+					(appellationNames as any)[appellationUid] = appellationName;
+				}
+
+				// Link appellation to domain
+				if (wine.domaineName && wine.domaineName !== 'Domaine non spécifié') {
+					const domainUid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
+					const domain = domainMap.get(domainUid);
+					if (domain && !domain.appellations.some((a: any) => a.uid === appellationUid)) {
+						domain.appellations.push({
+							uid: appellationUid,
+							name: appellationName
+						});
+					}
+				}
+			}
+		});
+
+		filterData.domains = Array.from(domainMap.values()) as Array<{
+			uid: string;
+			name: string;
+			appellations: Array<{ uid: string; name: string }>;
+		}>;
+	}
+
+	// Appellation names mapping
+	let appellationNames: Record<string, string> = {};
+
+	// Filter change handler
+	function handleFilterChange(filterType: string, value: any) {
+		if (filterType === 'color') {
+			if (typeof value === 'string') {
+				if (filterData.selectedColors.has(value)) {
+					filterData.selectedColors.delete(value);
+				} else {
+					filterData.selectedColors.add(value);
+				}
+				filterData.selectedColors = new Set(filterData.selectedColors);
+			} else if (value instanceof Set) {
+				filterData.selectedColors = value;
+			}
+		} else if (filterType === 'domain') {
+			filterData.selectedDomain = value;
+		} else if (filterType === 'appellation') {
+			filterData.selectedAppellation = value;
+		} else if (filterType === 'prix') {
+			filterData.priceRange = value;
+		}
+
+		// Update wine results based on filters
+		updateWineResults();
+	}
+
+	// Update wine results based on active filters
+	function updateWineResults() {
+		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+
+		// Filter by colors
+		if (filterData.selectedColors.size > 0) {
+			filtered = filtered.filter((wine: any) => {
+				// Check if wine has couleur field and matches selected colors
+				const wineColorUid = wine.couleur?.uid || wine.couleur;
+				return wineColorUid && filterData.selectedColors.has(wineColorUid);
+			});
+		}
+
+		// Filter by domain
+		if (filterData.selectedDomain) {
+			const selectedDomain = filterData.domains.find(
+				(d: any) => d.uid === filterData.selectedDomain
+			);
+			if (selectedDomain) {
+				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
+			}
+		}
+
+		// Filter by appellation
+		if (filterData.selectedAppellation) {
+			filtered = filtered.filter((wine: any) => {
+				const appellationUid =
+					wine.appellation?.uid ||
+					wine.appellation?.data?.appellation?.toLowerCase().replace(/\s+/g, '-');
+				return appellationUid === filterData.selectedAppellation;
+			});
+		}
+
+		// Filter by price range
+		if (filterData.priceRange) {
+			filtered = filtered.filter((wine: any) => {
+				const price = wine.prix || 0;
+				return price >= filterData.priceRange.min && price <= filterData.priceRange.max;
+			});
+		}
+
+		wineResults = filtered;
+	}
+
+	// Get wines by appellation
+	function getWinesByAppellation(appellationUid: string) {
+		return (
+			data.allWines?.filter((wine: any) => {
+				const wineAppellationUid =
+					wine.appellation?.uid ||
+					wine.appellation?.data?.appellation?.toLowerCase().replace(/\s+/g, '-');
+				return wineAppellationUid === appellationUid;
+			}) || []
+		);
+	}
 
 	function goToHome() {
 		goto('/'); // Navigates to the home page
 	}
-
-	// DANS +LAYOUT.SERVER.JS -> Mapper domaines/couleurs... de la même manière qu'on a fait pour REGIONS
-	// CLEANER le format du return dans LAYOUT pour avoir qqchose de consistant (souci avec uid vs slug vs id)
-	// RECHERCHER et CLEANER $: (Reactive $: statements) + PARAMS
-
-	// $: wineResults = data.allWines?.filter((w) => w.regionUID === data.regionUID);
-	// console.log(data.region.description[0]);
-
-	function getRegionByUID(regionUID: string) {
-		return data.regions.find((r) => r.uid === regionUID)?.data;
-	}
 </script>
-
-<!-- <p class="mx-12 mt-12">
-	{data.regionUID}
-	{data.allWines.length}
-</p> -->
 
 <div class="container mx-auto mt-12">
 	<header class="mx-12 flex flex-grow items-center justify-between">
@@ -55,17 +191,16 @@
 		>
 	</header>
 
-	<p
-		class="mx-12 mb-4 font-span text-lg font-bold transition-all duration-500
-ease-in-out"
-	>
-		{regionData?.description?.[0]?.text || ''}
-	</p>
+	<div class="md:mx-12 md:flex">
+		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
-	<div class="mx-12 flex">
-		<!-- <Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} /> -->
-
-		<main class="mx-6">
+		<main class="md:mx-6">
+			<p
+				class="mb-4 font-span text-lg font-bold transition-all duration-500 ease-in-out
+md:mx-12"
+			>
+				{regionData?.description?.[0]?.text || ''}
+			</p>
 			<!-- {#if selectedDomainName}
 				<h2>
 					<button
@@ -127,7 +262,7 @@ ease-in-out"
 			<div class="my-12">
 				{#if Object.keys(wineResults).length > 0}
 					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{#each wineResults as wine}
+						{#each wineResults as wine (wine.uid)}
 							<WineCard {wine} />
 						{/each}
 					</div>

@@ -10,7 +10,7 @@ type ItemWithOrdreMenu = {
 
 export const prerender = 'auto';
 
-export async function load({ fetch, cookies }) {
+export async function load({ fetch, cookies, params }) {
 	const client = createClient({ fetch, cookies });
 
 	const settings = await client.getSingle('settings');
@@ -39,10 +39,30 @@ export async function load({ fetch, cookies }) {
 				domaineName = (w.data.domaine.data as DomaineData).domaine!;
 			}
 
+			// Extract color information
+			let couleur = null;
+			if (isFilled.contentRelationship(w.data.couleur)) {
+				couleur = {
+					uid: w.data.couleur.uid,
+					data: w.data.couleur.data
+				};
+			}
+
+			// Extract appellation information
+			let appellation = null;
+			if (isFilled.contentRelationship(w.data.appellation)) {
+				appellation = {
+					uid: w.data.appellation.uid,
+					data: w.data.appellation.data
+				};
+			}
+
 			return {
 				...w.data,
 				regionUID,
 				domaineName,
+				couleur,
+				appellation,
 				uid: w.uid
 			};
 		});
@@ -59,19 +79,59 @@ export async function load({ fetch, cookies }) {
 			return acc;
 		}, []);
 
+		// Trouver la région correspondante pour les métadonnées
+		const uid = params.uid;
+		const currentRegion = regions.find((r) => r.uid === uid);
+
+		let title = 'Cave des Saveurs';
+		let meta_title = 'Cave des Saveurs';
+		let meta_description = 'Découvrez notre sélection de vins';
+		let meta_image = null;
+
+		if (currentRegion) {
+			const regionName = currentRegion.data.region || 'Région';
+			const description =
+				currentRegion.data.description?.[0]?.text || `Découvrez nos vins de ${regionName}`;
+
+			title = `${regionName} - Cave des Saveurs`;
+			meta_title = currentRegion.data.meta_title || `Vins de ${regionName} - Cave des Saveurs`;
+			meta_description = currentRegion.data.meta_description || description;
+			meta_image = currentRegion.data.meta_image || null;
+		}
+
 		return {
 			settings,
 			regions: sortByOrderMenu(regions),
 			colors: sortByOrderMenu(colors),
 			allWines,
-			uniqueRegions
+			uniqueRegions,
+			title,
+			meta_title,
+			meta_description,
+			meta_image
 		};
 	} catch (error) {
 		console.error('Error fetching data:', error);
+
+		// Try to get at least the settings if other data fails
+		let fallbackSettings;
+		try {
+			fallbackSettings = await client.getSingle('settings');
+		} catch (settingsError) {
+			console.error('Error fetching settings:', settingsError);
+			fallbackSettings = null;
+		}
+
 		return {
-			settings,
+			settings: fallbackSettings,
 			regions: [],
-			colors: []
+			colors: [],
+			allWines: [],
+			uniqueRegions: [],
+			title: 'Cave des Saveurs',
+			meta_title: 'Cave des Saveurs',
+			meta_description: 'Découvrez notre sélection de vins',
+			meta_image: null
 		};
 	}
 }

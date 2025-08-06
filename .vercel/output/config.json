@@ -1,0 +1,229 @@
+{
+	"version": 3,
+	"routes": [
+		{
+			"src": "/epicerie",
+			"dest": "/epicerie/"
+		},
+		{
+			"src": "/epicerie/",
+			"status": 308,
+			"headers": {
+				"Location": "/epicerie"
+			}
+		},
+		{
+			"src": "/slice-simulator",
+			"dest": "/slice-simulator/"
+		},
+		{
+			"src": "/slice-simulator/",
+			"status": 308,
+			"headers": {
+				"Location": "/slice-simulator"
+			}
+		},
+		{
+			"src": "/vin/resistant-blanc",
+			"dest": "/vin/resistant-blanc/"
+		},
+		{
+			"src": "/vin/resistant-blanc/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/resistant-blanc"
+			}
+		},
+		{
+			"src": "/vin/resistant-orange",
+			"dest": "/vin/resistant-orange/"
+		},
+		{
+			"src": "/vin/resistant-orange/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/resistant-orange"
+			}
+		},
+		{
+			"src": "/vin/paola-bulles",
+			"dest": "/vin/paola-bulles/"
+		},
+		{
+			"src": "/vin/paola-bulles/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/paola-bulles"
+			}
+		},
+		{
+			"src": "/vin/resistant-rouge",
+			"dest": "/vin/resistant-rouge/"
+		},
+		{
+			"src": "/vin/resistant-rouge/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/resistant-rouge"
+			}
+		},
+		{
+			"src": "/vin/haru-rouge",
+			"dest": "/vin/haru-rouge/"
+		},
+		{
+			"src": "/vin/haru-rouge/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/haru-rouge"
+			}
+		},
+		{
+			"src": "/vin/depuis-1927-rose",
+			"dest": "/vin/depuis-1927-rose/"
+		},
+		{
+			"src": "/vin/depuis-1927-rose/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/depuis-1927-rose"
+			}
+		},
+		{
+			"src": "/vin/fake-wine",
+			"dest": "/vin/fake-wine/"
+		},
+		{
+			"src": "/vin/fake-wine/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/fake-wine"
+			}
+		},
+		{
+			"src": "/vin/depuis-1927-blanc",
+			"dest": "/vin/depuis-1927-blanc/"
+		},
+		{
+			"src": "/vin/depuis-1927-blanc/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/depuis-1927-blanc"
+			}
+		},
+		{
+			"src": "/vin/depuis-1927-rouge",
+			"dest": "/vin/depuis-1927-rouge/"
+		},
+		{
+			"src": "/vin/depuis-1927-rouge/",
+			"status": 308,
+			"headers": {
+				"Location": "/vin/depuis-1927-rouge"
+			}
+		},
+		{
+			"src": "/home",
+			"dest": "/home/"
+		},
+		{
+			"src": "/home/",
+			"status": 308,
+			"headers": {
+				"Location": "/home"
+			}
+		},
+		{
+			"src": "/boutique",
+			"dest": "/boutique/"
+		},
+		{
+			"src": "/boutique/",
+			"status": 308,
+			"headers": {
+				"Location": "/boutique"
+			}
+		},
+		{
+			"src": "/_app/immutable/.+",
+			"headers": {
+				"cache-control": "public, immutable, max-age=31536000"
+			}
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "^/api/preview/?(?:/__data.json)?$",
+			"dest": "/api/preview"
+		},
+		{
+			"src": "^(/[^/]+)?/cave/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/[[preview=preview]]/cave/[uid]"
+		},
+		{
+			"src": "^(/[^/]+)?/epicerie/?(?:/__data.json)?$",
+			"dest": "/[[preview=preview]]/epicerie"
+		},
+		{
+			"src": "^(/[^/]+)?/vin/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/[[preview=preview]]/vin/[uid]"
+		},
+		{
+			"src": "^(/[^/]+)?/?(?:/__data.json)?$",
+			"dest": "/[[preview=preview]]"
+		},
+		{
+			"src": "^(/[^/]+)?/([^/]+?)/?(?:/__data.json)?$",
+			"dest": "/[[preview=preview]]/[uid]"
+		},
+		{
+			"src": "/.*",
+			"dest": "/![-]/catchall"
+		}
+	],
+	"overrides": {
+		"epicerie.html": {
+			"path": "epicerie"
+		},
+		"slice-simulator.html": {
+			"path": "slice-simulator"
+		},
+		"index.html": {
+			"path": ""
+		},
+		"vin/resistant-blanc.html": {
+			"path": "vin/resistant-blanc"
+		},
+		"vin/resistant-orange.html": {
+			"path": "vin/resistant-orange"
+		},
+		"vin/paola-bulles.html": {
+			"path": "vin/paola-bulles"
+		},
+		"vin/resistant-rouge.html": {
+			"path": "vin/resistant-rouge"
+		},
+		"vin/haru-rouge.html": {
+			"path": "vin/haru-rouge"
+		},
+		"vin/depuis-1927-rose.html": {
+			"path": "vin/depuis-1927-rose"
+		},
+		"vin/fake-wine.html": {
+			"path": "vin/fake-wine"
+		},
+		"vin/depuis-1927-blanc.html": {
+			"path": "vin/depuis-1927-blanc"
+		},
+		"vin/depuis-1927-rouge.html": {
+			"path": "vin/depuis-1927-rouge"
+		},
+		"home.html": {
+			"path": "home"
+		},
+		"boutique.html": {
+			"path": "boutique"
+		}
+	}
+}

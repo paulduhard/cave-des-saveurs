@@ -1,0 +1,47 @@
+import { error } from "@sveltejs/kit";
+import { asText } from "@prismicio/client";
+import { c as createClient } from "../../../../../chunks/prismicio.js";
+async function load({ params, fetch, cookies }) {
+  const client = createClient({ fetch, cookies });
+  try {
+    const page = await client.getByUID("vin", params.uid, {
+      fetchLinks: ["region.region", "couleur.couleur", "domaine.domaine", "appellation.appellation"]
+    });
+    const regionName = page.data.region?.data?.region ?? "Non spécifié";
+    const couleurName = page.data.couleur?.data?.couleur ?? "Non spécifié";
+    const domaineName = page.data.domaine?.data?.domaine ?? "Non spécifié";
+    const appellationName = page.data.appellation?.data?.appellation ?? "Non spécifié";
+    return {
+      page,
+      title: asText(page.data.title),
+      meta_description: page.data.meta_description,
+      meta_title: page.data.meta_title || asText(page.data.title),
+      meta_image: page.data.meta_image?.url,
+      region: regionName,
+      couleur: couleurName,
+      domaine: domaineName,
+      appellation: appellationName,
+      appellationDescription: page.data.appellation?.data?.description ?? null,
+      regionDescription: page.data.region?.data?.description ?? null
+    };
+  } catch (e) {
+    console.error("Error fetching wine data:", e);
+    throw error(404, "Wine not found");
+  }
+}
+async function entries() {
+  const client = createClient();
+  try {
+    const pages = await client.getAllByType("vin");
+    return pages.map((page) => ({
+      uid: page.uid
+    }));
+  } catch (e) {
+    console.error("Error fetching all wines:", e);
+    return [];
+  }
+}
+export {
+  entries,
+  load
+};

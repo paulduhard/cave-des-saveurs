@@ -18,14 +18,16 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 		return {
 			settings,
 			regions: sortByOrderMenu(regions),
-			colors: sortByOrderMenu(colors)
+			colors: sortByOrderMenu(colors),
+			title: 'Cave des Saveurs'
 		};
 	} catch (error) {
 		console.error('Error fetching data:', error);
 		return {
 			settings,
 			regions: [],
-			colors: []
+			colors: [],
+			title: 'Cave des Saveurs'
 		};
 	}
 };
