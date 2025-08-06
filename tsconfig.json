@@ -14,7 +14,8 @@
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"esModuleInterop": true,
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"types": ["svelte"]
 	},
 	"include": ["src/**/*"],
 	"exclude": ["node_modules", "dist"]

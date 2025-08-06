@@ -1,8 +1,8 @@
-<script>
+<script lang="ts">
 	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
+	import type { Content } from '@prismicio/client';
 
-	/** @type {import("@prismicio/client").Content.SettingsDocument} */
-	export let settings;
+	export let settings: Content.SettingsDocument;
 </script>
 
 <footer class="flex flex-col items-center md:flex-row">

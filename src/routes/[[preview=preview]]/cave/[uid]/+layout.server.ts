@@ -1,4 +1,12 @@
 import { createClient } from '$lib/prismicio';
+import { isFilled } from '@prismicio/client';
+
+type DomaineData = { domaine?: string };
+type ItemWithOrdreMenu = {
+	data: {
+		ordre_menu?: number | null;
+	};
+};
 
 export const prerender = 'auto';
 
@@ -15,26 +23,39 @@ export async function load({ fetch, cookies }) {
 		]);
 
 		const allWines = wines.map((w) => {
-			const region = regions.find((r) => r.uid === w.data.region.uid);
+			let regionUID: string | null = null;
+			let region: (typeof regions)[number] | undefined = undefined;
+
+			if (isFilled.contentRelationship(w.data.region)) {
+				regionUID = w.data.region.uid ?? null;
+				region = regions.find((r) => r.uid === regionUID);
+			}
+
+			let domaineName = 'Domaine non spécifié';
+			if (
+				isFilled.contentRelationship(w.data.domaine) &&
+				(w.data.domaine.data as DomaineData)?.domaine
+			) {
+				domaineName = (w.data.domaine.data as DomaineData).domaine!;
+			}
 
 			return {
 				...w.data,
-				regionUID: region.uid,
-				domaineName: w.data.domaine?.data?.domaine,
+				regionUID,
+				domaineName,
 				uid: w.uid
 			};
 		});
 
-		const uniqueRegions = allWines.reduce((acc, wine) => {
-			const region = wine.region;
+		const uniqueRegions = allWines.reduce<typeof regions>((acc, wine) => {
+			const regionUID = wine.regionUID; // ou wine.region?.uid si tu n'as pas déjà extrait le uid
+			if (!regionUID) return acc;
 
-			// Check if the region is already in the accumulator
-			const exists = acc.some((r) => r.id === region.id);
-
-			if (!exists) {
+			// On cherche la région complète dans le tableau regions
+			const region = regions.find((r) => r.uid === regionUID);
+			if (region && !acc.some((r) => r.id === region.id)) {
 				acc.push(region);
 			}
-
 			return acc;
 		}, []);
 
@@ -55,6 +76,10 @@ export async function load({ fetch, cookies }) {
 	}
 }
 
-function sortByOrderMenu(items) {
-	return items.sort((a, b) => a.data.ordre_menu - b.data.ordre_menu);
+function sortByOrderMenu<T extends ItemWithOrdreMenu>(items: T[]): T[] {
+	return items.sort((a, b) => {
+		const ordreA = a.data.ordre_menu ?? 0; // null ou undefined => 0
+		const ordreB = b.data.ordre_menu ?? 0;
+		return ordreA - ordreB;
+	});
 }

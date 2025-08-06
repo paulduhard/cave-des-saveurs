@@ -1,22 +1,20 @@
-<script>
+<script lang="ts">
 	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
+	import type { Content } from '@prismicio/client';
 
-	/** @type {import("@prismicio/client").Content.SettingsDocument} */
-	export let settings;
+	export let settings: Content.SettingsDocument;
+	export let regions: any[] = [];
+	export let colors: any[] = [];
 
-	// Importez les données des régions et des couleurs
-	export let regions = [];
-	export let colors = [];
-
-	let isMegaMenuVisible = false;
-	let isBurgerMenuVisible = false;
-	let closeMegaMenuTimeout;
-	let megaMenuOpacity = 0;
+	let isMegaMenuVisible: boolean = false;
+	let isBurgerMenuVisible: boolean = false;
+	let closeMegaMenuTimeout: ReturnType<typeof setTimeout> | undefined;
+	let megaMenuOpacity: number = 0;
 
 	function openMegaMenu() {
-		clearTimeout(closeMegaMenuTimeout);
+		if (closeMegaMenuTimeout) clearTimeout(closeMegaMenuTimeout);
 		isMegaMenuVisible = true;
 		megaMenuOpacity = 1;
 	}
@@ -25,7 +23,7 @@
 		closeMegaMenuTimeout = setTimeout(() => {
 			isMegaMenuVisible = false;
 			megaMenuOpacity = 0;
-		}, 300); // Délai de 300ms avant de fermer le menu
+		}, 300);
 	}
 
 	function toggleBurgerMenu() {

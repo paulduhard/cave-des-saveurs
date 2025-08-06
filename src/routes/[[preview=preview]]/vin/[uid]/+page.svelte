@@ -1,6 +1,6 @@
 <script>
 	import { SliceZone, PrismicImage, PrismicRichText } from '@prismicio/svelte';
-	import { page } from '$app/stores';
+	import { page } from '$app/state';
 	import Socials from '$lib/components//Socials.svelte';
 
 	import { components } from '$lib/slices';
@@ -100,5 +100,5 @@
 
 	<SliceZone slices={data.page.data.slices} {components} />
 
-	<Socials settings={$page.data.settings} />
+	<Socials settings={page.data.settings} />
 </div>
