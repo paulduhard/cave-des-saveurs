@@ -1,20 +1,6 @@
 import { c as create_ssr_component, s as setContext, v as validate_component, m as missing_component } from "./ssr.js";
 import { a as afterUpdate } from "./ssr2.js";
-let base = "";
-let assets = base;
-const app_dir = "_app";
-const initial = { base, assets };
-function override(paths) {
-  base = paths.base;
-  assets = paths.assets;
-}
-function reset() {
-  base = initial.base;
-  assets = initial.assets;
-}
-function set_assets(path) {
-  assets = initial.assets = path;
-}
+import "./environment.js";
 let public_env = {};
 let safe_public_env = {};
 function set_private_env(environment) {
@@ -30,12 +16,6 @@ function set_read_implementation(fn) {
   read_implementation = fn;
 }
 function set_manifest(_) {
-}
-let prerendering = false;
-function set_building() {
-}
-function set_prerendering() {
-  prerendering = true;
 }
 const Root = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let { stores } = $$props;
@@ -166,7 +146,7 @@ const options = {
   root: Root,
   service_worker: false,
   templates: {
-    app: ({ head, body, assets: assets2, nonce, env }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets2 + '/favicon.svg" />\n		<link rel="stylesheet" href="https://use.typekit.net/wki3yst.css" />\n		<meta name="viewport" content="width=device-width" />\n		<script\n			async\n			defer\n			src="https://static.cdn.prismic.io/prismic.js?new=true&repo=cave-des-saveurs"\n		><\/script>\n		' + head + '\n	</head>\n	<body data-sveltekit-preload-data="hover" class="font-sofia">\n		<div style="display: contents">' + body + "</div>\n	</body>\n</html>\n",
+    app: ({ head, body, assets, nonce, env }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<link rel="icon" href="' + assets + '/favicon.svg" />\n		<link rel="stylesheet" href="https://use.typekit.net/wki3yst.css" />\n		<meta name="viewport" content="width=device-width" />\n		<script\n			async\n			defer\n			src="https://static.cdn.prismic.io/prismic.js?new=true&repo=cave-des-saveurs"\n		><\/script>\n		' + head + '\n	</head>\n	<body data-sveltekit-preload-data="hover" class="font-sofia">\n		<div style="display: contents">' + body + "</div>\n	</body>\n</html>\n",
     error: ({ status, message }) => '<!doctype html>\n<html lang="en">\n	<head>\n		<meta charset="utf-8" />\n		<title>' + message + `</title>
 
 		<style>
@@ -238,12 +218,13 @@ const options = {
 		<div class="error">
 			<span class="status">` + status + '</span>\n			<div class="message">\n				<h1>' + message + "</h1>\n			</div>\n		</div>\n	</body>\n</html>\n"
   },
-  version_hash: "13ato4a"
+  version_hash: "14075r"
 };
 async function get_hooks() {
   let handle;
   let handleFetch;
   let handleError;
+  let handleValidationError;
   let init;
   let reroute;
   let transport;
@@ -251,29 +232,21 @@ async function get_hooks() {
     handle,
     handleFetch,
     handleError,
+    handleValidationError,
     init,
     reroute,
     transport
   };
 }
 export {
-  assets as a,
-  base as b,
-  app_dir as c,
-  read_implementation as d,
-  options as e,
-  set_private_env as f,
+  set_private_env as a,
+  set_public_env as b,
+  set_safe_public_env as c,
+  set_read_implementation as d,
+  set_manifest as e,
   get_hooks as g,
-  prerendering as h,
-  set_public_env as i,
-  set_safe_public_env as j,
-  set_read_implementation as k,
-  set_assets as l,
-  set_building as m,
-  set_manifest as n,
-  override as o,
+  options as o,
   public_env as p,
-  set_prerendering as q,
-  reset as r,
+  read_implementation as r,
   safe_public_env as s
 };
