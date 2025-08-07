@@ -1,5 +1,5 @@
 import { createClient } from '$lib/prismicio';
-import { isFilled } from '@prismicio/client';
+import { isFilled, asText } from '@prismicio/client';
 
 type DomaineData = { domaine?: string };
 type ItemWithOrdreMenu = {
@@ -91,12 +91,12 @@ export async function load({ fetch, cookies, params }) {
 		if (currentRegion) {
 			const regionName = currentRegion.data.region || 'Région';
 			const description =
-				currentRegion.data.description?.[0]?.text || `Découvrez nos vins de ${regionName}`;
+				asText(currentRegion.data.description) || `Découvrez nos vins de ${regionName}`;
 
 			title = `${regionName} - Cave des Saveurs`;
-			meta_title = currentRegion.data.meta_title || `Vins de ${regionName} - Cave des Saveurs`;
-			meta_description = currentRegion.data.meta_description || description;
-			meta_image = currentRegion.data.meta_image || null;
+			meta_title = `Vins de ${regionName} - Cave des Saveurs`;
+			meta_description = description;
+			meta_image = settings.data.og_image || null;
 		}
 
 		return {

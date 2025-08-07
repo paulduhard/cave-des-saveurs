@@ -191,10 +191,10 @@
 		>
 	</header>
 
-	<div class="md:mx-12 md:flex">
+	<div class="md:flex">
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
-		<main class="md:mx-6">
+		<main class="w-3/4 md:mx-6">
 			<p
 				class="mb-4 font-span text-lg font-bold transition-all duration-500 ease-in-out
 md:mx-12"
