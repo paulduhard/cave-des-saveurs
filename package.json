@@ -20,7 +20,6 @@
 	},
 	"devDependencies": {
 		"@slicemachine/adapter-sveltekit": "^0.3.81",
-		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@types/node": "^24.2.0",
 		"autoprefixer": "^10.4.21",
@@ -42,6 +41,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-auto": "^3.0.0",
 		"@sveltejs/kit": "^2.0.0",
 		"@prismicio/client": "^7.18.2",
 		"@prismicio/helpers": "^2.3.9",
