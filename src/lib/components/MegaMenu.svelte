@@ -2,7 +2,7 @@
 	import { PrismicLink } from '@prismicio/svelte';
 	import type { NumberField } from '@prismicio/types';
 	import type { PrismicDocument } from '@prismicio/types';
-	import type { RegionDocument, CouleurDocument } from '$lib/../../prismicio-types';
+	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 	import type { LinkField } from '@prismicio/client';
 
 	type ItemWithOrdreMenu = {

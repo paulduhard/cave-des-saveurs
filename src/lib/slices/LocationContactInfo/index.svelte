@@ -9,7 +9,7 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="flex flex-col items-center gap-8 py-8 md:flex-row"
+	class="container flex flex-col items-center gap-8 py-14 md:flex-row"
 >
 	<!-- Map Section -->
 	<div class="w-full md:w-1/2">
@@ -30,34 +30,33 @@
 	</div>
 
 	<!-- Contact Information Section -->
-	<div class="w-full space-y-6 md:w-1/2">
-		<!-- Location Title -->
-		<h2 class="text-2xl font-bold">
-			{slice.primary.location_title}
-		</h2>
+	<div class="w-full space-y-2 md:w-1/2">
+		<div class="w-fit space-y-2 border-b-[.5px] pb-4">
+			<!-- Location Title -->
+			<p class="text-2xl">
+				{slice.primary.location_title}
+			</p>
 
-		<!-- Address -->
-		<div class="space-y-2">
-			<h3 class="font-semibold">Adresse</h3>
+			<!-- Address -->
 			<p>
 				{slice.primary.address}
 			</p>
 		</div>
 
-		<!-- Contact Title -->
-		<h3 class="font-semibold">
-			{slice.primary.contact_title}
-		</h3>
+		<div class="w-fit space-y-2 border-b-[.5px] py-4">
+			<!-- Contact Title -->
+			<p class="text-2xl">
+				{slice.primary.contact_title}
+			</p>
 
-		<!-- Contact Methods -->
-		<div class="space-y-4">
-			{#each slice.primary.contact_methods as method}
-				<div class="flex items-center gap-2">
+			<!-- Contact Methods -->
+			<div class="space-y-2">
+				{#each slice.primary.contact_methods as method}
 					<div>
 						{method.value}
 					</div>
-				</div>
-			{/each}
+				{/each}
+			</div>
 		</div>
 	</div>
 </section>

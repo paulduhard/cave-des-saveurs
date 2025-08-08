@@ -8,6 +8,26 @@
 	import Footer from '$lib/components/Footer.svelte';
 
 	export let data;
+
+	// Variables réactives globales pour la navigation
+	$: currentPath = page.url.pathname;
+
+	// Fonction helper exportée globalement pour vérifier les liens actifs
+	export const isActiveLink = (path: string) => {
+		if (!path) return false;
+
+		// Pour la page d'accueil
+		if (path === '/' && currentPath === '/') {
+			return true;
+		}
+
+		// Pour les autres pages
+		if (path !== '/' && currentPath.startsWith(path)) {
+			return true;
+		}
+
+		return false;
+	};
 </script>
 
 <svelte:head>

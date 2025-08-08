@@ -4,7 +4,7 @@
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import type { Content } from '@prismicio/client';
-	import type { RegionDocument, CouleurDocument } from '$lib/../../prismicio-types';
+	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
@@ -32,37 +32,37 @@
 		isBurgerMenuVisible = !isBurgerMenuVisible;
 	}
 
-	// Variables réactives avec $app/stores (fiable)
+	// Variables réactives avec $app/state (SvelteKit 2.0+)
 	$: currentPath = page.url.pathname;
 	$: isCaveParentActive = currentPath.startsWith('/cave/');
 
-	// Fonctions réactives pour la navigation
-	function isActiveLink(navigationItem: any): boolean {
+	// Fonctions helper pour la navigation active - plus besoin de dérivés manuels
+	export const isActiveLink = (navigationItem: any) => {
 		if (!navigationItem.link?.url) return false;
 
 		// Pour la page d'accueil
-		if (navigationItem.link.url === '/' && page.url.pathname === '/') {
+		if (navigationItem.link.url === '/' && currentPath === '/') {
 			return true;
 		}
 
 		// Pour les autres pages
-		if (navigationItem.link.url !== '/' && page.url.pathname.startsWith(navigationItem.link.url)) {
+		if (navigationItem.link.url !== '/' && currentPath.startsWith(navigationItem.link.url)) {
 			return true;
 		}
 
 		return false;
-	}
+	};
 
-	function isRegionActive(region: any): boolean {
+	export const isRegionActive = (region: any) => {
 		if (!region.uid) return false;
 		const regionPath = region.uid === 'all' ? '/cave/all-wines' : `/cave/${region.uid}`;
-		return page.url.pathname === regionPath;
-	}
+		return currentPath === regionPath;
+	};
 
-	function isColorActive(color: any): boolean {
+	export const isColorActive = (color: any) => {
 		if (!color.uid) return false;
-		return page.url.pathname === `/cave/${color.uid}`;
-	}
+		return currentPath === `/cave/${color.uid}`;
+	};
 </script>
 
 <header
