@@ -4,11 +4,15 @@
 	export let slice;
 </script>
 
-<section data-slice-type={slice.slice_type} data-slice-variation={slice.variation}>
+<section
+	data-slice-type={slice.slice_type}
+	data-slice-variation={slice.variation}
+	class="max-sm:container"
+>
 	<div
-		class="mx-8 mb-24 mt-8 flex flex-col items-center gap-6 text-left font-light text-primary md:mx-0 md:mr-12 md:flex-row"
+		class="mb-24 mt-8 flex flex-col items-center gap-6 font-light text-primary md:mx-0 md:mr-12 md:flex-row"
 	>
-		<div class="basis-1/3">
+		<div class="flex-1">
 			<PrismicLink field={slice.primary.link_2}>
 				<div class="relative">
 					<PrismicImage field={slice.primary.image_2} class="h-44 md:h-auto" />
@@ -20,7 +24,7 @@
 				</div></PrismicLink
 			>
 		</div>
-		<div class="basis-1/3">
+		<div class="flex-1">
 			<PrismicLink field={slice.primary.link}>
 				<div class="relative">
 					<PrismicImage field={slice.primary.image} class="h-44 md:h-auto" />
@@ -30,8 +34,8 @@
 				</div></PrismicLink
 			>
 		</div>
-		<div class="basis-1/3">
-			<div class="text-center text-2xl font-medium md:text-left md:text-4xl">
+		<div class="flex-1">
+			<div class="w-full text-center text-2xl font-medium md:w-52 md:text-left md:text-4xl">
 				<PrismicRichText field={slice.primary.title} />
 			</div>
 			<div class="mt-3 text-xs md:mt-8 md:text-lg">
