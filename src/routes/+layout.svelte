@@ -7,7 +7,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 
-	export let data;
+	export let data: any;
 
 	// Variables réactives globales pour la navigation
 	$: currentPath = page.url.pathname;
@@ -48,6 +48,11 @@
 <main>
 	<slot />
 </main>
-<Footer settings={page.data.settings} />
+<Footer
+	settings={data.settings}
+	regions={data.regions}
+	colors={data.colors}
+	categories={data.categories}
+/>
 
 <PrismicPreview {repositoryName} />

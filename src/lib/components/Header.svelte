@@ -15,6 +15,7 @@
 	let isBurgerMenuVisible: boolean = false;
 	let closeMegaMenuTimeout: ReturnType<typeof setTimeout> | undefined;
 	let megaMenuOpacity: number = 0;
+	let isScrolled: boolean = false;
 
 	function openMegaMenu() {
 		if (closeMegaMenuTimeout) clearTimeout(closeMegaMenuTimeout);
@@ -31,6 +32,10 @@
 
 	function toggleBurgerMenu() {
 		isBurgerMenuVisible = !isBurgerMenuVisible;
+	}
+
+	function handleScroll() {
+		isScrolled = window.scrollY > 0;
 	}
 
 	// Variables réactives avec $app/state (SvelteKit 2.0+)
@@ -66,8 +71,12 @@
 	};
 </script>
 
+<svelte:window on:scroll={handleScroll} />
+
 <header
-	class="sticky top-0 z-50 flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12"
+	class="sticky top-0 z-50 flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12 {isScrolled
+		? 'shadow-md'
+		: ''}"
 >
 	<a href="/"><PrismicImage field={settings.data.logo_header} /></a>
 	<button class="block lg:hidden" on:click={toggleBurgerMenu}>

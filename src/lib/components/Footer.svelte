@@ -1,46 +1,48 @@
 <script lang="ts">
-	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
 	import type { Content } from '@prismicio/client';
+	import type { RegionDocument, CouleurDocument, CategoriesDocument } from '../../prismicio-types';
+	import FooterMobile from './footer/FooterMobile.svelte';
+	import FooterDesktop from './footer/FooterDesktop.svelte';
+	import FooterAside from './footer/FooterAside.svelte';
 
 	export let settings: Content.SettingsDocument;
+	export let regions: RegionDocument[] = [];
+	export let colors: CouleurDocument[] = [];
+	export let categories: CategoriesDocument[] = [];
 </script>
 
-<footer class="flex flex-col items-center md:flex-row">
-	<nav class="w-full bg-primary md:min-h-80" aria-label="Footer">
-		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
-
-		<ul>
-			{#each settings.data.navigation as item (item.label)}
-				<li>
-					<PrismicLink field={item.link} class="inline-flex min-h-11 items-center text-secondary">
-						{item.label}
-					</PrismicLink>
-				</li>
-			{/each}
-		</ul>
-	</nav>
-	<aside
-		class="flex min-w-96 flex-col justify-center gap-4 bg-[#f0efed] px-4 py-6 text-[15px] md:absolute md:right-0 md:mr-12"
+<footer class="relative flex flex-col md:flex-row">
+	<!-- Section principale avec colonnes - fond bordeaux avec texte blanc -->
+	<div
+		class="footer-content w-full bg-[#3b0d0c] px-6 pt-12 max-sm:pb-4 md:px-12 md:py-12 md:pr-[420px]"
 	>
-		<a href="/" class="flex justify-center gap-2">
-			<PrismicImage field={settings.data.logo_footer} />
-			<div class="text-black font-['Sofia Pro'] h-7 w-[216px] text-[23px] font-light">
-				la Cave des Saveurs
-			</div>
-		</a>
-		<div class="text-center">
-			<span class="text-black font-['Sofia Pro'] font-normal">
-				La Cave des Saveurs : vins et épicerie fine en Arles<br />
-			</span>
-			<span class="text-black font-['Sofia Pro'] font-bold">
-				L'abus d'alcool est dangereux pour la santé. <br /> À consommer avec modération.
-			</span>
-			<div class="mt-4 flex justify-center gap-2">
-				<div class="text-black font-['Sofia Pro'] font-normal underline">Mentions légales</div>
-				<div style="text-black font-normal font-['Sofia Pro']">
-					| Illustrations non contractuelles
-				</div>
-			</div>
-		</div>
-	</aside>
+		<FooterMobile {settings} {regions} />
+		<FooterDesktop {settings} {regions} />
+	</div>
+
+	<FooterAside {settings} />
 </footer>
+
+<style>
+	/* Forcer le texte en blanc dans la section bordeaux */
+	.footer-content {
+		color: white !important;
+	}
+
+	.footer-content * {
+		color: white !important;
+	}
+
+	.footer-content h3,
+	.footer-content h4,
+	.footer-content p,
+	.footer-content li,
+	.footer-content a {
+		color: white !important;
+	}
+
+	/* Hover effect pour les liens */
+	.footer-content a:hover {
+		color: #d1d5db !important;
+	}
+</style>

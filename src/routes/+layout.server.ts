@@ -10,15 +10,17 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 	const settings = await client.getSingle('settings');
 
 	try {
-		const [regions, colors] = await Promise.all([
+		const [regions, colors, categories] = await Promise.all([
 			client.getAllByType('region'),
-			client.getAllByType('couleur')
+			client.getAllByType('couleur'),
+			client.getAllByType('categories')
 		]);
 
 		return {
 			settings,
 			regions: sortByOrderMenu(regions),
 			colors: sortByOrderMenu(colors),
+			categories: sortByOrderMenu(categories),
 			title: 'Cave des Saveurs'
 		};
 	} catch (error) {
@@ -27,6 +29,7 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 			settings,
 			regions: [],
 			colors: [],
+			categories: [],
 			title: 'Cave des Saveurs'
 		};
 	}
