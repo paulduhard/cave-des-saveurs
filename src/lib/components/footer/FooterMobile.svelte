@@ -33,8 +33,8 @@
 				<h3 class="mb-4 text-lg font-normal">La cave à vins</h3>
 				<div class="space-y-1">
 					<h4 class="text-md font-normal underline">Par région</h4>
-					<ul class="text-sm">
-						{#each regions.slice(0, 10) as region}
+					<ul class="text-sm leading-4">
+						{#each regions as region}
 							<li>
 								<a
 									href={`/cave/${region.uid === 'all' ? 'all-wines' : region.uid}`}
@@ -49,7 +49,7 @@
 
 				<div class="mt-6 space-y-1">
 					<h4 class="text-md font-normal underline">Autres boissons</h4>
-					<ul class="text-sm">
+					<ul class="text-sm leading-4">
 						{#each alcools as alcool}
 							<li>{alcool}</li>
 						{/each}
@@ -65,7 +65,7 @@
 				<h3 class="mb-4 text-lg font-normal">Épicerie</h3>
 				<div class="space-y-1">
 					<h4 class="text-md font-normal underline">Par région</h4>
-					<ul class="text-sm">
+					<ul class="text-sm leading-4">
 						{#each epicerieRegions as region}
 							<li>{region}</li>
 						{/each}
@@ -74,7 +74,7 @@
 
 				<div class="mt-6 space-y-1">
 					<h4 class="text-md font-normal underline">Nos produits</h4>
-					<ul class="text-sm">
+					<ul class="text-sm leading-4">
 						{#each nosProduits as produit}
 							<li>{produit}</li>
 						{/each}
