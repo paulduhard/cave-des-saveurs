@@ -28,21 +28,4 @@
 	.footer-content {
 		color: white !important;
 	}
-
-	.footer-content * {
-		color: white !important;
-	}
-
-	.footer-content h3,
-	.footer-content h4,
-	.footer-content p,
-	.footer-content li,
-	.footer-content a {
-		color: white !important;
-	}
-
-	/* Hover effect pour les liens */
-	.footer-content a:hover {
-		color: #d1d5db !important;
-	}
 </style>

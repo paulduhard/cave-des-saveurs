@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PrismicLink } from '@prismicio/svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument } from '../../../prismicio-types';
 
@@ -83,9 +84,23 @@
 					</ul>
 				</div>
 
-				<div class="mt-4">
-					<h4 class="text-lg font-normal">La boutique</h4>
-					<h4 class="text-lg font-normal">Les dégustations</h4>
+				<div class="mt-4 flex flex-col gap-2">
+					{#if settings.data.navigation && settings.data.navigation.length > 0}
+						<PrismicLink
+							field={settings.data.navigation[0].link}
+							class="hover:text-gray-300 text-lg font-normal transition-colors duration-200"
+						>
+							La boutique
+						</PrismicLink>
+					{/if}
+					{#if settings.data.navigation && settings.data.navigation.length > 1}
+						<PrismicLink
+							field={settings.data.navigation[settings.data.navigation.length - 1].link}
+							class="hover:text-gray-300 text-lg font-normal transition-colors duration-200"
+						>
+							Les dégustations
+						</PrismicLink>
+					{/if}
 				</div>
 			</div>
 		</div>
