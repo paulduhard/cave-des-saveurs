@@ -178,10 +178,10 @@
 </script>
 
 <div class="container mx-auto mt-12">
-	<header class="mx-12 flex flex-grow items-center justify-between">
+	<header class="flex flex-grow items-center justify-between">
 		<h1
-			class="mb-4 font-span text-5xl font-bold transition-all duration-500
-			ease-in-out"
+			class="mb-4 w-full font-span text-4xl font-bold transition-all duration-500
+			ease-in-out md:text-5xl"
 		>
 			{regionData?.region || 'Region'}
 		</h1>
@@ -194,9 +194,9 @@
 	<div class="md:flex">
 		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
 
-		<main class="w-3/4 md:mx-6">
+		<main class="md:mx-6 md:w-3/4">
 			<p
-				class="mb-4 font-span text-lg font-bold transition-all duration-500 ease-in-out
+				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out
 md:mx-12"
 			>
 				{regionData?.description?.[0]?.text || ''}

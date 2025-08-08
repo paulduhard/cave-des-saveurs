@@ -10,7 +10,7 @@
 		class="flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl md:rounded-md md:border-none"
 	>
 		<div class="flex flex-row-reverse md:flex-col">
-			<div class="w-1/2 md:w-auto">
+			<div class="w-1/2 self-end md:w-auto">
 				{#if wine.image.url}
 					<PrismicImage field={wine.image} class="self-center" />
 				{:else}

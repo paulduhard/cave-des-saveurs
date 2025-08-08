@@ -14,6 +14,8 @@
 	export let regions: RegionDocument[] = [];
 	export let colors: CouleurDocument[] = [];
 	export let className: string = '';
+	export let isRegionActive: (region: any) => boolean;
+	export let isColorActive: (color: any) => boolean;
 
 	$: sortedColors = colors
 		.slice()
@@ -28,7 +30,7 @@
 				<li>
 					<a
 						href={`/cave/${region.uid === 'all' ? 'all-wines' : region.uid}`}
-						class="hover:underline"
+						class="hover:underline {isRegionActive(region) ? 'font-bold text-primary' : ''}"
 					>
 						{region.data.region}
 					</a>
@@ -40,7 +42,10 @@
 		<p class="mb-2 uppercase text-primary">Nos vins par couleur</p>
 		{#each sortedColors as color (color.id)}
 			<li>
-				<a href={`/cave/${color.uid}`} class="hover:underline">
+				<a
+					href={`/cave/${color.uid}`}
+					class="hover:underline {isColorActive(color) ? 'font-bold text-primary' : ''}"
+				>
 					{color.data.couleur}
 				</a>
 			</li>
