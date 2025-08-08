@@ -109,7 +109,14 @@
 	<!-- Coordonnées Mobile en bas -->
 	<div class="mt-6 text-sm">
 		{#if settings.data.adresse}
-			<p>{settings.data.adresse}</p>
+			<a
+				href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"
+				target="_blank"
+				rel="noopener"
+				class="hover:text-gray-300 text-sm transition-colors duration-200"
+			>
+				{settings.data.adresse}
+			</a>
 		{/if}
 		{#if settings.data.telephone}
 			<p>
