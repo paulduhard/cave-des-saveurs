@@ -25,7 +25,7 @@
 
 <!-- Version Desktop - 3 colonnes -->
 <div class="hidden md:block">
-	<div class="grid grid-cols-3 gap-16">
+	<div class="grid grid-cols-3 gap-12">
 		<!-- Colonne 1 - La cave à vins -->
 		<div class="space-y-3">
 			<h3 class="text-lg font-normal">La cave à vins</h3>
@@ -102,7 +102,7 @@
 			</div>
 
 			<!-- Coordonnées sous la 3ème colonne -->
-			<div class="mt-6 text-sm">
+			<div class="pt-8 text-sm">
 				{#if settings.data.adresse}
 					<a
 						href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"

@@ -6,7 +6,7 @@
 </script>
 
 <aside
-	class="flex min-w-96 flex-col justify-center gap-4 bg-[#f0efed] px-4 py-6 text-[13px] max-sm:border-[25px] max-sm:border-primary max-sm:leading-none md:absolute md:right-0 md:top-0 md:mr-12 md:h-full md:text-[15px]"
+	class="flex min-w-96 flex-col justify-center gap-4 bg-[#f0efed] px-4 py-6 text-[13px] max-sm:border-[25px] max-sm:border-primary max-sm:leading-none md:absolute md:right-0 md:top-1/2 md:mr-12 md:h-full md:max-h-[250px] md:-translate-y-1/2 md:text-[15px]"
 >
 	<a href="/" class="flex justify-center gap-2">
 		<PrismicImage field={settings.data.logo_footer} />

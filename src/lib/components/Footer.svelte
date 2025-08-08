@@ -14,7 +14,7 @@
 <footer class="relative flex flex-col md:flex-row">
 	<!-- Section principale avec colonnes - fond bordeaux avec texte blanc -->
 	<div
-		class="footer-content w-full bg-[#3b0d0c] px-6 pt-12 max-sm:pb-4 md:px-12 md:py-12 md:pr-[420px]"
+		class="footer-content w-full bg-[#3b0d0c] px-6 pt-12 max-sm:pb-4 md:px-12 md:py-12 md:pr-[520px]"
 	>
 		<FooterMobile {settings} {regions} />
 		<FooterDesktop {settings} {regions} />
