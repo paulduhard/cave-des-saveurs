@@ -3,6 +3,7 @@
 	import { page } from '$app/state';
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
+	import SearchIcon from './SearchIcon.svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 
@@ -95,7 +96,7 @@
 			{/if}
 		</svg>
 	</button>
-	<nav class="hidden lg:ml-auto lg:flex lg:items-center xl:mr-40" aria-label="Header">
+	<nav class="hidden lg:ml-auto lg:flex lg:items-center" aria-label="Header">
 		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
 
 		<ul class="flex content-center gap-16 md:gap-6">
@@ -137,6 +138,15 @@
 			{/each}
 		</ul>
 	</nav>
+
+	<!-- Icône de recherche -->
+	<button
+		class="ml-4 hidden rounded-full p-2 transition-all duration-200 hover:bg-primary hover:bg-opacity-10 lg:block [&:hover_svg]:brightness-0 [&:hover_svg]:invert"
+		aria-label="Rechercher"
+		title="Rechercher"
+	>
+		<SearchIcon class="h-5 w-5" />
+	</button>
 </header>
 
 {#if isBurgerMenuVisible}
@@ -176,6 +186,16 @@
 					{/if}
 				</li>
 			{/each}
+			<!-- Icône de recherche mobile -->
+			<li class="mt-4 border-t border-primary border-opacity-20 pt-4">
+				<button
+					class="hover:text-white flex items-center gap-3 uppercase transition-all duration-200"
+					aria-label="Rechercher"
+				>
+					<SearchIcon class="h-4 w-4" />
+					Rechercher
+				</button>
+			</li>
 		</ul>
 	</nav>
 {/if}
