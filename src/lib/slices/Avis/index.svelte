@@ -54,7 +54,7 @@
 					<button on:click={previousSlide}>
 						<img src="/assets/chevron-gauche.svg" alt="Précédent" class="h-24 w-24 md:h-6 md:w-6" />
 					</button>
-					<div class="mx-8 text-xs md:mx-24 md:text-base">
+					<div class="mx-8 text-sm md:mx-24 md:text-base">
 						<PrismicRichText field={item.text} />
 					</div>
 					<button on:click={nextSlide}>

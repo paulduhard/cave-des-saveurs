@@ -9,7 +9,7 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="mb-28 p-8 text-center"
+		class="mb-28 text-center md:p-8"
 	>
 		<div
 			class="relative h-[340px] md:aspect-auto md:h-[400px]
@@ -23,7 +23,7 @@
 		<div class="mt-8 text-2xl md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
-		<div class="mx-6 mt-4 text-xs md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
+		<div class="text-md mx-6 mt-4 md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
 			<PrismicRichText field={slice.primary.text} />
 		</div>
 		<div class="mt-8 text-center text-base font-light text-primary">
@@ -43,7 +43,7 @@
 		<div class="pt-8 font-span text-2xl font-semibold md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
-		<div class="mx-8 mt-4 text-justify indent-8 text-xs md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
+		<div class="text-md mx-8 mt-4 text-justify indent-8 md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
 			<PrismicRichText field={slice.primary.text} />
 		</div>
 	</section>

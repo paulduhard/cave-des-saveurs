@@ -28,7 +28,7 @@
 			<PrismicLink field={slice.primary.link}>
 				<div class="relative">
 					<PrismicImage field={slice.primary.image} class="h-44 md:h-auto" />
-					<p class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xl text-primary">
+					<p class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary">
 						{slice.primary.label}
 					</p>
 				</div></PrismicLink
@@ -38,7 +38,7 @@
 			<div class="w-full text-center text-2xl font-medium md:w-52 md:text-left md:text-4xl">
 				<PrismicRichText field={slice.primary.title} />
 			</div>
-			<div class="mt-3 text-xs md:mt-8 md:text-lg">
+			<div class="text-md mt-3 md:mt-8 md:text-lg">
 				<PrismicRichText field={slice.primary.text} />
 			</div>
 		</div>
