@@ -4,6 +4,7 @@
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import SearchIcon from './SearchIcon.svelte';
+	import BurgerMenu from './BurgerMenu.svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 
@@ -159,54 +160,15 @@
 </header>
 
 {#if isBurgerMenuVisible}
-	<nav class="bg-secondary p-4 lg:hidden" aria-label="Burger Menu">
-		<ul class="flex flex-col gap-4">
-			{#each settings.data.navigation as item, index (item.label)}
-				<li
-					class="relative uppercase hover:underline {isActiveLink(item)
-						? 'font-bold text-primary'
-						: ''}"
-				>
-					{#if item.external_link}
-						<PrismicLink
-							field={item.link}
-							class="flex items-center gap-2 hover:bg-secondary hover:text-primary"
-						>
-							{item.label}
-							<ExtLink />
-							<span class="sr-only">External link</span>
-						</PrismicLink>
-					{:else if index === 1}
-						<button
-							class="cursor-pointer uppercase {isActiveLink(item) || isCaveParentActive
-								? 'font-bold text-primary'
-								: ''}"
-							on:click={openMegaMenu}
-						>
-							{item.label}
-						</button>
-					{:else}
-						<PrismicLink
-							field={item.link}
-							class={isActiveLink(item) ? 'font-bold text-primary' : ''}
-						>
-							{item.label}
-						</PrismicLink>
-					{/if}
-				</li>
-			{/each}
-			<!-- Icône de recherche mobile -->
-			<li class="mt-4 border-t border-primary border-opacity-20 pt-4">
-				<button
-					class="hover:text-white flex items-center gap-3 uppercase transition-all duration-200"
-					aria-label="Rechercher"
-				>
-					<SearchIcon class="h-4 w-4" />
-					Rechercher
-				</button>
-			</li>
-		</ul>
-	</nav>
+	<BurgerMenu
+		{settings}
+		{regions}
+		{colors}
+		{isActiveLink}
+		{isRegionActive}
+		{isColorActive}
+		{isCaveParentActive}
+	/>
 {/if}
 
 {#if isMegaMenuVisible}
@@ -215,8 +177,8 @@
 		aria-label="Mega menu"
 		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
-		class="relative"
-		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out;"
+		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
+		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 	>
 		<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
 	</div>

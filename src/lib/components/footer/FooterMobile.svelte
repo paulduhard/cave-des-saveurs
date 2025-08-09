@@ -85,21 +85,21 @@
 				</div>
 
 				<div class="mt-4 flex flex-col gap-2">
-					{#if settings.data.navigation && settings.data.navigation.length > 0}
-						<PrismicLink
-							field={settings.data.navigation[0].link}
+					{#if settings.data.navigation && settings.data.navigation[0]?.link}
+						<a
+							href={settings.data.navigation[0].link.url}
 							class="hover:text-gray-300 text-lg font-normal transition-colors duration-200"
 						>
 							La boutique
-						</PrismicLink>
+						</a>
 					{/if}
-					{#if settings.data.navigation && settings.data.navigation.length > 1}
-						<PrismicLink
-							field={settings.data.navigation[settings.data.navigation.length - 1].link}
+					{#if settings.data.navigation && settings.data.navigation[settings.data.navigation.length - 1]?.link}
+						<a
+							href={settings.data.navigation[settings.data.navigation.length - 1].link.url}
 							class="hover:text-gray-300 text-lg font-normal transition-colors duration-200"
 						>
 							Les dégustations
-						</PrismicLink>
+						</a>
 					{/if}
 				</div>
 			</div>
