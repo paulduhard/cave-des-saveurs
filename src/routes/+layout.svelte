@@ -31,6 +31,7 @@
 </script>
 
 <svelte:head>
+	<meta name="robots" content="noindex, nofollow" />
 	<title>{page.data.title}</title>
 	{#if page.data.meta_description}
 		<meta name="description" content={page.data.meta_description} />
