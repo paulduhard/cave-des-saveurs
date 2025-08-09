@@ -433,6 +433,7 @@ export type OrigineDocument<Lang extends string = string> = prismic.PrismicDocum
 >;
 
 type PageDocumentDataSlicesSlice =
+	| GalleryGridSlice
 	| LocationContactInfoSlice
 	| NewsletterSignupSlice
 	| SpacerSlice
@@ -1347,6 +1348,83 @@ type BannerSocialSliceVariation = BannerSocialSliceDefault;
 export type BannerSocialSlice = prismic.SharedSlice<'banner_social', BannerSocialSliceVariation>;
 
 /**
+ * Item in *GalleryGrid → 3x2 Grid → Primary → Images*
+ */
+export interface GalleryGridSliceThreeByTwoGridPrimaryImagesItem {
+	/**
+	 * Image field in *GalleryGrid → 3x2 Grid → Primary → Images*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: gallery_grid.three_by_two_grid.primary.images[].image
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+}
+
+/**
+ * Primary content in *GalleryGrid → 3x2 Grid → Primary*
+ */
+export interface GalleryGridSliceThreeByTwoGridPrimary {
+	/**
+	 * Images field in *GalleryGrid → 3x2 Grid → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: gallery_grid.three_by_two_grid.primary.images[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	images: prismic.GroupField<Simplify<GalleryGridSliceThreeByTwoGridPrimaryImagesItem>>;
+
+	/**
+	 * Show Captions field in *GalleryGrid → 3x2 Grid → Primary*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: gallery_grid.three_by_two_grid.primary.show_captions
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	show_captions: prismic.BooleanField;
+
+	/**
+	 * Caption Text field in *GalleryGrid → 3x2 Grid → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: gallery_grid.three_by_two_grid.primary.caption_text
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	caption_text: prismic.KeyTextField;
+}
+
+/**
+ * 3x2 Grid variation for GalleryGrid Slice
+ *
+ * - **API ID**: `three_by_two_grid`
+ * - **Description**: Displays six images arranged evenly in two rows of three, typically for showcasing grouped sets or featured content in a gallery format.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type GalleryGridSliceThreeByTwoGrid = prismic.SharedSliceVariation<
+	'three_by_two_grid',
+	Simplify<GalleryGridSliceThreeByTwoGridPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *GalleryGrid*
+ */
+type GalleryGridSliceVariation = GalleryGridSliceThreeByTwoGrid;
+
+/**
+ * GalleryGrid Shared Slice
+ *
+ * - **API ID**: `gallery_grid`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type GalleryGridSlice = prismic.SharedSlice<'gallery_grid', GalleryGridSliceVariation>;
+
+/**
  * Primary content in *Hero → HeroImage → Primary*
  */
 export interface HeroSliceDefaultPrimary {
@@ -1938,6 +2016,11 @@ declare module '@prismicio/client' {
 			BannerSocialSliceDefaultItem,
 			BannerSocialSliceVariation,
 			BannerSocialSliceDefault,
+			GalleryGridSlice,
+			GalleryGridSliceThreeByTwoGridPrimaryImagesItem,
+			GalleryGridSliceThreeByTwoGridPrimary,
+			GalleryGridSliceVariation,
+			GalleryGridSliceThreeByTwoGrid,
 			HeroSlice,
 			HeroSliceDefaultPrimary,
 			HeroSliceHeroTextOnlyPrimary,

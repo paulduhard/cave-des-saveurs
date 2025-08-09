@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PrismicLink } from '@prismicio/svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument } from '../../../prismicio-types';
 
@@ -24,43 +25,42 @@
 
 <!-- Version Desktop - 3 colonnes -->
 <div class="hidden md:block">
-	<div class="grid grid-cols-3 gap-16">
+	<div class="grid grid-cols-3 gap-12">
 		<!-- Colonne 1 - La cave à vins -->
-		<div class="space-y-6">
+		<div class="space-y-3">
 			<h3 class="text-lg font-normal">La cave à vins</h3>
 
 			<div class="space-y-3">
 				<h4 class="text-sm font-normal underline">Par région</h4>
-				<ul class="space-y-1 text-sm">
-					{#each regions.slice(0, 10) as region}
+				<ul class="text-sm leading-4">
+					{#each regions as region}
 						<li>
 							<a
 								href={`/cave/${region.uid === 'all' ? 'all-wines' : region.uid}`}
-								class="hover:text-gray-300 transition-colors duration-200"
+								class="transition-colors duration-200 hover:underline"
 							>
 								{region.data.region}
 							</a>
-						</li>
-					{/each}
+						</li>{/each}
 				</ul>
 			</div>
 		</div>
 
 		<!-- Colonne 2 - Autres boissons + Épicerie -->
-		<div class="space-y-6">
-			<div class="space-y-3">
-				<h3 class="text-lg font-normal">Autres boissons</h3>
-				<ul class="space-y-1 text-sm">
+		<div class="space-y-3">
+			<div class="space-y-1">
+				<h3 class="text-lg font-normal underline">Autres boissons</h3>
+				<ul class="text-sm leading-4">
 					{#each alcools as alcool}
 						<li>{alcool}</li>
 					{/each}
 				</ul>
 			</div>
 
-			<div class="space-y-3">
+			<div class="space-y-1 pt-4">
 				<h3 class="text-lg font-normal">Épicerie</h3>
 				<h4 class="text-sm font-normal underline">Par région</h4>
-				<ul class="space-y-1 text-sm">
+				<ul class="text-sm leading-4">
 					{#each epicerieRegions as region}
 						<li>{region}</li>
 					{/each}
@@ -69,40 +69,55 @@
 		</div>
 
 		<!-- Colonne 3 - Nos produits + Liens + Coordonnées -->
-		<div class="space-y-6">
-			<div class="space-y-3">
-				<h3 class="text-lg font-normal">Nos produits</h3>
-				<ul class="space-y-1 text-sm">
+		<div class="space-y-3">
+			<div class="space-y-1">
+				<h3 class="text-lg font-normal underline">Nos produits</h3>
+				<ul class="text-sm leading-4">
 					{#each nosProduits as produit}
 						<li>{produit}</li>
 					{/each}
-				</ul>
-			</div>
-
-			<div class="space-y-3">
-				<h4 class="text-sm font-normal underline">Autres produits</h4>
-				<ul class="space-y-1 text-sm">
 					{#each autresProduits as produit}
 						<li>{produit}</li>
 					{/each}
 				</ul>
 			</div>
 
-			<div class="space-y-4">
-				<h3 class="text-lg font-normal underline">La boutique</h3>
-				<h3 class="text-lg font-normal underline">Les dégustations</h3>
+			<div class="mt-4 flex flex-col gap-2">
+				{#if settings.data.navigation && settings.data.navigation.length > 0}
+					<PrismicLink
+						field={settings.data.navigation[0].link}
+						class="text-lg font-normal transition-colors duration-200 hover:underline"
+					>
+						La boutique
+					</PrismicLink>
+				{/if}
+				{#if settings.data.navigation && settings.data.navigation.length > 1}
+					<PrismicLink
+						field={settings.data.navigation[settings.data.navigation.length - 1].link}
+						class="text-lg font-normal transition-colors duration-200 hover:underline"
+					>
+						Les dégustations
+					</PrismicLink>
+				{/if}
 			</div>
 
 			<!-- Coordonnées sous la 3ème colonne -->
-			<div class="mt-8 space-y-2 text-sm">
+			<div class="pt-8 text-sm">
 				{#if settings.data.adresse}
-					<p class="underline">{settings.data.adresse}</p>
+					<a
+						href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"
+						target="_blank"
+						rel="noopener"
+						class="text-sm transition-colors duration-200 hover:underline"
+					>
+						{settings.data.adresse}
+					</a>
 				{/if}
 				{#if settings.data.telephone}
 					<p>
 						<a
 							href="tel:{settings.data.telephone}"
-							class="hover:text-gray-300 transition-colors duration-200"
+							class="transition-colors duration-200 hover:underline"
 						>
 							{settings.data.telephone}
 						</a>
@@ -112,7 +127,7 @@
 					<p>
 						<a
 							href="mailto:{settings.data.email}"
-							class="hover:text-gray-300 transition-colors duration-200"
+							class="transition-colors duration-200 hover:underline"
 						>
 							{settings.data.email}
 						</a>
