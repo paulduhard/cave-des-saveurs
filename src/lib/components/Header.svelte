@@ -159,7 +159,7 @@
 </header>
 
 {#if isBurgerMenuVisible}
-	<nav class="bg-secondary p-4 lg:hidden" aria-label="Burger Menu">
+	<nav class="h-screen bg-secondary px-4 py-8 shadow-lg lg:hidden" aria-label="Burger Menu">
 		<ul class="flex flex-col gap-4">
 			{#each settings.data.navigation as item, index (item.label)}
 				<li
@@ -196,14 +196,45 @@
 				</li>
 			{/each}
 			<!-- Icône de recherche mobile -->
-			<li class="mt-4 border-t border-primary border-opacity-20 pt-4">
+			<li class="pt-8">
 				<button
-					class="hover:text-white flex items-center gap-3 uppercase transition-all duration-200"
+					class="mx-auto flex items-center gap-3 uppercase transition-all duration-200"
 					aria-label="Rechercher"
 				>
-					<SearchIcon class="h-4 w-4" />
-					Rechercher
+					<SearchIcon class="h-8 w-8" />
 				</button>
+			</li>
+			<li class="mt-4 border-t-[.5px] border-primary pt-8 text-center">
+				{#if settings.data.adresse}
+					<p class="text-lg">Où nous trouver ?</p>
+					<a
+						href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"
+						target="_blank"
+						rel="noopener"
+						class="text-sm transition-colors duration-200 hover:underline"
+					>
+						{settings.data.adresse}
+					</a>
+				{/if}
+				{#if settings.data.telephone}
+					<p class="mt-2 text-lg">Nous contacter</p>
+					<a
+						href="tel:{settings.data.telephone}"
+						class="transition-colors duration-200 hover:underline"
+					>
+						{settings.data.telephone}
+					</a>
+				{/if}
+				{#if settings.data.email}
+					<p>
+						<a
+							href="mailto:{settings.data.email}"
+							class="transition-colors duration-200 hover:underline"
+						>
+							{settings.data.email}
+						</a>
+					</p>
+				{/if}
 			</li>
 		</ul>
 	</nav>
