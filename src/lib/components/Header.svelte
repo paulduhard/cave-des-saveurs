@@ -4,6 +4,7 @@
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import SearchIcon from './SearchIcon.svelte';
+	import BurgerMenu from './BurgerMenu.svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 
@@ -159,85 +160,15 @@
 </header>
 
 {#if isBurgerMenuVisible}
-	<nav class="h-screen bg-secondary px-4 py-8 shadow-lg lg:hidden" aria-label="Burger Menu">
-		<ul class="flex flex-col gap-4">
-			{#each settings.data.navigation as item, index (item.label)}
-				<li
-					class="relative uppercase hover:underline {isActiveLink(item)
-						? 'font-bold text-primary'
-						: ''}"
-				>
-					{#if item.external_link}
-						<PrismicLink
-							field={item.link}
-							class="flex items-center gap-2 hover:bg-secondary hover:text-primary"
-						>
-							{item.label}
-							<ExtLink />
-							<span class="sr-only">External link</span>
-						</PrismicLink>
-					{:else if index === 1}
-						<button
-							class="cursor-pointer uppercase {isActiveLink(item) || isCaveParentActive
-								? 'font-bold text-primary'
-								: ''}"
-							on:click={openMegaMenu}
-						>
-							{item.label}
-						</button>
-					{:else}
-						<PrismicLink
-							field={item.link}
-							class={isActiveLink(item) ? 'font-bold text-primary' : ''}
-						>
-							{item.label}
-						</PrismicLink>
-					{/if}
-				</li>
-			{/each}
-			<!-- Icône de recherche mobile -->
-			<li class="pt-8">
-				<button
-					class="mx-auto flex items-center gap-3 uppercase transition-all duration-200"
-					aria-label="Rechercher"
-				>
-					<SearchIcon class="h-8 w-8" />
-				</button>
-			</li>
-			<li class="mt-4 border-t-[.5px] border-primary pt-8 text-center">
-				{#if settings.data.adresse}
-					<p class="text-lg">Où nous trouver ?</p>
-					<a
-						href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"
-						target="_blank"
-						rel="noopener"
-						class="text-sm transition-colors duration-200 hover:underline"
-					>
-						{settings.data.adresse}
-					</a>
-				{/if}
-				{#if settings.data.telephone}
-					<p class="mt-2 text-lg">Nous contacter</p>
-					<a
-						href="tel:{settings.data.telephone}"
-						class="transition-colors duration-200 hover:underline"
-					>
-						{settings.data.telephone}
-					</a>
-				{/if}
-				{#if settings.data.email}
-					<p>
-						<a
-							href="mailto:{settings.data.email}"
-							class="transition-colors duration-200 hover:underline"
-						>
-							{settings.data.email}
-						</a>
-					</p>
-				{/if}
-			</li>
-		</ul>
-	</nav>
+	<BurgerMenu
+		{settings}
+		{regions}
+		{colors}
+		{isActiveLink}
+		{isRegionActive}
+		{isColorActive}
+		{isCaveParentActive}
+	/>
 {/if}
 
 {#if isMegaMenuVisible}
