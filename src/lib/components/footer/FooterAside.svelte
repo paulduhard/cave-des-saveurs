@@ -22,7 +22,7 @@
 			L'abus d'alcool est dangereux pour la santé. <br /> À consommer avec modération.
 		</span>
 		<div class="text-black font-['Sofia Pro'] mx-auto mt-4 font-normal max-sm:w-56">
-			<span class="underline">Mentions légales</span> | Illustrations non contractuelles
+			<a href="/mentions-legales" class="underline">Mentions légales</a> | Illustrations non contractuelles
 		</div>
 	</div>
 </aside>

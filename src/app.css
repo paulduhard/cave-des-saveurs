@@ -39,6 +39,10 @@
 		--header-height: 60px; /* Height of the header */
 	}
 
+	h1 {
+		font-size: 2rem;
+	}
+
 	p {
 		line-height: 1.4rem;
 	}
