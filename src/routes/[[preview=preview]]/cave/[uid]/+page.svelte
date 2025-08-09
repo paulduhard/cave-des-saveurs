@@ -186,7 +186,7 @@
 			{regionData?.region || 'Region'}
 		</h1>
 		<button
-			class="duration-600 hidden h-12 border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			class="duration-600 hidden h-12 w-fit whitespace-nowrap border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
 			on:click={goToHome}>Alcools et spiritueux</button
 		>
 	</header>

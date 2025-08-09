@@ -215,8 +215,8 @@
 		aria-label="Mega menu"
 		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
-		class="relative"
-		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out;"
+		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
+		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 	>
 		<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
 	</div>
