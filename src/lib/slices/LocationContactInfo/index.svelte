@@ -1,9 +1,32 @@
 <script lang="ts">
 	import { PrismicRichText, PrismicEmbed } from '@prismicio/svelte';
-	import { isFilled } from '@prismicio/client';
 	import type { Content } from '@prismicio/client';
 
 	export let slice: Content.LocationContactInfoSlice;
+
+	// Function to determine the appropriate href attribute based on method type
+	function getContactHref(method: any): string {
+		switch (method.method_type) {
+			case 'phone':
+				return `tel:${method.value.replace(/\s+/g, '')}`;
+			case 'email':
+				return `mailto:${method.value}`;
+			default:
+				return '#';
+		}
+	}
+
+	// Function to determine the appropriate icon based on method type
+	function getContactIcon(method: any): string {
+		switch (method.method_type) {
+			case 'phone':
+				return '';
+			case 'email':
+				return '';
+			default:
+				return '';
+		}
+	}
 </script>
 
 <section
@@ -12,7 +35,7 @@
 	class="container flex flex-col items-center gap-8 py-14 md:flex-row"
 >
 	<!-- Map Section -->
-	<div class="w-full md:w-1/2">
+	<div class="w-full md:w-2/3">
 		<div class="aspect-w-16 aspect-h-9 map-embed">
 			{#if slice.primary.map_iframe}
 				<div class="map-embed">
@@ -30,7 +53,7 @@
 	</div>
 
 	<!-- Contact Information Section -->
-	<div class="w-full space-y-2 text-center md:w-1/2 md:text-left">
+	<div class="w-full space-y-2 text-center md:w-1/3 md:text-left">
 		<div class="mx-auto w-fit space-y-2 border-b-[.5px] pb-4 md:mx-0">
 			<!-- Location Title -->
 			<p class="text-2xl">
@@ -38,9 +61,14 @@
 			</p>
 
 			<!-- Address -->
-			<p>
+			<a
+				href="https://maps.app.goo.gl/rpboHrYd2ha9ouip8"
+				target="_blank"
+				rel="noopener"
+				class="text-sm transition-colors duration-200 hover:underline"
+			>
 				{slice.primary.address}
-			</p>
+			</a>
 		</div>
 
 		<div class="mx-auto w-fit space-y-2 border-b-[.5px] py-4 md:mx-0">
@@ -52,8 +80,24 @@
 			<!-- Contact Methods -->
 			<div class="space-y-2">
 				{#each slice.primary.contact_methods as method}
-					<div>
-						{method.value}
+					<div class="flex items-center gap-2">
+						<span class="text-lg">{getContactIcon(method)}</span>
+						{#if method.method_type === 'other'}
+							<a
+								href={getContactHref(method)}
+								class="transition-colors duration-200 hover:underline"
+								rel="noopener"
+							>
+								{method.value}
+							</a>
+						{:else}
+							<a
+								href={getContactHref(method)}
+								class="transition-colors duration-200 hover:underline"
+							>
+								{method.value}
+							</a>
+						{/if}
 					</div>
 				{/each}
 			</div>

@@ -4,6 +4,7 @@ import Evenements from './Evenements/index.svelte';
 import Newsletter from './Newsletter/index.svelte';
 import Avis from './Avis/index.svelte';
 import Reseaux from './Reseaux/index.svelte';
+import GalleryGrid from './GalleryGrid/index.svelte';
 import Hero from './Hero/index.svelte';
 import LocationContactInfo from './LocationContactInfo/index.svelte';
 import NewsletterSignup from './NewsletterSignup/index.svelte';
@@ -17,6 +18,7 @@ export const components = {
 	banner_newsletter: Newsletter,
 	banner_review: Avis,
 	banner_social: Reseaux,
+	gallery_grid: GalleryGrid,
 	hero: Hero,
 	location_contact_info: LocationContactInfo,
 	newsletter_signup: NewsletterSignup,
