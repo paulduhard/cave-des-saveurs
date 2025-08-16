@@ -12,6 +12,7 @@
 	export let isRegionActive: (region: any) => boolean;
 	export let isColorActive: (color: any) => boolean;
 	export let isCaveParentActive: boolean;
+	export let onLinkClick: () => void;
 
 	let isCaveExpanded = false;
 	let isEpicerieExpanded = false;
@@ -30,11 +31,11 @@
 </script>
 
 <nav
-	class="fixed left-0 right-0 top-[85px] z-40 h-[calc(100vh-85px)] overflow-y-auto bg-secondary px-4 py-8 shadow-lg lg:hidden"
+	class="fixed left-0 right-0 top-[85px] z-40 h-[calc(100vh-85px)] overflow-y-auto bg-secondary px-6 py-8 shadow-lg lg:hidden"
 	aria-label="Burger Menu"
 	style="background-color: var(--secondary);"
 >
-	<ul class="flex flex-col gap-4">
+	<ul class="flex h-full flex-col gap-4">
 		{#each settings.data.navigation as item, index (item.label)}
 			{#if index === 1}
 				<!-- Section LA CAVE -->
@@ -71,7 +72,7 @@
 							<!-- Vins par région -->
 							<div>
 								<p class="mb-2 uppercase text-primary">Nos vins par région</p>
-								<ul class="grid grid-cols-2 gap-y-2 font-light leading-none">
+								<ul class="grid grid-cols-2 gap-y-2 text-sm font-light leading-none">
 									{#each regions as region (region.id)}
 										<li>
 											<a
@@ -79,6 +80,7 @@
 												class="hover:underline {isRegionActive(region)
 													? 'font-bold text-primary'
 													: ''}"
+												on:click={onLinkClick}
 											>
 												{region.data.region}
 											</a>
@@ -90,7 +92,7 @@
 							<!-- Vins par couleur -->
 							<div>
 								<p class="mb-2 uppercase text-primary">Nos vins par couleur</p>
-								<ul class="grid grid-cols-2 gap-y-2 font-light leading-none">
+								<ul class="grid grid-cols-2 gap-y-2 text-sm font-light leading-none">
 									{#each sortedColors as color (color.id)}
 										<li>
 											<a
@@ -98,6 +100,7 @@
 												class="hover:underline {isColorActive(color)
 													? 'font-bold text-primary'
 													: ''}"
+												on:click={onLinkClick}
 											>
 												{color.data.couleur}
 											</a>
@@ -109,7 +112,7 @@
 							<!-- Alcools et spiritueux -->
 							<div>
 								<p class="mb-2 uppercase text-primary">Alcools et spiritueux</p>
-								<ul class="grid grid-cols-2 gap-y-2 font-light leading-none">
+								<ul class="grid grid-cols-2 gap-y-2 text-sm font-light leading-none">
 									<li>Cognacs</li>
 									<li>Armagnacs</li>
 									<li>Whiskies</li>
@@ -156,7 +159,7 @@
 
 					{#if isEpicerieExpanded}
 						<div class="my-4 space-y-6" id="epicerie-submenu">
-							<ul class="grid grid-cols-2 gap-y-2 font-light leading-none">
+							<ul class="grid grid-cols-2 gap-y-2 text-sm font-light leading-none">
 								<li>Tartinable et apéritif</li>
 								<li>Pâtés, rillettes et terrines</li>
 								<li>Charcuterie</li>
@@ -175,6 +178,7 @@
 						<PrismicLink
 							field={item.link}
 							class="flex items-center gap-2 hover:bg-secondary hover:text-primary"
+							on:click={onLinkClick}
 						>
 							{item.label}
 							<ExtLink />
@@ -184,6 +188,7 @@
 						<PrismicLink
 							field={item.link}
 							class={isActiveLink(item) ? 'font-bold text-primary' : ''}
+							on:click={onLinkClick}
 						>
 							{item.label}
 						</PrismicLink>
@@ -193,7 +198,7 @@
 		{/each}
 
 		<!-- Icône de recherche mobile -->
-		<li class="pt-8">
+		<li class="border-b-[.5px] border-primary py-8">
 			<button
 				class="mx-auto flex items-center gap-3 uppercase transition-all duration-200"
 				aria-label="Rechercher"
@@ -203,7 +208,7 @@
 		</li>
 
 		<!-- Informations de contact -->
-		<li class="mt-4 border-t-[.5px] border-primary pt-8 text-center">
+		<li class="mt-auto pt-8 text-center">
 			{#if settings.data.adresse}
 				<p class="text-lg">Où nous trouver ?</p>
 				<a

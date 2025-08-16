@@ -35,6 +35,10 @@
 		isBurgerMenuVisible = !isBurgerMenuVisible;
 	}
 
+	function closeBurgerMenu() {
+		isBurgerMenuVisible = false;
+	}
+
 	function handleScroll() {
 		isScrolled = window.scrollY > 0;
 	}
@@ -42,6 +46,18 @@
 	// Variables réactives avec $app/state (SvelteKit 2.0+)
 	$: currentPath = page.url.pathname;
 	$: isCaveParentActive = currentPath.startsWith('/cave/');
+
+	// Manage body scroll based on burger menu visibility
+	$: {
+		if (typeof document !== 'undefined') {
+			// Ensure code runs only in browser
+			if (isBurgerMenuVisible) {
+				document.body.classList.add('overflow-hidden');
+			} else {
+				document.body.classList.remove('overflow-hidden');
+			}
+		}
+	}
 
 	// Fonctions helper pour la navigation active - plus besoin de dérivés manuels
 	export const isActiveLink = (navigationItem: any) => {
@@ -168,6 +184,7 @@
 		{isRegionActive}
 		{isColorActive}
 		{isCaveParentActive}
+		onLinkClick={closeBurgerMenu}
 	/>
 {/if}
 

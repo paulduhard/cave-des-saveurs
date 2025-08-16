@@ -23,9 +23,6 @@
 						"spacer": {
 							"type": "SharedSlice"
 						},
-						"banner_newsletter": {
-							"type": "SharedSlice"
-						},
 						"banner_event": {
 							"type": "SharedSlice"
 						},

@@ -11,7 +11,7 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="flex h-0 flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6 md:py-4"
+		class="flex h-0 flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6 md:py-8"
 	>
 		<div class="font-light md:text-xl">
 			{#if isFilled.richText(slice.primary.text)}
@@ -51,7 +51,7 @@
 	<section
 		data-slice-type={slice.slice_type}
 		data-slice-variation={slice.variation}
-		class="flex flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6"
+		class="flex flex-col justify-center gap-4 bg-primary py-7 text-center md:flex-row md:items-center md:gap-6 md:py-16"
 	>
 		<div class="font-light md:text-4xl">
 			{#if isFilled.richText(slice.primary.text)}

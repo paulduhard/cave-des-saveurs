@@ -54,7 +54,7 @@
 
 	<!-- Contact Information Section -->
 	<div class="w-full space-y-2 text-center md:w-1/3 md:text-left">
-		<div class="mx-auto w-fit space-y-2 border-b-[.5px] pb-4 md:mx-0">
+		<div class="mx-auto w-[250px] space-y-2 border-b-[.5px] pb-4 md:mx-0">
 			<!-- Location Title -->
 			<p class="text-2xl">
 				{slice.primary.location_title}
@@ -71,7 +71,7 @@
 			</a>
 		</div>
 
-		<div class="mx-auto w-fit space-y-2 border-b-[.5px] py-4 md:mx-0">
+		<div class="mx-auto w-[250px] space-y-2 border-b-[.5px] py-4 md:mx-0">
 			<!-- Contact Title -->
 			<p class="text-2xl">
 				{slice.primary.contact_title}
