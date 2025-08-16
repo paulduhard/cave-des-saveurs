@@ -141,11 +141,7 @@ export type CategoriesDocument<Lang extends string = string> = prismic.PrismicDo
 	Lang
 >;
 
-type CaveDocumentDataSlicesSlice =
-	| SpacerSlice
-	| BannerNewsletterSlice
-	| BannerEventSlice
-	| RichTextSlice;
+type CaveDocumentDataSlicesSlice = SpacerSlice | BannerEventSlice | RichTextSlice;
 
 /**
  * Content for Cave documents
@@ -790,11 +786,7 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-type VinDocumentDataSlicesSlice =
-	| BannerNewsletterSlice
-	| BannerSocialSlice
-	| SpacerSlice
-	| BannerEventSlice;
+type VinDocumentDataSlicesSlice = BannerSocialSlice | SpacerSlice | BannerEventSlice;
 
 /**
  * Content for Vin documents
@@ -1147,51 +1139,6 @@ type BannerEventSliceVariation = BannerEventSliceDefault | BannerEventSliceBanne
  * - **Documentation**: https://prismic.io/docs/slices
  */
 export type BannerEventSlice = prismic.SharedSlice<'banner_event', BannerEventSliceVariation>;
-
-/**
- * Primary content in *Newsletter → Default → Primary*
- */
-export interface BannerNewsletterSliceDefaultPrimary {
-	/**
-	 * Text field in *Newsletter → Default → Primary*
-	 *
-	 * - **Field Type**: Rich Text
-	 * - **Placeholder**: *None*
-	 * - **API ID Path**: banner_newsletter.default.primary.text
-	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
-	 */
-	text: prismic.RichTextField;
-}
-
-/**
- * Default variation for Newsletter Slice
- *
- * - **API ID**: `default`
- * - **Description**: Default
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type BannerNewsletterSliceDefault = prismic.SharedSliceVariation<
-	'default',
-	Simplify<BannerNewsletterSliceDefaultPrimary>,
-	never
->;
-
-/**
- * Slice variation for *Newsletter*
- */
-type BannerNewsletterSliceVariation = BannerNewsletterSliceDefault;
-
-/**
- * Newsletter Shared Slice
- *
- * - **API ID**: `banner_newsletter`
- * - **Description**: BannerNewsletter
- * - **Documentation**: https://prismic.io/docs/slices
- */
-export type BannerNewsletterSlice = prismic.SharedSlice<
-	'banner_newsletter',
-	BannerNewsletterSliceVariation
->;
 
 /**
  * Primary content in *Avis → Default → Primary*
@@ -1705,9 +1652,59 @@ export type NewsletterSignupSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *NewsletterSignup → NewsletterSignupXL → Primary*
+ */
+export interface NewsletterSignupSliceNewsletterSignupXlPrimary {
+	/**
+	 * Prompt Text field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.prompt_text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	prompt_text: prismic.RichTextField;
+
+	/**
+	 * Placeholder Email field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.placeholder_email
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	placeholder_email: prismic.KeyTextField;
+
+	/**
+	 * Submit Action field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.submit_action
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	submit_action: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * NewsletterSignupXL variation for NewsletterSignup Slice
+ *
+ * - **API ID**: `newsletterSignupXl`
+ * - **Description**: Standard newsletter signup form with email input and submit button.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type NewsletterSignupSliceNewsletterSignupXl = prismic.SharedSliceVariation<
+	'newsletterSignupXl',
+	Simplify<NewsletterSignupSliceNewsletterSignupXlPrimary>,
+	never
+>;
+
+/**
  * Slice variation for *NewsletterSignup*
  */
-type NewsletterSignupSliceVariation = NewsletterSignupSliceDefault;
+type NewsletterSignupSliceVariation =
+	| NewsletterSignupSliceDefault
+	| NewsletterSignupSliceNewsletterSignupXl;
 
 /**
  * NewsletterSignup Shared Slice
@@ -2002,10 +1999,6 @@ declare module '@prismicio/client' {
 			BannerEventSliceVariation,
 			BannerEventSliceDefault,
 			BannerEventSliceBannerEventXl,
-			BannerNewsletterSlice,
-			BannerNewsletterSliceDefaultPrimary,
-			BannerNewsletterSliceVariation,
-			BannerNewsletterSliceDefault,
 			BannerReviewSlice,
 			BannerReviewSliceDefaultPrimary,
 			BannerReviewSliceDefaultItem,
@@ -2034,8 +2027,10 @@ declare module '@prismicio/client' {
 			LocationContactInfoSliceMapAddressContact,
 			NewsletterSignupSlice,
 			NewsletterSignupSliceDefaultPrimary,
+			NewsletterSignupSliceNewsletterSignupXlPrimary,
 			NewsletterSignupSliceVariation,
 			NewsletterSignupSliceDefault,
+			NewsletterSignupSliceNewsletterSignupXl,
 			ProduitsSlice,
 			ProduitsSliceDefaultPrimary,
 			ProduitsSliceVariation,

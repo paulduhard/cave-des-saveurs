@@ -9,19 +9,21 @@
 					{
 						"type": "paragraph",
 						"content": {
-							"text": "Laborum magna voluptate mollit quis cupidatat. Incididunt pariatur adipisicing irure magna. Magna ad adipisicing veniam id laborum ex velit in elit elit ea anim."
-						}
+							"text": "Inscrivez vous à notre newsletter",
+							"spans": []
+						},
+						"direction": "ltr"
 					}
 				]
 			},
 			"placeholder_email": {
 				"__TYPE__": "FieldContent",
-				"value": "sleep",
-				"type": "Text"
+				"type": "Text",
+				"value": "votre@email.com"
 			},
 			"submit_action": {
-				"__TYPE__": "LinkContent",
 				"key": "57d122b4-9131-40e0-9b02-d2e9d1856a59",
+				"__TYPE__": "LinkContent",
 				"value": {
 					"__TYPE__": "ExternalLink",
 					"url": "https://prismic.io"
@@ -29,5 +31,43 @@
 			}
 		},
 		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "newsletterSignupXl",
+		"primary": {
+			"prompt_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Inscrivez-vous à notre newsletter !",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			},
+			"placeholder_email": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "votre@email.com"
+			},
+			"submit_action": {
+				"key": "06ba0d85-f720-4a44-ba8a-1ff8ebb52c9a",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://prismic.io"
+				}
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]

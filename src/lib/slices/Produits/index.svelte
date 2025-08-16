@@ -18,7 +18,7 @@
 	class="max-sm:container"
 >
 	<div
-		class="mb-24 mt-8 flex flex-col items-center gap-6 font-light text-primary md:mx-0 md:mr-12 md:flex-row"
+		class="mb-32 mt-8 flex flex-col items-center gap-6 font-light text-primary md:mx-0 md:mr-12 md:flex-row"
 	>
 		<div class="flex-1">
 			<a href={getDocumentUrl(slice.primary.link_2)}>

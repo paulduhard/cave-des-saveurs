@@ -140,9 +140,6 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
-						"banner_newsletter": {
-							"type": "SharedSlice"
-						},
 						"banner_social": {
 							"type": "SharedSlice"
 						},
