@@ -31,5 +31,43 @@
 			}
 		},
 		"items": []
+	},
+	{
+		"__TYPE__": "SharedSliceContent",
+		"variation": "newsletterSignupXl",
+		"primary": {
+			"prompt_text": {
+				"__TYPE__": "StructuredTextContent",
+				"value": [
+					{
+						"type": "paragraph",
+						"content": {
+							"text": "Inscrivez-vous à notre newsletter !",
+							"spans": []
+						},
+						"direction": "ltr"
+					}
+				]
+			},
+			"placeholder_email": {
+				"__TYPE__": "FieldContent",
+				"type": "Text",
+				"value": "votre@email.com"
+			},
+			"submit_action": {
+				"key": "06ba0d85-f720-4a44-ba8a-1ff8ebb52c9a",
+				"__TYPE__": "LinkContent",
+				"value": {
+					"__TYPE__": "ExternalLink",
+					"url": "https://prismic.io"
+				}
+			}
+		},
+		"items": [
+			{
+				"__TYPE__": "GroupItemContent",
+				"value": []
+			}
+		]
 	}
 ]

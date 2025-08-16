@@ -1652,9 +1652,59 @@ export type NewsletterSignupSliceDefault = prismic.SharedSliceVariation<
 >;
 
 /**
+ * Primary content in *NewsletterSignup → NewsletterSignupXL → Primary*
+ */
+export interface NewsletterSignupSliceNewsletterSignupXlPrimary {
+	/**
+	 * Prompt Text field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Rich Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.prompt_text
+	 * - **Documentation**: https://prismic.io/docs/fields/rich-text
+	 */
+	prompt_text: prismic.RichTextField;
+
+	/**
+	 * Placeholder Email field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.placeholder_email
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	placeholder_email: prismic.KeyTextField;
+
+	/**
+	 * Submit Action field in *NewsletterSignup → NewsletterSignupXL → Primary*
+	 *
+	 * - **Field Type**: Link
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: newsletter_signup.newsletterSignupXl.primary.submit_action
+	 * - **Documentation**: https://prismic.io/docs/fields/link
+	 */
+	submit_action: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
+}
+
+/**
+ * NewsletterSignupXL variation for NewsletterSignup Slice
+ *
+ * - **API ID**: `newsletterSignupXl`
+ * - **Description**: Standard newsletter signup form with email input and submit button.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type NewsletterSignupSliceNewsletterSignupXl = prismic.SharedSliceVariation<
+	'newsletterSignupXl',
+	Simplify<NewsletterSignupSliceNewsletterSignupXlPrimary>,
+	never
+>;
+
+/**
  * Slice variation for *NewsletterSignup*
  */
-type NewsletterSignupSliceVariation = NewsletterSignupSliceDefault;
+type NewsletterSignupSliceVariation =
+	| NewsletterSignupSliceDefault
+	| NewsletterSignupSliceNewsletterSignupXl;
 
 /**
  * NewsletterSignup Shared Slice
@@ -1977,8 +2027,10 @@ declare module '@prismicio/client' {
 			LocationContactInfoSliceMapAddressContact,
 			NewsletterSignupSlice,
 			NewsletterSignupSliceDefaultPrimary,
+			NewsletterSignupSliceNewsletterSignupXlPrimary,
 			NewsletterSignupSliceVariation,
 			NewsletterSignupSliceDefault,
+			NewsletterSignupSliceNewsletterSignupXl,
 			ProduitsSlice,
 			ProduitsSliceDefaultPrimary,
 			ProduitsSliceVariation,
