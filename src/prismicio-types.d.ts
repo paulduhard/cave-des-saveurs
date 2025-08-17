@@ -629,6 +629,8 @@ export interface SettingsDocumentDataItemItem {
 
 type SettingsDocumentDataSlices3Slice = never;
 
+type SettingsDocumentDataSlices4Slice = NewsletterSignupSlice;
+
 /**
  * Content for Paramètres documents
  */
@@ -768,7 +770,16 @@ interface SettingsDocumentData {
 	 * - **Tab**: Réseaux Sociaux
 	 * - **Documentation**: https://prismic.io/docs/slices
 	 */
-	slices3: prismic.SliceZone<SettingsDocumentDataSlices3Slice>;
+	slices3: prismic.SliceZone<SettingsDocumentDataSlices3Slice> /**
+	 * Slice Zone field in *Paramètres*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: settings.slices4[]
+	 * - **Tab**: Slices
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */;
+	slices4: prismic.SliceZone<SettingsDocumentDataSlices4Slice>;
 }
 
 /**
@@ -1989,6 +2000,7 @@ declare module '@prismicio/client' {
 			SettingsDocumentDataNavigationItem,
 			SettingsDocumentDataItemItem,
 			SettingsDocumentDataSlices3Slice,
+			SettingsDocumentDataSlices4Slice,
 			VinDocument,
 			VinDocumentData,
 			VinDocumentDataSlicesSlice,
