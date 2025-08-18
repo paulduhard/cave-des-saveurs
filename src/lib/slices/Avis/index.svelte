@@ -113,7 +113,7 @@ transition-duration: {transitionDuration}ms;
 		<!-- Texte principal -->
 		<div class="flex min-h-36 items-center px-4 pt-4 md:px-[15%]">
 			<button on:click={previousSlideHandler}>
-				<img src="/assets/chevron-gauche.svg" alt="Précédent" class="h-24 w-24 md:h-6 md:w-6" />
+				<img src="/assets/chevron-gauche.svg" alt="Précédent" class="md:h-6 md:w-6" />
 			</button>
 
 			<div class="relative mx-8 min-h-[90px] flex-1 text-sm md:mx-24 md:text-base">
@@ -131,13 +131,13 @@ transition-duration: {transitionDuration}ms;
 			</div>
 
 			<button on:click={nextSlideHandler}>
-				<img src="/assets/chevron-droit.svg" alt="Suivant" class="h-24 w-24 md:h-6 md:w-6" />
+				<img src="/assets/chevron-droit.svg" alt="Suivant" class="md:h-6 md:w-6" />
 			</button>
 		</div>
 	</div>
 
 	<!-- Pagination -->
-	<div class="mt-4 flex justify-center">
+	<div class="mt-12 flex justify-center">
 		{#each slice.items as _, index}
 			<button
 				class={`mx-1 h-3 w-3 rounded-full ${
@@ -150,7 +150,7 @@ transition-duration: {transitionDuration}ms;
 	</div>
 
 	<!-- CTA -->
-	<div class="mt-8 text-center text-base font-light text-primary">
+	<div class="mt-12 text-center text-base font-light text-primary md:mt-8">
 		{#if isExternalLink(slice.primary.link.url)}
 			<PrismicLink field={slice.primary.link} class="border px-6 pb-2 pt-1">
 				{slice.primary.label}
