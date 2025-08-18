@@ -157,6 +157,19 @@
 					"choices": {}
 				}
 			}
+		},
+		"Slices": {
+			"slices4": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {
+						"newsletter_signup": {
+							"type": "SharedSlice"
+						}
+					}
+				}
+			}
 		}
 	}
 }
