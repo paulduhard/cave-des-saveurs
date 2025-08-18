@@ -23,8 +23,12 @@
 		<div class="flex-1">
 			<a href={getDocumentUrl(slice.primary.link_2)}>
 				<div class="relative">
-					<PrismicImage field={slice.primary.image_2} class="h-44 md:h-auto" />
+					<PrismicImage
+						field={slice.primary.image_2}
+						class="aspect-[4/3] h-44 object-cover md:h-auto"
+					/>
 					<p
+						style="background-color: white; line-height: 1;"
 						class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary md:text-lg"
 					>
 						{slice.primary.label_2}
@@ -35,8 +39,12 @@
 		<div class="flex-1">
 			<PrismicLink field={slice.primary.link}>
 				<div class="relative">
-					<PrismicImage field={slice.primary.image} class="h-44 md:h-auto" />
+					<PrismicImage
+						field={slice.primary.image}
+						class="aspect-[4/3] h-44 object-cover md:h-auto"
+					/>
 					<p
+						style="background-color: white; line-height: 1;"
 						class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary md:text-lg"
 					>
 						{slice.primary.label}
@@ -54,18 +62,3 @@
 		</div>
 	</div>
 </section>
-
-<style>
-	section :global(img) {
-		object-fit: cover;
-		aspect-ratio: 4/3;
-	}
-
-	section :global(.label) {
-		background-color: white !important;
-	}
-
-	section :global(p) {
-		line-height: 1;
-	}
-</style>

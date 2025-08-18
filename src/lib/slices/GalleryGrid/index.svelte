@@ -5,24 +5,42 @@
 	/** @type {import("@prismicio/client").Content.GalleryGridSlice} */
 	export let slice;
 
-	// Détermine la classe col-span pour les écrans mobiles (pas de préfixe md:)
-	// Cycle: 1 image seule (col-span-2), puis 2 images (col-span-1 chacune)
-	function getMobileColSpan(index) {
-		return index % 3 === 0 ? 'col-span-2' : 'col-span-1';
+	/**
+	 * Détermine les classes 'col-span' et 'aspect-ratio' spécifiques au mobile (par défaut).
+	 * Logique:
+	 *   - Images à l'index 0, 3, 6... (chaque 3ème image) seront sur une seule colonne (col-span-2).
+	 *   - Les autres images (1, 2, 4, 5...) seront en paire (col-span-1) avec un aspect carré (aspect-square) pour une hauteur uniforme.
+	 * @param {number} index
+	 * @returns {string} Classes Tailwind CSS pour le col-span et l'aspect-ratio sur mobile.
+	 */
+	function getMobileColClasses(index) {
+		if (index % 3 === 0) {
+			// Première image d'un cycle de 3: prend toute la largeur des 2 colonnes
+			return 'col-span-2';
+		} else {
+			// Les deux images suivantes dans le cycle: prennent 1 colonne et ont un aspect carré
+			return 'col-span-1 aspect-square';
+		}
 	}
 
-	// Détermine la classe col-span pour les écrans medium et plus grands (préfixe md:)
-	function getMdColSpan(index) {
-		if (index === 0) {
-			return 'md:col-span-2 md:h-auto'; // Garde le comportement original pour index 0
-		}
-		if (index === 1) {
-			return 'md:col-span-3 md:h-auto'; // Garde le comportement original pour index 1
-		}
+	/**
+	 * Détermine les classes 'col-span' et 'aspect' spécifiques au desktop (md: et plus).
+	 * Cette fonction reproduit l'exact comportement original du layout desktop,
+	 * en s'assurant que les classes 'md:' prennent la priorité sur les classes mobiles.
+	 * @param {number} index
+	 * @returns {string} Classes Tailwind CSS pour le col-span et l'aspect-ratio sur desktop.
+	 */
+	function getDesktopColClasses(index) {
+		let classes = '';
+
+		// Ces conditions `md:` écrasent les classes mobiles pour les écrans plus grands.
+		// C'est la logique EXACTE qui était définie par les classes `md:` dans votre code original.
 		if (index % 5 === 3 || index % 5 === 4) {
-			return 'md:col-span-3 md:aspect-[290/190] md:h-auto';
+			classes += 'md:col-span-3 md:aspect-[290/190] md:h-auto';
+		} else {
+			classes += 'md:col-span-2 md:aspect-[95/90] md:h-auto';
 		}
-		return 'md:col-span-2 md:aspect-[95/90] md:h-auto';
+		return classes;
 	}
 </script>
 
@@ -31,13 +49,16 @@
 	data-slice-variation={slice.variation}
 	class="container mx-auto py-12"
 >
-	<!-- Changement ici: grid-cols-1 devient grid-cols-2 pour le mobile -->
+	<!--
+		Pour mobile (par défaut), la grille est en 2 colonnes (grid-cols-2).
+		Pour desktop (md:), elle repasse en 6 colonnes (md:grid-cols-6), écrasant le grid-cols-2.
+	-->
 	<div class="grid grid-cols-2 gap-4 md:grid-cols-6">
 		{#if slice.primary.images && slice.primary.images.length > 0}
 			{#each slice.primary.images as imageItem, index}
 				<PrismicImage
 					field={imageItem.image}
-					class={`w-full object-cover ${getMobileColSpan(index)} ${getMdColSpan(index)}`}
+					class={`w-full object-cover ${getMobileColClasses(index)} ${getDesktopColClasses(index)}`}
 				/>
 			{/each}
 		{/if}
