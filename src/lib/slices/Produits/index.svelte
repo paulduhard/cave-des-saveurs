@@ -15,10 +15,10 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="max-sm:container"
+	class="sm:max-md:container"
 >
 	<div
-		class="mt-8 flex flex-col items-center gap-6 text-center font-light md:mx-0 md:mb-32 md:mr-12 md:flex-row md:text-left"
+		class="mt-8 flex flex-col items-center gap-6 text-center font-light md:flex-row md:text-left lg:mx-0 lg:mb-32 lg:mr-12"
 	>
 		<div class="flex-1">
 			<a href={getDocumentUrl(slice.primary.link_2)}>
@@ -53,10 +53,10 @@
 			>
 		</div>
 		<div class="flex-1">
-			<div class="w-full text-center text-2xl font-medium md:w-52 md:text-left md:text-4xl">
+			<div class="w-full text-center text-2xl font-medium md:text-left md:text-4xl lg:w-52">
 				<PrismicRichText field={slice.primary.title} />
 			</div>
-			<div class="text-md mt-3 md:mt-8 md:text-lg">
+			<div class="text-md mt-3 md:text-lg lg:mt-8">
 				<PrismicRichText field={slice.primary.text} />
 			</div>
 		</div>
