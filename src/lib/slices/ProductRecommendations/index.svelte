@@ -9,12 +9,10 @@
 <section
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
-	class="bg-secondary pb-8"
+	class="bg-secondary px-64 py-16"
 >
-	<div class="container mx-auto flex flex-col items-center justify-center px-4">
-		<h2 class="my-8 w-full border-b-[.75px] border-primary border-b-primary pb-4 text-3xl">
-			Les vins que vous aimerez
-		</h2>
+	<div class="container flex flex-col items-center justify-center px-4">
+		<h2 class="w-full border-b-[.75px] border-primary pb-4 text-3xl">Les vins que vous aimerez</h2>
 
 		{#if isFilled.group(slice.primary.products)}
 			<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
@@ -23,50 +21,120 @@
 						<div class="flex h-full w-fit flex-col font-light">
 							<PrismicLink
 								field={product.select_wine}
-								class="flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl md:rounded-md md:border-none"
+								class="group flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl md:rounded-md md:border-none"
 							>
-								<div class="w-1/2 md:w-auto">
-									{#if product.select_wine.data?.nouveaute}
-										<span class="mb-2 inline-block py-1 text-lg font-semibold text-primary"
-											>NOUVEAU !</span
-										>
-									{/if}
-								</div>
-								<div class="relative flex flex-row-reverse gap-8 md:flex-col">
+								<!-- Mobile: horizontal layout -->
+								<div class="flex w-full flex-row-reverse gap-8 md:hidden">
 									{#if isFilled.image(product.select_wine.data?.image)}
-										<div class="w-1/2 md:w-auto">
-											<PrismicImage field={product.select_wine.data.image} class="self-center" />
+										<div class="relative w-1/2">
+											<div class="absolute -top-2 right-0 h-6 py-1">
+												{#if product.select_wine.data?.nouveaute}
+													<span class="inline-block text-sm font-semibold text-primary">
+														NOUVEAU !
+													</span>
+												{/if}
+											</div>
+											<PrismicImage
+												field={product.select_wine.data.image}
+												class="mt-4 h-32 w-auto object-contain"
+											/>
 										</div>
 									{:else}
-										<div class="w-1/2 md:w-auto">
-											<img src="/assets/placeholder.png" alt="" class="opacity-50" />
-											<span
-												class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
-											>
-												Photo à venir
-											</span>
+										<div class="relative w-1/2">
+											<div class="absolute -top-2 right-0 h-6 py-1">
+												{#if product.select_wine.data?.nouveaute}
+													<span class="inline-block text-sm font-semibold text-primary">
+														NOUVEAU !
+													</span>
+												{/if}
+											</div>
+											<div class="relative mt-4">
+												<img
+													src="/assets/placeholder.png"
+													alt=""
+													class="h-32 w-auto object-contain opacity-50"
+												/>
+												<span
+													class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-lg"
+												>
+													Photo à venir
+												</span>
+											</div>
 										</div>
 									{/if}
 
-									<div class="w-1/2 md:w-auto">
+									<div class="flex w-1/2 flex-col">
 										{#if isFilled.richText(product.select_wine.data?.title)}
-											<span class="font-span text-xl">
+											<h3 class="font-span text-xl">
 												<PrismicRichText field={product.select_wine.data.title} />
-											</span>
+											</h3>
 										{/if}
 										{#if isFilled.richText(product.select_wine.data?.resume)}
-											<div class="mt-4 font-span">
+											<div class="mt-4 line-clamp-2 font-span text-sm">
 												<PrismicRichText field={product.select_wine.data.resume} />
 											</div>
 										{/if}
+										<div class="mt-auto pt-4">
+											<span
+												class="inline-block border border-primary px-6 py-2 text-sm font-light text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-secondary"
+											>
+												Découvrir
+											</span>
+										</div>
 									</div>
 								</div>
-								<div class="mt-auto pt-4">
-									<span
-										class="inline-block border border-primary px-8 py-2 font-light text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-secondary"
-									>
-										Découvrir
-									</span>
+
+								<!-- Desktop: vertical layout -->
+								<div class="hidden w-full flex-col md:flex">
+									<div class="mb-4 h-8">
+										{#if product.select_wine.data?.nouveaute}
+											<span class="inline-block py-1 text-lg font-semibold text-primary">
+												NOUVEAU !
+											</span>
+										{/if}
+									</div>
+
+									<div class="mb-6 flex justify-center">
+										{#if isFilled.image(product.select_wine.data?.image)}
+											<PrismicImage
+												field={product.select_wine.data.image}
+												class="h-48 w-auto self-center object-contain"
+											/>
+										{:else}
+											<div class="relative">
+												<img
+													src="/assets/placeholder.png"
+													alt=""
+													class="h-48 w-auto object-contain opacity-50"
+												/>
+												<span
+													class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
+												>
+													Photo à venir
+												</span>
+											</div>
+										{/if}
+									</div>
+
+									{#if isFilled.richText(product.select_wine.data?.title)}
+										<h3 class="mb-4 font-span text-xl">
+											<PrismicRichText field={product.select_wine.data.title} />
+										</h3>
+									{/if}
+
+									{#if isFilled.richText(product.select_wine.data?.resume)}
+										<div class="mb-6 line-clamp-2 font-span text-sm">
+											<PrismicRichText field={product.select_wine.data.resume} />
+										</div>
+									{/if}
+
+									<div class="mt-auto">
+										<span
+											class="inline-block border border-primary px-8 py-2 font-light text-primary transition-all duration-700 group-hover:bg-primary group-hover:text-secondary"
+										>
+											Découvrir
+										</span>
+									</div>
 								</div>
 							</PrismicLink>
 						</div>
