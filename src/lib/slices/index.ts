@@ -7,6 +7,7 @@ import GalleryGrid from './GalleryGrid/index.svelte';
 import Hero from './Hero/index.svelte';
 import LocationContactInfo from './LocationContactInfo/index.svelte';
 import NewsletterSignup from './NewsletterSignup/index.svelte';
+import ProductRecommendations from './ProductRecommendations/index.svelte';
 import Produits from './Produits/index.svelte';
 import Texte from './Texte/index.svelte';
 import Espace from './Espace/index.svelte';
@@ -20,6 +21,7 @@ export const components = {
 	hero: Hero,
 	location_contact_info: LocationContactInfo,
 	newsletter_signup: NewsletterSignup,
+	product_recommendations: ProductRecommendations,
 	produits: Produits,
 	rich_text: Texte,
 	spacer: Espace,

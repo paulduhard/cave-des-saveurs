@@ -65,7 +65,7 @@
 				<div>
 					EN BOUCHE : <span class="font-light">{data.page.data.bouche || '***'}</span>
 				</div>
-				<div class="flex">
+				<div class="mt-6 flex">
 					SE DÉGUSTE AVEC :&nbsp;
 					<span class="font-light">
 						{#if data.page.data.degustation && data.page.data.degustation.length > 0}
@@ -77,8 +77,8 @@
 				</div>
 			</div>
 
-			<div class="my-8 flex w-[542px] flex-col gap-4 bg-secondary py-6">
-				<div class="px-22 text-center text-[15px] tracking-tight">
+			<div class="my-8 flex w-[542px] flex-col gap-4 bg-secondary py-6 font-light">
+				<div class="px-22 m-auto max-w-md text-center text-[15px] tracking-tight">
 					Chez nous, tout se passe en boutique ! Nous vous invitons à nous contacter par téléphone
 					ou mail pour passer commande.
 				</div>

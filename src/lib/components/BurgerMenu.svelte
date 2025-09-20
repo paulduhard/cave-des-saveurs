@@ -41,8 +41,8 @@
 				<!-- Section LA CAVE -->
 				<li>
 					<button
-						class="flex w-full items-center justify-between uppercase {isActiveLink(item) ||
-						isCaveParentActive
+						class="flex
+ w-full items-center justify-between uppercase {isActiveLink(item) || isCaveParentActive
 							? 'font-bold text-primary'
 							: ''}"
 						on:click={toggleCave}

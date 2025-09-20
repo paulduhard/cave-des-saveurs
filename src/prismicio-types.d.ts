@@ -797,7 +797,11 @@ export type SettingsDocument<Lang extends string = string> = prismic.PrismicDocu
 	Lang
 >;
 
-type VinDocumentDataSlicesSlice = BannerSocialSlice | SpacerSlice | BannerEventSlice;
+type VinDocumentDataSlicesSlice =
+	| ProductRecommendationsSlice
+	| BannerSocialSlice
+	| SpacerSlice
+	| BannerEventSlice;
 
 /**
  * Content for Vin documents
@@ -1730,6 +1734,68 @@ export type NewsletterSignupSlice = prismic.SharedSlice<
 >;
 
 /**
+ * Item in *ProductRecommendations → Default → Primary → Products(1 to 3)*
+ */
+export interface ProductRecommendationsSliceDefaultPrimaryProductsItem {
+	/**
+	 * Select_wine field in *ProductRecommendations → Default → Primary → Products(1 to 3)*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product_recommendations.default.primary.products[].select_wine
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	select_wine: ContentRelationshipFieldWithData<
+		[{ id: 'vin'; fields: ['title', 'resume', 'image', 'nouveaute'] }]
+	>;
+}
+
+/**
+ * Primary content in *ProductRecommendations → Default → Primary*
+ */
+export interface ProductRecommendationsSliceDefaultPrimary {
+	/**
+	 * Products(1 to 3) field in *ProductRecommendations → Default → Primary*
+	 *
+	 * - **Field Type**: Group
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product_recommendations.default.primary.products[]
+	 * - **Documentation**: https://prismic.io/docs/fields/repeatable-group
+	 */
+	products: prismic.GroupField<Simplify<ProductRecommendationsSliceDefaultPrimaryProductsItem>>;
+}
+
+/**
+ * Default variation for ProductRecommendations Slice
+ *
+ * - **API ID**: `default`
+ * - **Description**: Standard product recommendation grid with heading and multiple product cards.
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductRecommendationsSliceDefault = prismic.SharedSliceVariation<
+	'default',
+	Simplify<ProductRecommendationsSliceDefaultPrimary>,
+	never
+>;
+
+/**
+ * Slice variation for *ProductRecommendations*
+ */
+type ProductRecommendationsSliceVariation = ProductRecommendationsSliceDefault;
+
+/**
+ * ProductRecommendations Shared Slice
+ *
+ * - **API ID**: `product_recommendations`
+ * - **Description**: *None*
+ * - **Documentation**: https://prismic.io/docs/slices
+ */
+export type ProductRecommendationsSlice = prismic.SharedSlice<
+	'product_recommendations',
+	ProductRecommendationsSliceVariation
+>;
+
+/**
  * Primary content in *Produits → Default → Primary*
  */
 export interface ProduitsSliceDefaultPrimary {
@@ -2043,6 +2109,11 @@ declare module '@prismicio/client' {
 			NewsletterSignupSliceVariation,
 			NewsletterSignupSliceDefault,
 			NewsletterSignupSliceNewsletterSignupXl,
+			ProductRecommendationsSlice,
+			ProductRecommendationsSliceDefaultPrimaryProductsItem,
+			ProductRecommendationsSliceDefaultPrimary,
+			ProductRecommendationsSliceVariation,
+			ProductRecommendationsSliceDefault,
 			ProduitsSlice,
 			ProduitsSliceDefaultPrimary,
 			ProduitsSliceVariation,
