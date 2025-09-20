@@ -35,7 +35,7 @@
 			</div>
 		{/if}
 		<div>
-			<div class="text-primary">
+			<div class="container text-primary md:w-auto">
 				<div>RÉGION : <span class="font-light">{data.region || '***'}</span></div>
 				{#if data.regionDescription}
 					<div class="mt-2">
@@ -77,15 +77,17 @@
 				</div>
 			</div>
 
-			<div class="my-8 flex w-[542px] flex-col gap-4 bg-secondary py-6 font-light">
+			<div
+				class="container mx-8 my-8 flex w-[542px] w-fit flex-col gap-4 bg-secondary py-6 font-light"
+			>
 				<div class="px-22 m-auto max-w-md text-center text-[15px] tracking-tight">
 					Chez nous, tout se passe en boutique ! Nous vous invitons à nous contacter par téléphone
 					ou mail pour passer commande.
 				</div>
-				<div class="flex justify-center gap-8">
+				<div class="flex flex-col items-center justify-center gap-8 sm:flex-row">
 					<a
 						href="tel:+33490471181"
-						class=" border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+						class="border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
 						>04 90 47 11 81</a
 					>
 					<a
