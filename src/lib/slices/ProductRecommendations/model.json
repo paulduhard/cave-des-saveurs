@@ -11,6 +11,13 @@
       "imageUrl": "",
       "docURL": "...",
       "primary": {
+        "titre": {
+          "type": "Text",
+          "config": {
+            "label": "Titre",
+            "placeholder": ""
+          }
+        },
         "products": {
           "type": "Group",
           "config": {

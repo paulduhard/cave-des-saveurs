@@ -12,7 +12,7 @@
 	class="bg-secondary py-16 sm:px-16 md:px-48 lg:px-64"
 >
 	<div class="container flex flex-col items-center justify-center px-4">
-		<h2 class="w-full border-b-[.75px] border-primary pb-4 text-3xl">Les vins que vous aimerez</h2>
+		<h2 class="w-full border-b-[.75px] border-primary pb-4 text-3xl">{slice.primary.titre}</h2>
 
 		{#if isFilled.group(slice.primary.products)}
 			<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3">
