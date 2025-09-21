@@ -1,0 +1,46 @@
+{
+  "type": "SharedSlice",
+  "id": "product_recommendations",
+  "name": "ProductRecommendations",
+  "variations": [
+    {
+      "id": "default",
+      "name": "Default",
+      "description": "Standard product recommendation grid with heading and multiple product cards.",
+      "version": "initial",
+      "imageUrl": "",
+      "docURL": "...",
+      "primary": {
+        "products": {
+          "type": "Group",
+          "config": {
+            "label": "Products(1 to 3)",
+            "repeat": true,
+            "fields": {
+              "select_wine": {
+                "type": "Link",
+                "config": {
+                  "label": "Select_wine",
+                  "select": "document",
+                  "repeat": false,
+                  "customtypes": [
+                    {
+                      "id": "vin",
+                      "fields": [
+                        "title",
+                        "resume",
+                        "image",
+                        "nouveaute"
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "items": {}
+    }
+  ]
+}

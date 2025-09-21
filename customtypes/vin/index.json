@@ -140,6 +140,9 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
+						"product_recommendations": {
+							"type": "SharedSlice"
+						},
 						"banner_social": {
 							"type": "SharedSlice"
 						},

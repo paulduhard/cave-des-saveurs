@@ -7,7 +7,16 @@ export async function load({ params, fetch, cookies }) {
 
 	try {
 		const page = await client.getByUID('vin', params.uid, {
-			fetchLinks: ['region.region', 'couleur.couleur', 'domaine.domaine', 'appellation.appellation']
+			fetchLinks: [
+				'region.region',
+				'couleur.couleur',
+				'domaine.domaine',
+				'appellation.appellation',
+				'vin.title',
+				'vin.resume',
+				'vin.image',
+				'vin.nouveaute'
+			]
 		});
 
 		// Extract data from linked documents
