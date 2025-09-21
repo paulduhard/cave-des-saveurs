@@ -2,6 +2,7 @@
 	import { PrismicLink } from '@prismicio/svelte';
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument } from '../../../prismicio-types';
+	import ExtLink from '../ExtLink.svelte';
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
@@ -94,9 +95,10 @@
 				{#if settings.data.navigation && settings.data.navigation[settings.data.navigation.length - 1]?.link}
 					<a
 						href={settings.data.navigation[settings.data.navigation.length - 1].link.url}
-						class="text-lg font-normal transition-colors duration-200 hover:underline"
+						class="inline-flex items-center gap-2 text-lg font-normal transition-colors duration-200 hover:underline"
 					>
 						Les dégustations
+						<ExtLink color="#ffffff" />
 					</a>
 				{/if}
 			</div>
