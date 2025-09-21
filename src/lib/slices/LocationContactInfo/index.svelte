@@ -80,7 +80,7 @@
 			<!-- Contact Methods -->
 			<div class="space-y-2">
 				{#each slice.primary.contact_methods as method}
-					<div class="flex items-center gap-2">
+					<div class="flex items-center justify-center gap-2 md:justify-start">
 						<span class="text-lg">{getContactIcon(method)}</span>
 						{#if method.method_type === 'other'}
 							<a
