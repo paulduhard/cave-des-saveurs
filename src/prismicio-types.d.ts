@@ -429,6 +429,7 @@ export type OrigineDocument<Lang extends string = string> = prismic.PrismicDocum
 >;
 
 type PageDocumentDataSlicesSlice =
+	| ProductRecommendationsSlice
 	| GalleryGridSlice
 	| LocationContactInfoSlice
 	| NewsletterSignupSlice
@@ -1754,6 +1755,16 @@ export interface ProductRecommendationsSliceDefaultPrimaryProductsItem {
  * Primary content in *ProductRecommendations → Default → Primary*
  */
 export interface ProductRecommendationsSliceDefaultPrimary {
+	/**
+	 * Titre field in *ProductRecommendations → Default → Primary*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: product_recommendations.default.primary.titre
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	titre: prismic.KeyTextField;
+
 	/**
 	 * Products(1 to 3) field in *ProductRecommendations → Default → Primary*
 	 *

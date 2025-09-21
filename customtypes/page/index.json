@@ -27,6 +27,9 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
+						"product_recommendations": {
+							"type": "SharedSlice"
+						},
 						"gallery_grid": {
 							"type": "SharedSlice"
 						},

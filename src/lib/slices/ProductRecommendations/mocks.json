@@ -23,6 +23,11 @@
 						]
 					}
 				]
+			},
+			"titre": {
+				"__TYPE__": "FieldContent",
+				"value": "library",
+				"type": "Text"
 			}
 		},
 		"items": []
