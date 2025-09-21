@@ -29,7 +29,7 @@
 					/>
 					<p
 						style="background-color: white; line-height: 1;"
-						class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary md:text-lg"
+						class="label absolute bottom-0 right-0 mx-8 mb-8 min-w-32 px-8 py-3 text-xs text-primary md:text-lg"
 					>
 						{slice.primary.label_2}
 					</p>
@@ -45,14 +45,14 @@
 					/>
 					<p
 						style="background-color: white; line-height: 1;"
-						class="label absolute bottom-0 right-0 mx-8 mb-8 px-8 py-3 text-xs text-primary md:text-lg"
+						class="label absolute bottom-0 right-0 mx-8 mb-8 min-w-32 px-8 py-3 text-xs text-primary md:text-lg"
 					>
 						{slice.primary.label}
 					</p>
 				</div></PrismicLink
 			>
 		</div>
-		<div class="flex-1">
+		<div class="container flex-1 pb-8">
 			<div class="w-full text-center text-2xl font-medium md:text-left md:text-4xl lg:w-52">
 				<PrismicRichText field={slice.primary.title} />
 			</div>

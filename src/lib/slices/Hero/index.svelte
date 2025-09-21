@@ -20,7 +20,7 @@
 				class="absolute inset-0 h-full w-full object-cover"
 			/>
 		</div>
-		<div class="mt-8 text-2xl md:text-4xl">
+		<div class="m-auto mt-8 max-w-52 text-2xl md:max-w-max md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
 		</div>
 		<div class="text-md mx-6 mt-4 md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
