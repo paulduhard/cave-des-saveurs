@@ -12,6 +12,12 @@
 
 	let isTransitioning = false;
 
+	// Variables pour le support tactile
+	let touchStartX = 0;
+	let touchEndX = 0;
+	let isTouching = false;
+	const swipeThreshold = 50;
+
 	onMount(() => {
 		startAutoplay();
 		document.addEventListener('keydown', handleKeyDown);
@@ -81,6 +87,44 @@
 		}
 	};
 
+	// Fonctions pour la gestion tactile
+	const handleTouchStart = (event) => {
+		if (isTransitioning) return;
+		isTouching = true;
+		touchStartX = event.touches[0].clientX;
+		pauseAutoplay();
+	};
+
+	const handleTouchMove = (event) => {
+		if (!isTouching || isTransitioning) return;
+		touchEndX = event.touches[0].clientX;
+	};
+
+	const handleTouchEnd = (event) => {
+		if (!isTouching || isTransitioning) return;
+		isTouching = false;
+
+		const swipeDistance = touchStartX - touchEndX;
+		const absSwipeDistance = Math.abs(swipeDistance);
+
+		if (absSwipeDistance > swipeThreshold) {
+			if (swipeDistance > 0) {
+				// Swipe vers la gauche → slide suivant
+				nextSlideHandler();
+			} else {
+				// Swipe vers la droite → slide précédent
+				previousSlideHandler();
+			}
+		} else {
+			// Si le swipe n'est pas assez long, reprendre l'autoplay
+			resumeAutoplay();
+		}
+
+		// Reset des valeurs
+		touchStartX = 0;
+		touchEndX = 0;
+	};
+
 	/** @type {import("@prismicio/client").Content.BannerReviewSlice} */
 	export let slice;
 </script>
@@ -111,7 +155,12 @@ transition-duration: {transitionDuration}ms;
 		</div>
 
 		<!-- Texte principal -->
-		<div class="flex min-h-36 items-center px-4 pt-4 md:px-[15%]">
+		<div
+			class="flex min-h-36 items-center px-4 pt-4 md:px-[15%]"
+			on:touchstart={handleTouchStart}
+			on:touchmove={handleTouchMove}
+			on:touchend={handleTouchEnd}
+		>
 			<button on:click={previousSlideHandler}>
 				<img src="/assets/chevron-gauche.svg" alt="Précédent" class="md:h-6 md:w-6" />
 			</button>
