@@ -96,7 +96,14 @@
 		: ''}"
 >
 	<a href="/"><PrismicImage field={settings.data.logo_header} /></a>
-	<button class="block lg:hidden" on:click={toggleBurgerMenu}>
+	<button
+		class="block rounded-md p-2 transition-all duration-300 hover:bg-primary hover:bg-opacity-10 focus:bg-primary focus:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:hidden"
+		on:click={toggleBurgerMenu}
+		on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? toggleBurgerMenu() : null)}
+		aria-expanded={isBurgerMenuVisible}
+		aria-controls="burger-navigation"
+		aria-label={isBurgerMenuVisible ? 'Fermer le menu' : 'Ouvrir le menu'}
+	>
 		<!-- Burger/Cross icon -->
 		<svg
 			class="h-6 w-6 transition-transform duration-300"
@@ -125,7 +132,7 @@
 	<nav class="hidden lg:ml-auto lg:flex lg:items-center" aria-label="Header">
 		<span class="sr-only">{settings.data.site_title} page d'accueil</span>
 
-		<ul class="flex content-center gap-16 md:gap-6">
+		<ul class="flex content-center items-center gap-16 md:gap-6">
 			{#each settings.data.navigation as item, index (item.label)}
 				<li
 					class="relative uppercase hover:underline {isActiveLink(item)
@@ -137,7 +144,7 @@
 					{#if item.external_link}
 						<PrismicLink
 							field={item.link}
-							class="flex items-center gap-2 hover:bg-secondary hover:text-primary"
+							class="flex items-center gap-2 rounded-md px-2 py-1 transition-all duration-200 hover:bg-secondary hover:text-primary focus:bg-secondary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
 						>
 							{item.label}
 							<ExtLink />
@@ -145,17 +152,31 @@
 						</PrismicLink>
 					{:else if index === 1}
 						<button
-							class="cursor-pointer uppercase {isActiveLink(item) || isCaveParentActive
+							class="cursor-pointer rounded-md px-2 py-1 uppercase transition-all duration-200 hover:bg-secondary hover:text-primary focus:bg-secondary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 {isActiveLink(
+								item
+							) || isCaveParentActive
 								? 'font-bold text-primary'
 								: ''}"
 							on:click={openMegaMenu}
+							on:keydown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									openMegaMenu();
+								}
+							}}
+							aria-expanded={isMegaMenuVisible}
+							aria-controls="mega-menu"
 						>
 							{item.label}
 						</button>
 					{:else}
 						<PrismicLink
 							field={item.link}
-							class={isActiveLink(item) ? 'font-bold text-primary' : ''}
+							class="rounded-md px-2 py-1 transition-all duration-200 hover:bg-secondary hover:text-primary focus:bg-secondary focus:text-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 {isActiveLink(
+								item
+							)
+								? 'font-bold text-primary'
+								: ''}"
 						>
 							{item.label}
 						</PrismicLink>
@@ -167,33 +188,42 @@
 
 	<!-- Icône de recherche -->
 	<button
-		class="ml-4 hidden rounded-full p-2 transition-all duration-200 hover:bg-primary hover:bg-opacity-10 lg:block [&:hover_svg]:brightness-0 [&:hover_svg]:invert"
+		class="ml-4 hidden rounded-full p-2 transition-all duration-200 hover:bg-primary hover:bg-opacity-10 focus:bg-primary focus:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:block [&:focus_svg]:brightness-0 [&:focus_svg]:invert [&:hover_svg]:brightness-0 [&:hover_svg]:invert"
 		aria-label="Rechercher"
 		title="Rechercher"
+		on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? e.currentTarget.click() : null)}
 	>
 		<SearchIcon class="h-5 w-5" />
 	</button>
 </header>
 
 {#if isBurgerMenuVisible}
-	<BurgerMenu
-		{settings}
-		{regions}
-		{colors}
-		{isActiveLink}
-		{isRegionActive}
-		{isColorActive}
-		{isCaveParentActive}
-		onLinkClick={closeBurgerMenu}
-	/>
+	<div id="burger-navigation">
+		<BurgerMenu
+			{settings}
+			{regions}
+			{colors}
+			{isActiveLink}
+			{isRegionActive}
+			{isColorActive}
+			{isCaveParentActive}
+			onLinkClick={closeBurgerMenu}
+		/>
+	</div>
 {/if}
 
 {#if isMegaMenuVisible}
 	<div
+		id="mega-menu"
 		role="navigation"
 		aria-label="Mega menu"
 		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
+		on:keydown={(e) => {
+			if (e.key === 'Escape') {
+				closeMegaMenu();
+			}
+		}}
 		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
 		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 	>

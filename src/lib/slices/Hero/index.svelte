@@ -18,11 +18,12 @@
 			<PrismicImage
 				field={slice.primary.image}
 				class="absolute inset-0 h-full w-full object-cover"
+				alt={slice.primary.image.alt || "Image d'en-tête"}
 			/>
 		</div>
-		<div class="m-auto mt-8 max-w-52 text-2xl md:max-w-max md:text-4xl">
+		<h1 class="m-auto mt-8 max-w-52 text-2xl md:max-w-max md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
-		</div>
+		</h1>
 		<div class="text-md mx-6 mt-4 md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
 			<PrismicRichText field={slice.primary.text} />
 		</div>
@@ -40,9 +41,9 @@
 		data-slice-variation={slice.variation}
 		class="bg-secondary pb-8 text-center"
 	>
-		<div class="pt-8 font-span text-2xl font-semibold md:text-4xl">
+		<h1 class="pt-8 font-span text-2xl font-semibold md:text-4xl">
 			<PrismicRichText field={slice.primary.title} />
-		</div>
+		</h1>
 		<div class="text-md mx-8 mt-4 text-justify indent-8 md:mt-8 md:px-[12%] md:text-lg lg:px-[25%]">
 			<PrismicRichText field={slice.primary.text} />
 		</div>

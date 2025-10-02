@@ -45,8 +45,16 @@
 	{/if}
 </svelte:head>
 
+<!-- Skip navigation link for keyboard accessibility -->
+<a
+	href="#main-content"
+	class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[9999] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:font-medium focus:text-secondary focus:shadow-lg focus:transition-all focus:duration-200"
+>
+	Aller au contenu principal
+</a>
+
 <Header settings={data.settings} regions={data.regions} colors={data.colors} />
-<main>
+<main id="main-content">
 	<slot />
 </main>
 <Footer
