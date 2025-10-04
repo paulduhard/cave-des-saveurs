@@ -24,8 +24,9 @@
 	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
 	$: regionData = currentRegion?.data;
 
-	// État du filtre d'appellation
+	// État des filtres
 	let selectedAppellationUid: string | null = null;
+	let selectedDomaineUid: string | null = null;
 
 	// wineResults devient une variable PUREMENT réactive
 	$: wineResults = (() => {
@@ -40,10 +41,8 @@
 		}
 
 		// Filter by domain
-		if (filterData.selectedDomain) {
-			const selectedDomain = filterData.domains.find(
-				(d: any) => d.uid === filterData.selectedDomain
-			);
+		if (selectedDomaineUid) {
+			const selectedDomain = regionDomaines.find((d: any) => d.uid === selectedDomaineUid);
 			if (selectedDomain) {
 				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
 			}
@@ -85,6 +84,28 @@
 			}, new Map<string, any>())
 			.values()
 	).sort((a: any, b: any) => a.name.localeCompare(b.name)) as Array<{ uid: string; name: string }>;
+
+	// 🏰 Facettes de domaines pour la région courante (dédoublonnées, triées alphabétiquement)
+	$: regionDomaines = Array.from(
+		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+			.filter((wine: any) => wine.domaineName && wine.domaineName !== 'Domaine non spécifié')
+			.reduce((map: Map<string, any>, wine: any) => {
+				const uid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
+				if (!map.has(uid)) {
+					map.set(uid, {
+						uid,
+						name: wine.domaineName,
+						appellations: []
+					});
+				}
+				return map;
+			}, new Map<string, any>())
+			.values()
+	).sort((a: any, b: any) => a.name.localeCompare(b.name)) as Array<{
+		uid: string;
+		name: string;
+		appellations: Array<{ uid: string; name: string }>;
+	}>;
 
 	// Filter data for Aside component
 	let filterData = {
@@ -226,7 +247,9 @@
 			{appellationNames}
 			{getWinesByAppellation}
 			{regionAppellations}
+			{regionDomaines}
 			bind:selectedAppellationUid
+			bind:selectedDomaineUid
 		/>
 
 		<main class="md:mx-6 md:w-3/4">
