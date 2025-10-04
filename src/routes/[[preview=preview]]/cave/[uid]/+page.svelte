@@ -296,10 +296,10 @@
 		>
 			{regionData?.region || 'Region'}
 		</h1>
-		<button
+		<!-- <button
 			class="duration-600 hidden h-12 w-fit whitespace-nowrap border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
 			on:click={goToHome}>Alcools et spiritueux</button
-		>
+		> -->
 	</header>
 
 	<div class="md:flex">
@@ -325,9 +325,7 @@
 					{currentTitle}
 				</h2>
 			{/if}
-			<p
-				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out md:mx-12"
-			>
+			<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
 				{currentDescription}
 			</p>
 
