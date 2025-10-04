@@ -26,7 +26,11 @@
 			<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
 		{:else}
 			<div class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg">
-				<img src="/assets/placeholder.png" alt="" class="opacity-50" />
+				<img
+					src="/assets/placeholder.png"
+					alt="Image du vin à venir - photo en attente"
+					class="opacity-50"
+				/>
 				<span
 					class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
 				>
@@ -36,7 +40,19 @@
 		{/if}
 		<div>
 			<div class="container text-primary md:w-auto">
-				<div>RÉGION : <span class="font-light">{data.region || '***'}</span></div>
+				<div>
+					RÉGION :
+					{#if data.page.data.region?.uid}
+						<a
+							href="/cave/{data.page.data.region.uid}"
+							class="font-light transition-colors duration-200 hover:text-primary hover:underline"
+						>
+							{data.region || '***'}
+						</a>
+					{:else}
+						<span class="font-light">{data.region || '***'}</span>
+					{/if}
+				</div>
 				{#if data.regionDescription}
 					<div class="mt-2">
 						<PrismicRichText field={data.regionDescription} />

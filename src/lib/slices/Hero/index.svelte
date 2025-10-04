@@ -18,6 +18,7 @@
 			<PrismicImage
 				field={slice.primary.image}
 				class="absolute inset-0 h-full w-full object-cover"
+				alt={slice.primary.image.alt || "Image d'en-tête"}
 			/>
 		</div>
 		<div class="m-auto mt-8 max-w-52 text-2xl md:max-w-max md:text-4xl">

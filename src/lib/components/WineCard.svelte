@@ -17,7 +17,11 @@
 					<div
 						class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg"
 					>
-						<img src="/assets/placeholder.png" alt="" class="opacity-50" />
+						<img
+							src="/assets/placeholder.png"
+							alt="Image du vin à venir - photo en attente"
+							class="opacity-50"
+						/>
 						<span
 							class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
 						>

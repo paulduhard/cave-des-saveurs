@@ -48,17 +48,24 @@
 	data-slice-type={slice.slice_type}
 	data-slice-variation={slice.variation}
 	class="container mx-auto py-12"
+	role="region"
+	aria-labelledby="gallery-heading"
 >
+	<h2 id="gallery-heading" class="sr-only">
+		Galerie d'images {slice.primary.caption_text ? `- ${slice.primary.caption_text}` : ''}
+	</h2>
+
 	<!--
 		Pour mobile (par défaut), la grille est en 2 colonnes (grid-cols-2).
 		Pour desktop (md:), elle repasse en 6 colonnes (md:grid-cols-6), écrasant le grid-cols-2.
 	-->
-	<div class="grid grid-cols-2 gap-4 md:grid-cols-6">
+	<div class="grid grid-cols-2 gap-4 md:grid-cols-6" role="img" aria-labelledby="gallery-heading">
 		{#if slice.primary.images && slice.primary.images.length > 0}
 			{#each slice.primary.images as imageItem, index}
 				<PrismicImage
 					field={imageItem.image}
 					class={`w-full object-cover ${getMobileColClasses(index)} ${getDesktopColClasses(index)}`}
+					alt={imageItem.image.alt || `Image de galerie ${index + 1}`}
 				/>
 			{/each}
 		{/if}
