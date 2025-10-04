@@ -3,19 +3,38 @@
 	import { fade } from 'svelte/transition';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import { invalidate } from '$app/navigation';
+	import { browser } from '$app/environment';
 	import Aside from '$lib/components/Aside.svelte';
 
 	export let data: any;
+
+	let previousUid = '';
+
+	// Invalider les données quand on change de région (côté client uniquement)
+	$: if (browser && page.params.uid && page.params.uid !== previousUid) {
+		previousUid = page.params.uid;
+		if (previousUid) {
+			invalidate('cave:region');
+		}
+	}
 
 	$: uid = page.params.uid;
 	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
 	$: regionData = currentRegion?.data;
 
-	$: wineResults = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+	// wineResults est maintenant géré par updateWineResults(), pas en réactif
+	let wineResults: any[] = [];
+
+	// Mettre à jour wineResults quand uid change
+	$: if (uid) {
+		updateWineResults();
+	}
 
 	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
+	// Basées sur TOUS les vins de la région, pas les vins filtrés
 	$: regionAppellations = Array.from(
-		wineResults
+		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
 			.filter((wine: any) => wine.appellation?.uid && wine.appellation?.data?.appellation)
 			.reduce((map: Map<string, any>, wine: any) => {
 				const uid = wine.appellation.uid;
@@ -44,6 +63,15 @@
 		selectedAppellation: null as string | null,
 		priceRange: { min: 5, max: 200 }
 	};
+
+	// État du filtre d'appellation
+	let selectedAppellationUid: string | null = null;
+
+	// Watcher : quand selectedAppellationUid change, on met à jour les résultats
+	$: if (selectedAppellationUid !== undefined) {
+		filterData.selectedAppellation = selectedAppellationUid;
+		updateWineResults();
+	}
 
 	// Initialize filter data from server data
 	$: if (data) {
@@ -124,7 +152,8 @@
 		} else if (filterType === 'domain') {
 			filterData.selectedDomain = value;
 		} else if (filterType === 'appellation') {
-			filterData.selectedAppellation = value;
+			// Le toggle est géré par l'Aside via bind:selectedAppellationUid
+			// On ne fait rien ici, le watcher réactif s'en occupe
 		} else if (filterType === 'prix') {
 			filterData.priceRange = value;
 		}
@@ -157,12 +186,10 @@
 		}
 
 		// Filter by appellation
-		if (filterData.selectedAppellation) {
+		if (selectedAppellationUid) {
 			filtered = filtered.filter((wine: any) => {
-				const appellationUid =
-					wine.appellation?.uid ||
-					wine.appellation?.data?.appellation?.toLowerCase().replace(/\s+/g, '-');
-				return appellationUid === filterData.selectedAppellation;
+				const appellationUid = wine.appellation?.uid;
+				return appellationUid === selectedAppellationUid;
 			});
 		}
 
@@ -215,6 +242,7 @@
 			{appellationNames}
 			{getWinesByAppellation}
 			{regionAppellations}
+			bind:selectedAppellationUid
 		/>
 
 		<main class="md:mx-6 md:w-3/4">

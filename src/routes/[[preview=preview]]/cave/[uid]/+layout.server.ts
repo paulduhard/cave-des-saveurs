@@ -10,7 +10,8 @@ type ItemWithOrdreMenu = {
 
 export const prerender = 'auto';
 
-export async function load({ fetch, cookies, params }) {
+export async function load({ fetch, cookies, params, depends }) {
+	depends('cave:region');
 	const client = createClient({ fetch, cookies });
 
 	const settings = await client.getSingle('settings');

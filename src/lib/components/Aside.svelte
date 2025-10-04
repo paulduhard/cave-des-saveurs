@@ -52,6 +52,7 @@
 	export let appellationNames: Record<string, string> = {};
 	export const getWinesByAppellation: (appellationUid: string) => any[] = () => [];
 	export let regionAppellations: Appellation[] = [];
+	export let selectedAppellationUid: string | null = null;
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -133,10 +134,8 @@
 			} else if (filterType === 'domain' && typeof value === 'string') {
 				filterData.selectedDomain = filterData.selectedDomain === value ? null : value;
 				handleFilterChange(filterType, filterData.selectedDomain || '');
-				generateAppellationWordCloud();
 			} else if (filterType === 'appellation' && typeof value === 'string') {
-				filterData.selectedAppellation = filterData.selectedAppellation === value ? null : value;
-				handleFilterChange(filterType, filterData.selectedAppellation || '');
+				// Ne rien faire ici, le toggle est géré directement dans le template
 			} else {
 				handleFilterChange(filterType, value);
 			}
@@ -195,20 +194,50 @@
 					{#each regionAppellations as appellation (appellation.uid)}
 						<button
 							type="button"
-							class="appellation-word text-left {filterData.selectedAppellation === appellation.uid
-								? 'font-bold text-primary'
-								: ''}"
-							on:click={() => localHandleFilterChange('appellation', appellation.uid)}
+							class="appellation-word flex items-center justify-between gap-2 text-left transition-colors"
+							style="font-weight: {selectedAppellationUid === appellation.uid
+								? 'bold'
+								: 'normal'}; color: {selectedAppellationUid === appellation.uid
+								? 'var(--primary)'
+								: selectedAppellationUid
+									? '#9ca3af'
+									: 'inherit'};"
+							on:click={() => {
+								// Toggle direct pour que bind: fonctionne
+								if (selectedAppellationUid === appellation.uid) {
+									selectedAppellationUid = null;
+								} else {
+									selectedAppellationUid = appellation.uid;
+								}
+							}}
 							on:keydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
-									localHandleFilterChange('appellation', appellation.uid);
+									if (selectedAppellationUid === appellation.uid) {
+										selectedAppellationUid = null;
+									} else {
+										selectedAppellationUid = appellation.uid;
+									}
 								}
 							}}
-							aria-pressed={filterData.selectedAppellation === appellation.uid}
+							aria-pressed={selectedAppellationUid === appellation.uid}
 							aria-label={`Appellation ${appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}`}
 						>
-							{appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}
+							<span>{appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}</span>
+							{#if selectedAppellationUid === appellation.uid}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-4 w-4 flex-shrink-0"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+							{/if}
 						</button>
 					{/each}
 				</div>
