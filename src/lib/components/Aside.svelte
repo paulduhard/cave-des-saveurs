@@ -51,6 +51,10 @@
 	) => void = () => {};
 	export let appellationNames: Record<string, string> = {};
 	export const getWinesByAppellation: (appellationUid: string) => any[] = () => [];
+	export let regionAppellations: Appellation[] = [];
+	export let regionDomaines: Domain[] = [];
+	export let selectedAppellationUid: string | null = null;
+	export let selectedDomaineUid: string | null = null;
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -130,12 +134,9 @@
 				filterData.selectedColors = new Set(filterData.selectedColors);
 				handleFilterChange(filterType, filterData.selectedColors);
 			} else if (filterType === 'domain' && typeof value === 'string') {
-				filterData.selectedDomain = filterData.selectedDomain === value ? null : value;
-				handleFilterChange(filterType, filterData.selectedDomain || '');
-				generateAppellationWordCloud();
+				// Le toggle est géré directement dans le template
 			} else if (filterType === 'appellation' && typeof value === 'string') {
-				filterData.selectedAppellation = filterData.selectedAppellation === value ? null : value;
-				handleFilterChange(filterType, filterData.selectedAppellation || '');
+				// Ne rien faire ici, le toggle est géré directement dans le template
 			} else {
 				handleFilterChange(filterType, value);
 			}
@@ -175,7 +176,7 @@
 	}
 </script>
 
-<aside class="bg-gray-100 md:w-1/4">
+<aside class="bg-gray-100md:w-1/4">
 	<!-- Appellation Section -->
 	<div class="mb-6 border-t border-primary">
 		<button
@@ -189,34 +190,64 @@
 		</button>
 
 		<div id="appellation-list" class={isAppellationSectionExpanded ? '' : 'hidden'}>
-			{#if filterData?.appellations && filterData.appellations.length > 0}
+			{#if regionAppellations && regionAppellations.length > 0}
 				<div class="word-cloud">
-					{#each filterData.appellations as appellation (appellation.uid)}
+					{#each regionAppellations as appellation (appellation.uid)}
 						<button
 							type="button"
-							class="appellation-word text-left {filterData.selectedAppellation === appellation.uid
-								? 'font-bold text-primary'
-								: ''}"
-							on:click={() => localHandleFilterChange('appellation', appellation.uid)}
+							class="appellation-word flex items-center justify-between gap-2 text-left no-underline transition-colors hover:no-underline"
+							style="font-weight: {selectedAppellationUid === appellation.uid
+								? 'bold'
+								: 'normal'}; color: {selectedAppellationUid === appellation.uid
+								? 'var(--primary)'
+								: selectedAppellationUid
+									? '#9ca3af'
+									: 'inherit'};"
+							on:click={() => {
+								// Toggle direct pour que bind: fonctionne
+								if (selectedAppellationUid === appellation.uid) {
+									selectedAppellationUid = null;
+								} else {
+									selectedAppellationUid = appellation.uid;
+									// Désélectionner le domaine si une appellation est sélectionnée
+									selectedDomaineUid = null;
+								}
+							}}
 							on:keydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
-									localHandleFilterChange('appellation', appellation.uid);
+									if (selectedAppellationUid === appellation.uid) {
+										selectedAppellationUid = null;
+									} else {
+										selectedAppellationUid = appellation.uid;
+										// Désélectionner le domaine si une appellation est sélectionnée
+										selectedDomaineUid = null;
+									}
 								}
 							}}
-							aria-pressed={filterData.selectedAppellation === appellation.uid}
+							aria-pressed={selectedAppellationUid === appellation.uid}
 							aria-label={`Appellation ${appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}`}
 						>
-							{appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}
+							<span>{appellationNames[appellation.uid] || appellation.name || 'Nom inconnu'}</span>
+							{#if selectedAppellationUid === appellation.uid}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-4 w-4 flex-shrink-0"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+							{/if}
 						</button>
 					{/each}
 				</div>
 			{:else}
-				<p class="text-gray-500 text-sm">
-					{filterData?.selectedDomain
-						? 'Aucune appellation disponible pour ce domaine'
-						: 'Sélectionnez un domaine pour voir les appellations'}
-				</p>
+				<p class="text-gray-500 text-sm">Aucune appellation disponible pour cette région</p>
 			{/if}
 		</div>
 	</div>
@@ -233,37 +264,64 @@
 		</button>
 
 		<div id="domain-list" class={isDomainSectionExpanded ? '' : 'hidden'}>
-			{#if filterData?.domains && filterData.domains.length > 0}
-				{#each filterData.domains as domain (domain.uid)}
-					<div class="mb-2">
-						<label
-							class="block {filterData.selectedDomain === domain.uid
-								? 'cursor-default'
-								: 'cursor-pointer hover:underline'} focus:no-underline"
+			{#if regionDomaines && regionDomaines.length > 0}
+				<div class="word-cloud">
+					{#each regionDomaines as domaine (domaine.uid)}
+						<button
+							type="button"
+							class="appellation-word flex items-center justify-between gap-2 text-left no-underline transition-colors hover:no-underline"
+							style="font-weight: {selectedDomaineUid === domaine.uid
+								? 'bold'
+								: 'normal'}; color: {selectedDomaineUid === domaine.uid
+								? 'var(--primary)'
+								: selectedDomaineUid
+									? '#9ca3af'
+									: 'inherit'};"
+							on:click={() => {
+								// Toggle direct pour que bind: fonctionne
+								if (selectedDomaineUid === domaine.uid) {
+									selectedDomaineUid = null;
+								} else {
+									selectedDomaineUid = domaine.uid;
+									// Désélectionner l'appellation si un domaine est sélectionné
+									selectedAppellationUid = null;
+								}
+							}}
+							on:keydown={(e) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									if (selectedDomaineUid === domaine.uid) {
+										selectedDomaineUid = null;
+									} else {
+										selectedDomaineUid = domaine.uid;
+										// Désélectionner l'appellation si un domaine est sélectionné
+										selectedAppellationUid = null;
+									}
+								}
+							}}
+							aria-pressed={selectedDomaineUid === domaine.uid}
+							aria-label={`Domaine ${domaine.name || 'Nom inconnu'}`}
 						>
-							<input
-								type="radio"
-								name="domain"
-								value={domain.uid}
-								checked={filterData.selectedDomain === domain.uid}
-								on:change={() => localHandleFilterChange('domain', domain.uid)}
-								class="hidden"
-								aria-label={`Domaine ${domain.name || 'Nom non défini'}`}
-							/>
-							<div class="flex items-center justify-between font-light">
-								<span
-									class="{filterData.selectedDomain === domain.uid
-										? 'font-bold'
-										: ''} hover:text-gray-700"
+							<span>{domaine.name || 'Nom inconnu'}</span>
+							{#if selectedDomaineUid === domaine.uid}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-4 w-4 flex-shrink-0"
+									viewBox="0 0 20 20"
+									fill="currentColor"
 								>
-									{domain.name || 'Nom non défini'}
-								</span>
-							</div>
-						</label>
-					</div>
-				{/each}
+									<path
+										fill-rule="evenodd"
+										d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+							{/if}
+						</button>
+					{/each}
+				</div>
 			{:else}
-				<p class="text-gray-500 text-sm">Aucun domaine disponible</p>
+				<p class="text-gray-500 text-sm">Aucun domaine disponible pour cette région</p>
 			{/if}
 		</div>
 	</div>
@@ -318,7 +376,7 @@
 
 	<div class="mb-6 border-t border-primary">
 		<h3 class="mb-2 mt-2 text-xl uppercase">Couleurs</h3>
-		<div class="grid grid-cols-3 gap-x-2 gap-y-4">
+		<div class="grid-cols-3 gap-x-2 gap-y-4 lg:grid">
 			{#if filterData?.colors && filterData.colors.length > 0}
 				{#each filterData.colors as color (color.uid)}
 					<label class="flex cursor-pointer items-center font-light">
@@ -404,6 +462,6 @@
 		font: inherit;
 	}
 	.appellation-word:hover {
-		text-decoration: underline;
+		text-decoration: none;
 	}
 </style>

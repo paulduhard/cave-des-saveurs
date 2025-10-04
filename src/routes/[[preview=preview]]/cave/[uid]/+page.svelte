@@ -1,17 +1,116 @@
 <script lang="ts">
 	import WineCard from '$lib/components/WineCard.svelte';
 	import { fade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
+	import { invalidate } from '$app/navigation';
+	import { browser } from '$app/environment';
 	import Aside from '$lib/components/Aside.svelte';
 
 	export let data: any;
+
+	let previousUid = '';
+
+	// Invalider les données quand on change de région (côté client uniquement)
+	$: if (browser && page.params.uid && page.params.uid !== previousUid) {
+		previousUid = page.params.uid;
+		if (previousUid) {
+			invalidate('cave:region');
+		}
+	}
 
 	$: uid = page.params.uid;
 	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
 	$: regionData = currentRegion?.data;
 
-	$: wineResults = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+	// État des filtres
+	let selectedAppellationUid: string | null = null;
+	let selectedDomaineUid: string | null = null;
+
+	// wineResults devient une variable PUREMENT réactive
+	$: wineResults = (() => {
+		// Force la réactivité en référençant explicitement les dépendances
+		filterData.selectedColors;
+		selectedAppellationUid;
+		selectedDomaineUid;
+
+		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+
+		// Filter by colors
+		if (filterData.selectedColors.size > 0) {
+			filtered = filtered.filter((wine: any) => {
+				const wineColorUid = wine.couleur?.uid || wine.couleur;
+				return wineColorUid && filterData.selectedColors.has(wineColorUid);
+			});
+		}
+
+		// Filter by domain
+		if (selectedDomaineUid) {
+			const selectedDomain = regionDomaines.find((d: any) => d.uid === selectedDomaineUid);
+			if (selectedDomain) {
+				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
+			}
+		}
+
+		// Filter by appellation
+		if (selectedAppellationUid) {
+			filtered = filtered.filter((wine: any) => {
+				const appellationUid = wine.appellation?.uid;
+				return appellationUid === selectedAppellationUid;
+			});
+		}
+
+		// Filter by price range
+		if (filterData.priceRange) {
+			filtered = filtered.filter((wine: any) => {
+				const price = wine.prix || 0;
+				return price >= filterData.priceRange.min && price <= filterData.priceRange.max;
+			});
+		}
+
+		return filtered;
+	})();
+
+	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
+	// Basées sur TOUS les vins de la région, pas les vins filtrés
+	$: regionAppellations = Array.from(
+		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+			.filter((wine: any) => wine.appellation?.uid && wine.appellation?.data?.appellation)
+			.reduce((map: Map<string, any>, wine: any) => {
+				const uid = wine.appellation.uid;
+				if (!map.has(uid)) {
+					map.set(uid, {
+						uid,
+						name: wine.appellation.data.appellation
+					});
+				}
+				return map;
+			}, new Map<string, any>())
+			.values()
+	).sort((a: any, b: any) => a.name.localeCompare(b.name)) as Array<{ uid: string; name: string }>;
+
+	// 🏰 Facettes de domaines pour la région courante (dédoublonnées, triées alphabétiquement)
+	$: regionDomaines = Array.from(
+		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+			.filter((wine: any) => wine.domaineName && wine.domaineName !== 'Domaine non spécifié')
+			.reduce((map: Map<string, any>, wine: any) => {
+				const uid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
+				if (!map.has(uid)) {
+					map.set(uid, {
+						uid,
+						name: wine.domaineName,
+						appellations: []
+					});
+				}
+				return map;
+			}, new Map<string, any>())
+			.values()
+	).sort((a: any, b: any) => a.name.localeCompare(b.name)) as Array<{
+		uid: string;
+		name: string;
+		appellations: Array<{ uid: string; name: string }>;
+	}>;
 
 	// Filter data for Aside component
 	let filterData = {
@@ -91,6 +190,63 @@
 	// Appellation names mapping
 	let appellationNames: Record<string, string> = {};
 
+	// 📝 Titre dynamique selon le filtre actif
+	$: currentTitle = (() => {
+		if (selectedAppellationUid) {
+			const selectedAppellation = regionAppellations.find(
+				(app) => app.uid === selectedAppellationUid
+			);
+			return selectedAppellation?.name || null;
+		}
+
+		if (selectedDomaineUid) {
+			const selectedDomaine = regionDomaines.find((dom) => dom.uid === selectedDomaineUid);
+			return selectedDomaine?.name || null;
+		}
+
+		return null;
+	})();
+
+	// 📝 Description dynamique selon le filtre actif
+	$: currentDescription = (() => {
+		// Si une appellation est sélectionnée, afficher sa description
+		if (selectedAppellationUid) {
+			const selectedAppellation = regionAppellations.find(
+				(app) => app.uid === selectedAppellationUid
+			);
+			if (selectedAppellation) {
+				// Trouver le vin avec cette appellation pour récupérer la description complète
+				const wineWithAppellation = data.allWines?.find(
+					(w: any) => w.appellation?.uid === selectedAppellationUid
+				);
+				const appellationDescription = (wineWithAppellation as any)?.appellation?.data?.description;
+				if (appellationDescription && appellationDescription.length > 0) {
+					return appellationDescription[0]?.text || selectedAppellation.name;
+				}
+				return selectedAppellation.name;
+			}
+		}
+
+		// Si un domaine est sélectionné, afficher sa description
+		if (selectedDomaineUid) {
+			const selectedDomaine = regionDomaines.find((dom) => dom.uid === selectedDomaineUid);
+			if (selectedDomaine) {
+				// Trouver le vin avec ce domaine pour récupérer la description complète
+				const wineWithDomaine = data.allWines?.find(
+					(w: any) => w.domaineName === selectedDomaine.name
+				);
+				const domaineDescription = (wineWithDomaine as any)?.domaine?.data?.description;
+				if (domaineDescription && domaineDescription.length > 0) {
+					return domaineDescription[0]?.text || selectedDomaine.name;
+				}
+				return selectedDomaine.name;
+			}
+		}
+
+		// Par défaut, afficher la description de la région
+		return regionData?.description?.[0]?.text || '';
+	})();
+
 	// Filter change handler
 	function handleFilterChange(filterType: string, value: any) {
 		if (filterType === 'color') {
@@ -107,57 +263,12 @@
 		} else if (filterType === 'domain') {
 			filterData.selectedDomain = value;
 		} else if (filterType === 'appellation') {
-			filterData.selectedAppellation = value;
+			// Le toggle est géré par l'Aside via bind:selectedAppellationUid
 		} else if (filterType === 'prix') {
 			filterData.priceRange = value;
 		}
 
-		// Update wine results based on filters
-		updateWineResults();
-	}
-
-	// Update wine results based on active filters
-	function updateWineResults() {
-		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
-
-		// Filter by colors
-		if (filterData.selectedColors.size > 0) {
-			filtered = filtered.filter((wine: any) => {
-				// Check if wine has couleur field and matches selected colors
-				const wineColorUid = wine.couleur?.uid || wine.couleur;
-				return wineColorUid && filterData.selectedColors.has(wineColorUid);
-			});
-		}
-
-		// Filter by domain
-		if (filterData.selectedDomain) {
-			const selectedDomain = filterData.domains.find(
-				(d: any) => d.uid === filterData.selectedDomain
-			);
-			if (selectedDomain) {
-				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
-			}
-		}
-
-		// Filter by appellation
-		if (filterData.selectedAppellation) {
-			filtered = filtered.filter((wine: any) => {
-				const appellationUid =
-					wine.appellation?.uid ||
-					wine.appellation?.data?.appellation?.toLowerCase().replace(/\s+/g, '-');
-				return appellationUid === filterData.selectedAppellation;
-			});
-		}
-
-		// Filter by price range
-		if (filterData.priceRange) {
-			filtered = filtered.filter((wine: any) => {
-				const price = wine.prix || 0;
-				return price >= filterData.priceRange.min && price <= filterData.priceRange.max;
-			});
-		}
-
-		wineResults = filtered;
+		// Pas besoin d'appeler updateWineResults(), wineResults est maintenant réactif
 	}
 
 	// Get wines by appellation
@@ -192,82 +303,62 @@
 	</header>
 
 	<div class="md:flex">
-		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
+		<!-- Aside desktop uniquement (à gauche) -->
+		<div class="hidden md:block">
+			<Aside
+				bind:filterData
+				{handleFilterChange}
+				{appellationNames}
+				{getWinesByAppellation}
+				{regionAppellations}
+				{regionDomaines}
+				bind:selectedAppellationUid
+				bind:selectedDomaineUid
+			/>
+		</div>
 
 		<main class="md:mx-6 md:w-3/4">
-			<p
-				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out
-md:mx-12"
-			>
-				{regionData?.description?.[0]?.text || ''}
-			</p>
-			<!-- {#if selectedDomainName}
-				<h2>
-					<button
-						class="duration-600 inline-flex w-2/5 min-w-fit items-center gap-2 text-4xl transition-all ease-in-out {selectedAppellationName
-							? 'mb-0 border-none pb-0 text-lg'
-							: 'pointer-events-none mb-4 border-b border-primary pb-4'}"
-						on:click={resetAppellations}
-					>
-						{selectedDomainName}
-						{#if selectedAppellationName}
-							<ArrowIcon class="translate-y-[2px] -rotate-90 transform" />
-						{/if}
-					</button>
+			{#if currentTitle}
+				<h2
+					class="mb-2 w-1/3 min-w-fit border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+				>
+					{currentTitle}
 				</h2>
-			{/if} -->
-			<!-- {#if selectedAppellationName}
-				<h3>
-					<button
-						class="duration-600 pointer-events-none mb-4 w-1/3 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all ease-in-out"
-					>
-						{selectedAppellationName}
-					</button>
-				</h3>
-			{/if} -->
-			<!-- {#if selectedAppellationDescription}
-			<PrismicRichText
-				field={selectedAppellationDescription}
-				class="duration-600 opacity-100 transition-opacity ease-in-out"
-			/>
-			{:else if selectedDomainDescription}
-				<PrismicRichText
-					field={selectedDomainDescription}
-					class="duration-600 opacity-100 transition-opacity ease-in-out"
-				/>
-			{:else}
-				<PrismicRichText
-					field={data.region.description}
-					class="duration-600 opacity-100 transition-opacity ease-in-out"
-				/>
-			{/if} -->
+			{/if}
+			<p
+				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out md:mx-12"
+			>
+				{currentDescription}
+			</p>
 
-			<!-- {#if !filterData.selectedAppellation}
-							<h3
-								class="mb-4 flex w-1/3 min-w-fit items-center border-b border-primary pb-2 text-lg"
-							>
-								{#if filterData.selectedDomain}
-									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
-									<span>{getGroupTitle(key)}</span>
-								{:else}
-									{@const { domainName, appellationName } = getGroupTitle(key)}
-									<span>{domainName}</span>
-									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
-									<span>{appellationName}</span>
-								{/if}
-							</h3>
-						{/if} -->
+			<!-- Aside mobile uniquement (après description) -->
+			<div class="block md:hidden">
+				<Aside
+					bind:filterData
+					{handleFilterChange}
+					{appellationNames}
+					{getWinesByAppellation}
+					{regionAppellations}
+					{regionDomaines}
+					bind:selectedAppellationUid
+					bind:selectedDomaineUid
+				/>
+			</div>
 
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">
-				{#if Object.keys(wineResults).length > 0}
-					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{#each wineResults as wine (wine.uid)}
-							<WineCard {wine} />
-						{/each}
-					</div>
+				{#if wineResults.length > 0}
+					{#key wineResults.length}
+						<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+							{#each wineResults as wine (wine.uid)}
+								<div in:fade={{ duration: 150 }}>
+									<WineCard {wine} />
+								</div>
+							{/each}
+						</div>
+					{/key}
 				{:else}
-					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 700 }}>
+					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
 						Aucun vin trouvé pour cette sélection.
 					</p>
 				{/if}
