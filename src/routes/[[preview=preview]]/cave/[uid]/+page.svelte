@@ -185,6 +185,63 @@
 	// Appellation names mapping
 	let appellationNames: Record<string, string> = {};
 
+	// 📝 Titre dynamique selon le filtre actif
+	$: currentTitle = (() => {
+		if (selectedAppellationUid) {
+			const selectedAppellation = regionAppellations.find(
+				(app) => app.uid === selectedAppellationUid
+			);
+			return selectedAppellation?.name || null;
+		}
+
+		if (selectedDomaineUid) {
+			const selectedDomaine = regionDomaines.find((dom) => dom.uid === selectedDomaineUid);
+			return selectedDomaine?.name || null;
+		}
+
+		return null;
+	})();
+
+	// 📝 Description dynamique selon le filtre actif
+	$: currentDescription = (() => {
+		// Si une appellation est sélectionnée, afficher sa description
+		if (selectedAppellationUid) {
+			const selectedAppellation = regionAppellations.find(
+				(app) => app.uid === selectedAppellationUid
+			);
+			if (selectedAppellation) {
+				// Trouver le vin avec cette appellation pour récupérer la description complète
+				const wineWithAppellation = data.allWines?.find(
+					(w: any) => w.appellation?.uid === selectedAppellationUid
+				);
+				const appellationDescription = (wineWithAppellation as any)?.appellation?.data?.description;
+				if (appellationDescription && appellationDescription.length > 0) {
+					return appellationDescription[0]?.text || selectedAppellation.name;
+				}
+				return selectedAppellation.name;
+			}
+		}
+
+		// Si un domaine est sélectionné, afficher sa description
+		if (selectedDomaineUid) {
+			const selectedDomaine = regionDomaines.find((dom) => dom.uid === selectedDomaineUid);
+			if (selectedDomaine) {
+				// Trouver le vin avec ce domaine pour récupérer la description complète
+				const wineWithDomaine = data.allWines?.find(
+					(w: any) => w.domaineName === selectedDomaine.name
+				);
+				const domaineDescription = (wineWithDomaine as any)?.domaine?.data?.description;
+				if (domaineDescription && domaineDescription.length > 0) {
+					return domaineDescription[0]?.text || selectedDomaine.name;
+				}
+				return selectedDomaine.name;
+			}
+		}
+
+		// Par défaut, afficher la description de la région
+		return regionData?.description?.[0]?.text || '';
+	})();
+
 	// Filter change handler
 	function handleFilterChange(filterType: string, value: any) {
 		if (filterType === 'color') {
@@ -241,80 +298,47 @@
 	</header>
 
 	<div class="md:flex">
-		<Aside
-			bind:filterData
-			{handleFilterChange}
-			{appellationNames}
-			{getWinesByAppellation}
-			{regionAppellations}
-			{regionDomaines}
-			bind:selectedAppellationUid
-			bind:selectedDomaineUid
-		/>
+		<!-- Aside desktop uniquement (à gauche) -->
+		<div class="hidden md:block">
+			<Aside
+				bind:filterData
+				{handleFilterChange}
+				{appellationNames}
+				{getWinesByAppellation}
+				{regionAppellations}
+				{regionDomaines}
+				bind:selectedAppellationUid
+				bind:selectedDomaineUid
+			/>
+		</div>
 
 		<main class="md:mx-6 md:w-3/4">
-			<p
-				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out
-md:mx-12"
-			>
-				{regionData?.description?.[0]?.text || ''}
-			</p>
-			<!-- {#if selectedDomainName}
-				<h2>
-					<button
-						class="duration-600 inline-flex w-2/5 min-w-fit items-center gap-2 text-4xl transition-all ease-in-out {selectedAppellationName
-							? 'mb-0 border-none pb-0 text-lg'
-							: 'pointer-events-none mb-4 border-b border-primary pb-4'}"
-						on:click={resetAppellations}
-					>
-						{selectedDomainName}
-						{#if selectedAppellationName}
-							<ArrowIcon class="translate-y-[2px] -rotate-90 transform" />
-						{/if}
-					</button>
+			{#if currentTitle}
+				<h2
+					class="mb-2 w-1/3 min-w-fit border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+				>
+					{currentTitle}
 				</h2>
-			{/if} -->
-			<!-- {#if selectedAppellationName}
-				<h3>
-					<button
-						class="duration-600 pointer-events-none mb-4 w-1/3 min-w-fit border-b border-primary pb-2 text-left text-4xl transition-all ease-in-out"
-					>
-						{selectedAppellationName}
-					</button>
-				</h3>
-			{/if} -->
-			<!-- {#if selectedAppellationDescription}
-			<PrismicRichText
-				field={selectedAppellationDescription}
-				class="duration-600 opacity-100 transition-opacity ease-in-out"
-			/>
-			{:else if selectedDomainDescription}
-				<PrismicRichText
-					field={selectedDomainDescription}
-					class="duration-600 opacity-100 transition-opacity ease-in-out"
-				/>
-			{:else}
-				<PrismicRichText
-					field={data.region.description}
-					class="duration-600 opacity-100 transition-opacity ease-in-out"
-				/>
-			{/if} -->
+			{/if}
+			<p
+				class="mb-4 w-full font-span text-lg font-bold transition-all duration-500 ease-in-out md:mx-12"
+			>
+				{currentDescription}
+			</p>
 
-			<!-- {#if !filterData.selectedAppellation}
-							<h3
-								class="mb-4 flex w-1/3 min-w-fit items-center border-b border-primary pb-2 text-lg"
-							>
-								{#if filterData.selectedDomain}
-									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
-									<span>{getGroupTitle(key)}</span>
-								{:else}
-									{@const { domainName, appellationName } = getGroupTitle(key)}
-									<span>{domainName}</span>
-									<ArrowIcon class="mx-2 translate-y-[2px] -rotate-90 transform" />
-									<span>{appellationName}</span>
-								{/if}
-							</h3>
-						{/if} -->
+			<!-- Aside mobile uniquement (après description) -->
+			<div class="block md:hidden">
+				<Aside
+					bind:filterData
+					{handleFilterChange}
+					{appellationNames}
+					{getWinesByAppellation}
+					{regionAppellations}
+					{regionDomaines}
+					bind:selectedAppellationUid
+					bind:selectedDomaineUid
+				/>
+			</div>
 
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">

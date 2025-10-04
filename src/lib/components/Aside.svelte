@@ -176,7 +176,7 @@
 	}
 </script>
 
-<aside class="bg-gray-100 md:w-1/4">
+<aside class="bg-gray-100md:w-1/4">
 	<!-- Appellation Section -->
 	<div class="mb-6 border-t border-primary">
 		<button
@@ -376,7 +376,7 @@
 
 	<div class="mb-6 border-t border-primary">
 		<h3 class="mb-2 mt-2 text-xl uppercase">Couleurs</h3>
-		<div class="grid grid-cols-3 gap-x-2 gap-y-4">
+		<div class="grid-cols-3 gap-x-2 gap-y-4 lg:grid">
 			{#if filterData?.colors && filterData.colors.length > 0}
 				{#each filterData.colors as color (color.uid)}
 					<label class="flex cursor-pointer items-center font-light">
