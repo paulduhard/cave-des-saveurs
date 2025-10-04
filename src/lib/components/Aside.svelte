@@ -209,6 +209,8 @@
 									selectedAppellationUid = null;
 								} else {
 									selectedAppellationUid = appellation.uid;
+									// Désélectionner le domaine si une appellation est sélectionnée
+									selectedDomaineUid = null;
 								}
 							}}
 							on:keydown={(e) => {
@@ -218,6 +220,8 @@
 										selectedAppellationUid = null;
 									} else {
 										selectedAppellationUid = appellation.uid;
+										// Désélectionner le domaine si une appellation est sélectionnée
+										selectedDomaineUid = null;
 									}
 								}
 							}}
@@ -279,6 +283,8 @@
 									selectedDomaineUid = null;
 								} else {
 									selectedDomaineUid = domaine.uid;
+									// Désélectionner l'appellation si un domaine est sélectionné
+									selectedAppellationUid = null;
 								}
 							}}
 							on:keydown={(e) => {
@@ -288,6 +294,8 @@
 										selectedDomaineUid = null;
 									} else {
 										selectedDomaineUid = domaine.uid;
+										// Désélectionner l'appellation si un domaine est sélectionné
+										selectedAppellationUid = null;
 									}
 								}
 							}}
