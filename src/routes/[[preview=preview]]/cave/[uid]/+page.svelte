@@ -23,13 +23,53 @@
 	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
 	$: regionData = currentRegion?.data;
 
-	// wineResults est maintenant géré par updateWineResults(), pas en réactif
-	let wineResults: any[] = [];
+	// État du filtre d'appellation
+	let selectedAppellationUid: string | null = null;
 
-	// Mettre à jour wineResults quand uid change
-	$: if (uid) {
-		updateWineResults();
-	}
+	// wineResults devient une variable PUREMENT réactive
+	$: wineResults = (() => {
+		const startTime = performance.now();
+		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+		console.log('⏱️ Filtrage initial:', performance.now() - startTime, 'ms');
+
+		// Filter by colors
+		if (filterData.selectedColors.size > 0) {
+			filtered = filtered.filter((wine: any) => {
+				const wineColorUid = wine.couleur?.uid || wine.couleur;
+				return wineColorUid && filterData.selectedColors.has(wineColorUid);
+			});
+		}
+
+		// Filter by domain
+		if (filterData.selectedDomain) {
+			const selectedDomain = filterData.domains.find(
+				(d: any) => d.uid === filterData.selectedDomain
+			);
+			if (selectedDomain) {
+				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
+			}
+		}
+
+		// Filter by appellation
+		if (selectedAppellationUid) {
+			filtered = filtered.filter((wine: any) => {
+				const appellationUid = wine.appellation?.uid;
+				return appellationUid === selectedAppellationUid;
+			});
+		}
+
+		// Filter by price range
+		if (filterData.priceRange) {
+			filtered = filtered.filter((wine: any) => {
+				const price = wine.prix || 0;
+				return price >= filterData.priceRange.min && price <= filterData.priceRange.max;
+			});
+		}
+
+		const totalTime = performance.now() - startTime;
+		console.log('⏱️ Temps total filtrage:', totalTime, 'ms - Résultats:', filtered.length);
+		return filtered;
+	})();
 
 	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
 	// Basées sur TOUS les vins de la région, pas les vins filtrés
@@ -63,15 +103,6 @@
 		selectedAppellation: null as string | null,
 		priceRange: { min: 5, max: 200 }
 	};
-
-	// État du filtre d'appellation
-	let selectedAppellationUid: string | null = null;
-
-	// Watcher : quand selectedAppellationUid change, on met à jour les résultats
-	$: if (selectedAppellationUid !== undefined) {
-		filterData.selectedAppellation = selectedAppellationUid;
-		updateWineResults();
-	}
 
 	// Initialize filter data from server data
 	$: if (data) {
@@ -153,55 +184,11 @@
 			filterData.selectedDomain = value;
 		} else if (filterType === 'appellation') {
 			// Le toggle est géré par l'Aside via bind:selectedAppellationUid
-			// On ne fait rien ici, le watcher réactif s'en occupe
 		} else if (filterType === 'prix') {
 			filterData.priceRange = value;
 		}
 
-		// Update wine results based on filters
-		updateWineResults();
-	}
-
-	// Update wine results based on active filters
-	function updateWineResults() {
-		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
-
-		// Filter by colors
-		if (filterData.selectedColors.size > 0) {
-			filtered = filtered.filter((wine: any) => {
-				// Check if wine has couleur field and matches selected colors
-				const wineColorUid = wine.couleur?.uid || wine.couleur;
-				return wineColorUid && filterData.selectedColors.has(wineColorUid);
-			});
-		}
-
-		// Filter by domain
-		if (filterData.selectedDomain) {
-			const selectedDomain = filterData.domains.find(
-				(d: any) => d.uid === filterData.selectedDomain
-			);
-			if (selectedDomain) {
-				filtered = filtered.filter((wine: any) => wine.domaineName === selectedDomain.name);
-			}
-		}
-
-		// Filter by appellation
-		if (selectedAppellationUid) {
-			filtered = filtered.filter((wine: any) => {
-				const appellationUid = wine.appellation?.uid;
-				return appellationUid === selectedAppellationUid;
-			});
-		}
-
-		// Filter by price range
-		if (filterData.priceRange) {
-			filtered = filtered.filter((wine: any) => {
-				const price = wine.prix || 0;
-				return price >= filterData.priceRange.min && price <= filterData.priceRange.max;
-			});
-		}
-
-		wineResults = filtered;
+		// Pas besoin d'appeler updateWineResults(), wineResults est maintenant réactif
 	}
 
 	// Get wines by appellation

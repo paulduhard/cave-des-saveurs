@@ -194,7 +194,7 @@
 					{#each regionAppellations as appellation (appellation.uid)}
 						<button
 							type="button"
-							class="appellation-word flex items-center justify-between gap-2 text-left transition-colors"
+							class="appellation-word flex items-center justify-between gap-2 text-left no-underline transition-colors hover:no-underline"
 							style="font-weight: {selectedAppellationUid === appellation.uid
 								? 'bold'
 								: 'normal'}; color: {selectedAppellationUid === appellation.uid
@@ -430,6 +430,6 @@
 		font: inherit;
 	}
 	.appellation-word:hover {
-		text-decoration: underline;
+		text-decoration: none;
 	}
 </style>
