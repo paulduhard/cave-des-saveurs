@@ -30,6 +30,11 @@
 
 	// wineResults devient une variable PUREMENT réactive
 	$: wineResults = (() => {
+		// Force la réactivité en référençant explicitement les dépendances
+		filterData.selectedColors;
+		selectedAppellationUid;
+		selectedDomaineUid;
+
 		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
 
 		// Filter by colors
@@ -343,13 +348,15 @@
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">
 				{#if wineResults.length > 0}
-					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-						{#each wineResults as wine (wine.uid)}
-							<div animate:flip={{ duration: 300 }} in:fade={{ duration: 150 }}>
-								<WineCard {wine} />
-							</div>
-						{/each}
-					</div>
+					{#key wineResults.length}
+						<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+							{#each wineResults as wine (wine.uid)}
+								<div in:fade={{ duration: 150 }}>
+									<WineCard {wine} />
+								</div>
+							{/each}
+						</div>
+					{/key}
 				{:else}
 					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
 						Aucun vin trouvé pour cette sélection.
