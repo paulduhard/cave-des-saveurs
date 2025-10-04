@@ -1,6 +1,7 @@
 <script lang="ts">
 	import WineCard from '$lib/components/WineCard.svelte';
 	import { fade } from 'svelte/transition';
+	import { flip } from 'svelte/animate';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
 	import { invalidate } from '$app/navigation';
@@ -28,9 +29,7 @@
 
 	// wineResults devient une variable PUREMENT réactive
 	$: wineResults = (() => {
-		const startTime = performance.now();
 		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
-		console.log('⏱️ Filtrage initial:', performance.now() - startTime, 'ms');
 
 		// Filter by colors
 		if (filterData.selectedColors.size > 0) {
@@ -66,8 +65,6 @@
 			});
 		}
 
-		const totalTime = performance.now() - startTime;
-		console.log('⏱️ Temps total filtrage:', totalTime, 'ms - Résultats:', filtered.length);
 		return filtered;
 	})();
 
@@ -298,14 +295,16 @@ md:mx-12"
 
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">
-				{#if Object.keys(wineResults).length > 0}
+				{#if wineResults.length > 0}
 					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{#each wineResults as wine (wine.uid)}
-							<WineCard {wine} />
+							<div animate:flip={{ duration: 300 }} in:fade={{ duration: 150 }}>
+								<WineCard {wine} />
+							</div>
 						{/each}
 					</div>
 				{:else}
-					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 700 }}>
+					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
 						Aucun vin trouvé pour cette sélection.
 					</p>
 				{/if}
