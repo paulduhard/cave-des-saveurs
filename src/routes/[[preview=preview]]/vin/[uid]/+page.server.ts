@@ -20,10 +20,10 @@ export async function load({ params, fetch, cookies }) {
 		});
 
 		// Extract data from linked documents
-		const regionName = page.data.region?.data?.region ?? 'Non spécifié';
-		const couleurName = page.data.couleur?.data?.couleur ?? 'Non spécifié';
-		const domaineName = page.data.domaine?.data?.domaine ?? 'Non spécifié';
-		const appellationName = page.data.appellation?.data?.appellation ?? 'Non spécifié';
+		const regionName = (page.data.region as any)?.data?.region ?? 'Non spécifié';
+		const couleurName = (page.data.couleur as any)?.data?.couleur ?? 'Non spécifié';
+		const domaineName = (page.data.domaine as any)?.data?.domaine ?? 'Non spécifié';
+		const appellationName = (page.data.appellation as any)?.data?.appellation ?? 'Non spécifié';
 
 		return {
 			page,
@@ -35,8 +35,8 @@ export async function load({ params, fetch, cookies }) {
 			couleur: couleurName,
 			domaine: domaineName,
 			appellation: appellationName,
-			appellationDescription: page.data.appellation?.data?.description ?? null,
-			regionDescription: page.data.region?.data?.description ?? null
+			appellationDescription: (page.data.appellation as any)?.data?.description ?? null,
+			regionDescription: (page.data.region as any)?.data?.description ?? null
 		};
 	} catch (e) {
 		console.error('Error fetching wine data:', e);

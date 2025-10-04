@@ -41,22 +41,6 @@
 		--focus-ring-offset: 2px;
 	}
 
-	/* Improved focus indicators */
-	*:focus {
-		outline: var(--focus-ring);
-		outline-offset: var(--focus-ring-offset);
-	}
-
-	/* Better focus for interactive elements */
-	button:focus,
-	a:focus,
-	input:focus,
-	select:focus,
-	textarea:focus {
-		outline: var(--focus-ring);
-		outline-offset: var(--focus-ring-offset);
-	}
-
 	/* Screen reader only content */
 	.sr-only {
 		position: absolute;
@@ -90,14 +74,6 @@
 		line-height: 1.4rem;
 	}
 
-	/* High contrast mode support */
-	@media (prefers-contrast: high) {
-		:root {
-			--primary: #000000;
-			--secondary: #ffffff;
-		}
-	}
-
 	/* Respect user's motion preferences */
 	@media (prefers-reduced-motion: reduce) {
 		*,
@@ -107,43 +83,5 @@
 			animation-iteration-count: 1 !important;
 			transition-duration: 0.01ms !important;
 		}
-	}
-
-	/* Improved color contrast for links */
-	a {
-		color: var(--primary);
-		text-decoration-skip-ink: auto;
-	}
-
-	a:hover {
-		text-decoration: underline;
-	}
-
-	/* Better button styling */
-	button {
-		cursor: pointer;
-		border: none;
-		background: transparent;
-		padding: 0;
-		font: inherit;
-	}
-
-	button:disabled {
-		cursor: not-allowed;
-		opacity: 0.6;
-	}
-
-	/* Improved form elements */
-	input,
-	textarea,
-	select {
-		border: 1px solid var(--primary);
-	}
-
-	input:invalid,
-	textarea:invalid,
-	select:invalid {
-		border-color: #dc2626;
-		box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
 	}
 }
