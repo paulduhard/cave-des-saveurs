@@ -13,6 +13,23 @@
 
 	$: wineResults = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
 
+	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
+	$: regionAppellations = Array.from(
+		wineResults
+			.filter((wine: any) => wine.appellation?.uid && wine.appellation?.data?.appellation)
+			.reduce((map: Map<string, any>, wine: any) => {
+				const uid = wine.appellation.uid;
+				if (!map.has(uid)) {
+					map.set(uid, {
+						uid,
+						name: wine.appellation.data.appellation
+					});
+				}
+				return map;
+			}, new Map<string, any>())
+			.values()
+	).sort((a: any, b: any) => a.name.localeCompare(b.name)) as Array<{ uid: string; name: string }>;
+
 	// Filter data for Aside component
 	let filterData = {
 		colors: [] as Array<{ uid: string; name: string }>,
@@ -192,7 +209,13 @@
 	</header>
 
 	<div class="md:flex">
-		<Aside bind:filterData {handleFilterChange} {appellationNames} {getWinesByAppellation} />
+		<Aside
+			bind:filterData
+			{handleFilterChange}
+			{appellationNames}
+			{getWinesByAppellation}
+			{regionAppellations}
+		/>
 
 		<main class="md:mx-6 md:w-3/4">
 			<p

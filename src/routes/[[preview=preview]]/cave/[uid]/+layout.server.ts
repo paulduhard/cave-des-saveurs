@@ -19,7 +19,7 @@ export async function load({ fetch, cookies, params }) {
 		const [regions, colors, wines] = await Promise.all([
 			client.getAllByType('region'),
 			client.getAllByType('couleur'),
-			client.getAllByType('vin', { fetchLinks: ['domaine.domaine'] })
+			client.getAllByType('vin', { fetchLinks: ['domaine.domaine', 'appellation.appellation'] })
 		]);
 
 		const allWines = wines.map((w) => {

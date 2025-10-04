@@ -51,6 +51,7 @@
 	) => void = () => {};
 	export let appellationNames: Record<string, string> = {};
 	export const getWinesByAppellation: (appellationUid: string) => any[] = () => [];
+	export let regionAppellations: Appellation[] = [];
 
 	function toggleDomainSection() {
 		isDomainSectionExpanded = !isDomainSectionExpanded;
@@ -189,9 +190,9 @@
 		</button>
 
 		<div id="appellation-list" class={isAppellationSectionExpanded ? '' : 'hidden'}>
-			{#if filterData?.appellations && filterData.appellations.length > 0}
+			{#if regionAppellations && regionAppellations.length > 0}
 				<div class="word-cloud">
-					{#each filterData.appellations as appellation (appellation.uid)}
+					{#each regionAppellations as appellation (appellation.uid)}
 						<button
 							type="button"
 							class="appellation-word text-left {filterData.selectedAppellation === appellation.uid
@@ -212,11 +213,7 @@
 					{/each}
 				</div>
 			{:else}
-				<p class="text-gray-500 text-sm">
-					{filterData?.selectedDomain
-						? 'Aucune appellation disponible pour ce domaine'
-						: 'Sélectionnez un domaine pour voir les appellations'}
-				</p>
+				<p class="text-gray-500 text-sm">Aucune appellation disponible pour cette région</p>
 			{/if}
 		</div>
 	</div>
