@@ -3,25 +3,12 @@
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/state';
-	import { invalidate } from '$app/navigation';
-	import { browser } from '$app/environment';
 	import Aside from '$lib/components/Aside.svelte';
 
 	export let data: any;
 
-	let previousUid = '';
-
-	// Invalider les données quand on change de région (côté client uniquement)
-	$: if (browser && page.params.uid && page.params.uid !== previousUid) {
-		previousUid = page.params.uid;
-		if (previousUid) {
-			invalidate('cave:region');
-		}
-	}
-
-	$: uid = page.params.uid;
-	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
+	$: uid = data.uid;
+	$: currentRegion = data.currentRegion;
 	$: regionData = currentRegion?.data;
 
 	// État des filtres
@@ -35,7 +22,7 @@
 		selectedAppellationUid;
 		selectedDomaineUid;
 
-		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+		let filtered = data.regionWines || [];
 
 		// Filter by colors
 		if (filterData.selectedColors.size > 0) {
@@ -75,7 +62,7 @@
 	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
 	// Basées sur TOUS les vins de la région, pas les vins filtrés
 	$: regionAppellations = Array.from(
-		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+		(data.regionWines || [])
 			.filter((wine: any) => wine.appellation?.uid && wine.appellation?.data?.appellation)
 			.reduce((map: Map<string, any>, wine: any) => {
 				const uid = wine.appellation.uid;
@@ -92,7 +79,7 @@
 
 	// 🏰 Facettes de domaines pour la région courante (dédoublonnées, triées alphabétiquement)
 	$: regionDomaines = Array.from(
-		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+		(data.regionWines || [])
 			.filter((wine: any) => wine.domaineName && wine.domaineName !== 'Domaine non spécifié')
 			.reduce((map: Map<string, any>, wine: any) => {
 				const uid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
@@ -135,11 +122,11 @@
 				name: color.data?.couleur || color.uid
 			})) || [];
 
-		// Extract domains from wines
+		// Extract domains from region wines
 		const domainMap = new Map();
 		const appellationMap = new Map();
 
-		data.allWines?.forEach((wine: any) => {
+		data.regionWines?.forEach((wine: any) => {
 			// Extract domain info
 			if (wine.domaineName && wine.domaineName !== 'Domaine non spécifié') {
 				const domainUid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
@@ -296,10 +283,6 @@
 		>
 			{regionData?.region || 'Region'}
 		</h1>
-		<!-- <button
-			class="duration-600 hidden h-12 w-fit whitespace-nowrap border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
-			on:click={goToHome}>Alcools et spiritueux</button
-		> -->
 	</header>
 
 	<div class="md:flex">

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
-	import { page } from '$app/state';
+	import { page } from '$app/stores';
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import SearchIcon from './SearchIcon.svelte';
@@ -43,9 +43,13 @@
 		isScrolled = window.scrollY > 0;
 	}
 
-	// Variables réactives avec $app/state (SvelteKit 2.0+)
-	$: currentPath = page.url.pathname;
+	// Variables réactives avec $app/stores
+	$: currentPath = $page.url.pathname;
 	$: isCaveParentActive = currentPath.startsWith('/cave/');
+
+	// Force reactivity update for region/color functions
+	let pathUpdate = '';
+	$: pathUpdate = currentPath;
 
 	// Manage body scroll based on burger menu visibility
 	$: {
@@ -76,13 +80,18 @@
 		return false;
 	};
 
-	export const isRegionActive = (region: any) => {
+	// Reactive functions that update when currentPath changes
+	$: isRegionActive = (region: any) => {
+		// Force dependency on pathUpdate to ensure reactivity
+		pathUpdate;
 		if (!region.uid) return false;
 		const regionPath = region.uid === 'all' ? '/cave/all-wines' : `/cave/${region.uid}`;
 		return currentPath === regionPath;
 	};
 
-	export const isColorActive = (color: any) => {
+	$: isColorActive = (color: any) => {
+		// Force dependency on pathUpdate to ensure reactivity
+		pathUpdate;
 		if (!color.uid) return false;
 		return currentPath === `/cave/${color.uid}`;
 	};
