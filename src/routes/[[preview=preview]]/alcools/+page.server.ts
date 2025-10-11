@@ -15,10 +15,10 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 
 	try {
 		const [page, regions, products] = await Promise.all([
-			client.getSingle('epicerie'),
+			client.getSingle('alcools'),
 			client.getAllByType('region'),
-			client.getAllByType('produitepicerie', {
-				fetchLinks: ['origine.nom', 'origine.description']
+			client.getAllByType('produit_spiritueux', {
+				fetchLinks: ['region.region', 'region.description']
 			})
 		]);
 
@@ -43,24 +43,24 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 			page,
 			regions: sortByOrderMenu(regions),
 			allProducts,
-			title: 'Épicerie - Cave des Saveurs',
-			meta_title: 'Épicerie fine - Cave des Saveurs',
-			meta_description: "Découvrez notre sélection d'épicerie fine",
+			title: 'Alcools et spiritueux - Cave des Saveurs',
+			meta_title: 'Alcools et spiritueux - Cave des Saveurs',
+			meta_description: "Découvrez notre sélection d'alcools et spiritueux",
 			meta_image: page?.data?.meta_image || null
 		};
 	} catch (error) {
-		console.error('Error fetching epicerie data:', error);
+		console.error('Error fetching alcools data:', error);
 
 		// Fallback
-		const page = await client.getSingle('epicerie').catch(() => null);
+		const page = await client.getSingle('alcools').catch(() => null);
 
 		return {
 			page,
 			regions: [],
 			allProducts: [],
-			title: 'Épicerie - Cave des Saveurs',
-			meta_title: 'Épicerie fine - Cave des Saveurs',
-			meta_description: "Découvrez notre sélection d'épicerie fine",
+			title: 'Alcools et spiritueux - Cave des Saveurs',
+			meta_title: 'Alcools et spiritueux fine - Cave des Saveurs',
+			meta_description: "Découvrez notre sélection d'alcools et spiritueux",
 			meta_image: null
 		};
 	}

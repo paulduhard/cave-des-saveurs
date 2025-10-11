@@ -28,7 +28,6 @@
 			</div>
 
 			<div class="w-1/2 md:w-auto">
-				<!-- Title with same styling as wine cards but without link -->
 				<span class="mt-8 font-span font-medium">{product.titre}</span>
 
 				<!-- Optional: Show type and region info like wine cards show domain -->

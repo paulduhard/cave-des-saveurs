@@ -19,6 +19,13 @@
 					"placeholder": ""
 				}
 			},
+			"domaine": {
+				"type": "Text",
+				"config": {
+					"label": "Domaine",
+					"placeholder": ""
+				}
+			},
 			"description": {
 				"type": "Text",
 				"config": {
@@ -54,15 +61,6 @@
 						"Apéritifs et mixologie",
 						"Bières"
 					]
-				}
-			},
-			"region": {
-				"type": "Link",
-				"config": {
-					"label": "Région",
-					"select": "document",
-					"repeat": false,
-					"customtypes": ["region"]
 				}
 			},
 			"prix": {
