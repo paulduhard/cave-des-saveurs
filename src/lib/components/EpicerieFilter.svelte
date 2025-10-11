@@ -118,7 +118,7 @@
 			aria-expanded={isTypeSectionExpanded}
 			aria-controls="type-list"
 		>
-			Type de produit
+			Nos produits
 			<ArrowIcon isSelected={isTypeSectionExpanded} class="ml-2" />
 		</button>
 
