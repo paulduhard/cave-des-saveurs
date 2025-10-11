@@ -1,0 +1,86 @@
+{
+	"format": "page",
+	"id": "produitepicerie",
+	"label": "Produit_Epicerie",
+	"repeatable": true,
+	"status": true,
+	"json": {
+		"Main": {
+			"uid": {
+				"type": "UID",
+				"config": {
+					"label": "UID"
+				}
+			},
+			"titre": {
+				"type": "Text",
+				"config": {
+					"label": "Titre",
+					"placeholder": ""
+				}
+			},
+			"image": {
+				"type": "Image",
+				"config": {
+					"label": "Image",
+					"constraint": {
+						"width": 240,
+						"height": 310
+					},
+					"thumbnails": []
+				}
+			},
+			"type": {
+				"type": "Select",
+				"config": {
+					"label": "Type",
+					"placeholder": "Sélectionner le type de produit dans la liste",
+					"options": [
+						"Tartinables et apéritif Épices",
+						"Pâtés, rillettes et terrines",
+						"Charcuterie",
+						"Plats cuisinés",
+						"Pâtes et riz",
+						"Produits de la mer",
+						"Huiles et vinaigres",
+						"Épices"
+					]
+				}
+			},
+			"region": {
+				"type": "Link",
+				"config": {
+					"label": "Région",
+					"select": "document",
+					"repeat": false,
+					"customtypes": ["region"]
+				}
+			},
+			"prix": {
+				"type": "Select",
+				"config": {
+					"label": "Prix",
+					"placeholder": "Sélectionner la fourchette de prix",
+					"options": ["5-10", "11-20", "21-40", "41-80", "81-120", "121"],
+					"default_value": "5-10"
+				}
+			},
+			"nouveaute": {
+				"type": "Boolean",
+				"config": {
+					"label": "Nouveauté",
+					"placeholder_false": "false",
+					"placeholder_true": "true",
+					"default_value": false
+				}
+			},
+			"slices": {
+				"type": "Slices",
+				"fieldset": "Slice Zone",
+				"config": {
+					"choices": {}
+				}
+			}
+		}
+	}
+}

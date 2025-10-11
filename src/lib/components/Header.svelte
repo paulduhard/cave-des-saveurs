@@ -147,8 +147,6 @@
 					class="relative uppercase hover:underline {isActiveLink(item)
 						? 'font-bold text-primary'
 						: ''}"
-					on:mouseenter={index === 1 ? openMegaMenu : null}
-					on:mouseleave={index === 1 ? closeMegaMenu : null}
 				>
 					{#if item.external_link}
 						<PrismicLink
@@ -167,6 +165,8 @@
 								? 'font-bold text-primary'
 								: ''}"
 							on:click={openMegaMenu}
+							on:mouseenter={openMegaMenu}
+							on:mouseleave={closeMegaMenu}
 							on:keydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
@@ -223,19 +223,23 @@
 
 {#if isMegaMenuVisible}
 	<div
-		id="mega-menu"
-		role="navigation"
-		aria-label="Mega menu"
-		on:mouseenter={openMegaMenu}
-		on:mouseleave={closeMegaMenu}
-		on:keydown={(e) => {
-			if (e.key === 'Escape') {
-				closeMegaMenu();
-			}
-		}}
 		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
 		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
+		on:mouseenter={openMegaMenu}
+		on:mouseleave={closeMegaMenu}
 	>
-		<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
+		<nav
+			id="mega-menu"
+			aria-label="Mega menu"
+			tabindex="0"
+			on:keydown={(e) => {
+				if (e.key === 'Escape') {
+					closeMegaMenu();
+				}
+			}}
+			class="focus:outline-none focus:ring-2 focus:ring-primary"
+		>
+			<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
+		</nav>
 	</div>
 {/if}

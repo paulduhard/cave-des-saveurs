@@ -17,7 +17,17 @@
 				"type": "Slices",
 				"fieldset": "Slice Zone",
 				"config": {
-					"choices": {}
+					"choices": {
+						"spacer": {
+							"type": "SharedSlice"
+						},
+						"banner_event": {
+							"type": "SharedSlice"
+						},
+						"rich_text": {
+							"type": "SharedSlice"
+						}
+					}
 				}
 			}
 		},

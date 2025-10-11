@@ -294,8 +294,8 @@
 	}
 </script>
 
-<div class="container mx-auto mt-12">
-	<header class="flex flex-grow items-center justify-between">
+<div class="mx-auto mt-12">
+	<header class="container flex flex-grow items-center justify-between">
 		{#key uid}
 			<h1
 				class="mb-4 w-full font-span text-4xl font-bold transition-all duration-500
@@ -308,7 +308,7 @@
 		{/key}
 	</header>
 
-	<div class="md:flex">
+	<div class="container md:flex">
 		<!-- Aside desktop uniquement (à gauche) -->
 		<div class="hidden md:block">
 			<Aside
@@ -328,7 +328,7 @@
 				<div in:fade={{ duration: 300, delay: 150 }} out:fade={{ duration: 200 }}>
 					{#if currentTitle}
 						<h2
-							class="mb-2 w-1/3 min-w-fit border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
 						>
 							{currentTitle}
 						</h2>

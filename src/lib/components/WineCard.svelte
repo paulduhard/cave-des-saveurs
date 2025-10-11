@@ -17,11 +17,7 @@
 					<div
 						class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg"
 					>
-						<img
-							src="/assets/placeholder.png"
-							alt="Image du vin à venir - photo en attente"
-							class="opacity-50"
-						/>
+						<img src="/assets/placeholder.png" alt="Bouteille de vin" class="opacity-50" />
 						<span
 							class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
 						>
@@ -34,7 +30,9 @@
 			<div class="w-1/2 md:w-auto">
 				<span class="mt-8 font-span"><PrismicRichText field={wine.title} /></span>
 				<span class="mb-2 font-span text-xl">{wine.domaineName}</span>
-				<PrismicRichText field={wine.resume} />
+				<div class="wine-description">
+					<PrismicRichText field={wine.resume} />
+				</div>
 
 				<div class="mt-auto pt-4">
 					<button
@@ -47,3 +45,18 @@
 		</div>
 	</a>
 </div>
+
+<style>
+	/* Limit wine description to 2 lines on mobile only */
+	@media (max-width: 768px) {
+		.wine-description :global(p) {
+			display: -webkit-box;
+			-webkit-line-clamp: 2;
+			line-clamp: 2;
+			-webkit-box-orient: vertical;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			line-height: 1.4;
+		}
+	}
+</style>

@@ -300,7 +300,7 @@ export type DomaineDocument<Lang extends string = string> = prismic.PrismicDocum
 	Lang
 >;
 
-type EpicerieDocumentDataSlicesSlice = never;
+type EpicerieDocumentDataSlicesSlice = SpacerSlice | BannerEventSlice | RichTextSlice;
 
 /**
  * Content for Épicerie documents
@@ -511,6 +511,271 @@ interface PageDocumentData {
 export type PageDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
 	Simplify<PageDocumentData>,
 	'page',
+	Lang
+>;
+
+type ProduitSpiritueuxDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Produit_spiritueux documents
+ */
+interface ProduitSpiritueuxDocumentData {
+	/**
+	 * Titre field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_spiritueux.titre
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	titre: prismic.KeyTextField;
+
+	/**
+	 * Description field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: Texte court pour page de résultats
+	 * - **API ID Path**: produit_spiritueux.description
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	description: prismic.KeyTextField;
+
+	/**
+	 * Image field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_spiritueux.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * Type field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Sélectionner le type de produit dans la liste
+	 * - **API ID Path**: produit_spiritueux.type
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	type: prismic.SelectField<
+		| 'Cognacs'
+		| 'Armagnacs'
+		| 'Whiskies'
+		| 'Rhums'
+		| 'Gins'
+		| 'Eaux de vie et liqueurs'
+		| 'Anisés'
+		| 'Téqulias et Mezcals'
+		| 'Apéritifs et mixologie'
+		| 'Bières'
+	>;
+
+	/**
+	 * Région field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_spiritueux.region
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	region: prismic.ContentRelationshipField<'region'>;
+
+	/**
+	 * Prix field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Sélectionner la fourchette de prix
+	 * - **Default Value**: 5-10
+	 * - **API ID Path**: produit_spiritueux.prix
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	prix: prismic.SelectField<'5-10' | '11-20' | '21-40' | '41-80' | '81-120' | '121', 'filled'>;
+
+	/**
+	 * Nouveauté field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: produit_spiritueux.nouveaute
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	nouveaute: prismic.BooleanField;
+
+	/**
+	 * Slice Zone field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_spiritueux.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<ProduitSpiritueuxDocumentDataSlicesSlice> /**
+	 * Meta Title field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A title of the page used for social media and search engines
+	 * - **API ID Path**: produit_spiritueux.meta_title
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */;
+	meta_title: prismic.KeyTextField;
+
+	/**
+	 * Meta Description field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: A brief summary of the page
+	 * - **API ID Path**: produit_spiritueux.meta_description
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	meta_description: prismic.KeyTextField;
+
+	/**
+	 * Meta Image field in *Produit_spiritueux*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produit_spiritueux.meta_image
+	 * - **Tab**: SEO & Metadata
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Produit_spiritueux document from Prismic
+ *
+ * - **API ID**: `produit_spiritueux`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProduitSpiritueuxDocument<Lang extends string = string> =
+	prismic.PrismicDocumentWithUID<
+		Simplify<ProduitSpiritueuxDocumentData>,
+		'produit_spiritueux',
+		Lang
+	>;
+
+type ProduitepicerieDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Produit_Epicerie documents
+ */
+interface ProduitepicerieDocumentData {
+	/**
+	 * Titre field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Text
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produitepicerie.titre
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/text
+	 */
+	titre: prismic.KeyTextField;
+
+	/**
+	 * Image field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Image
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produitepicerie.image
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/image
+	 */
+	image: prismic.ImageField<never>;
+
+	/**
+	 * Type field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Sélectionner le type de produit dans la liste
+	 * - **API ID Path**: produitepicerie.type
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	type: prismic.SelectField<
+		| 'Tartinables et apéritif Épices'
+		| 'Pâtés, rillettes et terrines'
+		| 'Charcuterie'
+		| 'Plats cuisinés'
+		| 'Pâtes et riz'
+		| 'Produits de la mer'
+		| 'Huiles et vinaigres'
+		| 'Épices'
+	>;
+
+	/**
+	 * Région field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Content Relationship
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produitepicerie.region
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+	 */
+	region: prismic.ContentRelationshipField<'region'>;
+
+	/**
+	 * Prix field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Select
+	 * - **Placeholder**: Sélectionner la fourchette de prix
+	 * - **Default Value**: 5-10
+	 * - **API ID Path**: produitepicerie.prix
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/select
+	 */
+	prix: prismic.SelectField<'5-10' | '11-20' | '21-40' | '41-80' | '81-120' | '121', 'filled'>;
+
+	/**
+	 * Nouveauté field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Boolean
+	 * - **Placeholder**: *None*
+	 * - **Default Value**: false
+	 * - **API ID Path**: produitepicerie.nouveaute
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/fields/boolean
+	 */
+	nouveaute: prismic.BooleanField;
+
+	/**
+	 * Slice Zone field in *Produit_Epicerie*
+	 *
+	 * - **Field Type**: Slice Zone
+	 * - **Placeholder**: *None*
+	 * - **API ID Path**: produitepicerie.slices[]
+	 * - **Tab**: Main
+	 * - **Documentation**: https://prismic.io/docs/slices
+	 */
+	slices: prismic.SliceZone<ProduitepicerieDocumentDataSlicesSlice>;
+}
+
+/**
+ * Produit_Epicerie document from Prismic
+ *
+ * - **API ID**: `produitepicerie`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/content-modeling
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type ProduitepicerieDocument<Lang extends string = string> = prismic.PrismicDocumentWithUID<
+	Simplify<ProduitepicerieDocumentData>,
+	'produitepicerie',
 	Lang
 >;
 
@@ -1042,6 +1307,8 @@ export type AllDocumentTypes =
 	| EpicerieDocument
 	| OrigineDocument
 	| PageDocument
+	| ProduitSpiritueuxDocument
+	| ProduitepicerieDocument
 	| RegionDocument
 	| SettingsDocument
 	| VinDocument;
@@ -2070,6 +2337,12 @@ declare module '@prismicio/client' {
 			PageDocument,
 			PageDocumentData,
 			PageDocumentDataSlicesSlice,
+			ProduitSpiritueuxDocument,
+			ProduitSpiritueuxDocumentData,
+			ProduitSpiritueuxDocumentDataSlicesSlice,
+			ProduitepicerieDocument,
+			ProduitepicerieDocumentData,
+			ProduitepicerieDocumentDataSlicesSlice,
 			RegionDocument,
 			RegionDocumentData,
 			SettingsDocument,
