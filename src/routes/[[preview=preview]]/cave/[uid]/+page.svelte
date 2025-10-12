@@ -2,27 +2,34 @@
 	import WineCard from '$lib/components/WineCard.svelte';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { cubicOut, cubicIn } from 'svelte/easing';
 	import { goto } from '$app/navigation';
-	import { page } from '$app/state';
-	import { invalidate } from '$app/navigation';
-	import { browser } from '$app/environment';
 	import Aside from '$lib/components/Aside.svelte';
+	import { onMount } from 'svelte';
 
 	export let data: any;
 
+	let isChangingRegion = false;
 	let previousUid = '';
 
-	// Invalider les données quand on change de région (côté client uniquement)
-	$: if (browser && page.params.uid && page.params.uid !== previousUid) {
-		previousUid = page.params.uid;
-		if (previousUid) {
-			invalidate('cave:region');
-		}
-	}
-
-	$: uid = page.params.uid;
-	$: currentRegion = data.regions.find((r: any) => r.uid === uid);
+	$: uid = data.uid;
+	$: currentRegion = data.currentRegion;
 	$: regionData = currentRegion?.data;
+
+	// Detect region changes for smooth transitions
+	$: if (uid !== previousUid && previousUid !== '') {
+		isChangingRegion = true;
+		setTimeout(() => {
+			isChangingRegion = false;
+		}, 150);
+	}
+	$: previousUid = uid;
+
+	// Filter wines for current region (client-side)
+	$: regionWines =
+		uid === 'all-wines'
+			? data.allWines || []
+			: (data.allWines || []).filter((wine: any) => wine.regionUID === uid);
 
 	// État des filtres
 	let selectedAppellationUid: string | null = null;
@@ -35,7 +42,7 @@
 		selectedAppellationUid;
 		selectedDomaineUid;
 
-		let filtered = data.allWines?.filter((w: any) => w.regionUID === uid) || [];
+		let filtered = regionWines || [];
 
 		// Filter by colors
 		if (filterData.selectedColors.size > 0) {
@@ -75,7 +82,7 @@
 	// 🍇 Facettes d'appellations pour la région courante (dédoublonnées, triées alphabétiquement)
 	// Basées sur TOUS les vins de la région, pas les vins filtrés
 	$: regionAppellations = Array.from(
-		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+		(regionWines || [])
 			.filter((wine: any) => wine.appellation?.uid && wine.appellation?.data?.appellation)
 			.reduce((map: Map<string, any>, wine: any) => {
 				const uid = wine.appellation.uid;
@@ -92,7 +99,7 @@
 
 	// 🏰 Facettes de domaines pour la région courante (dédoublonnées, triées alphabétiquement)
 	$: regionDomaines = Array.from(
-		(data.allWines?.filter((w: any) => w.regionUID === uid) || [])
+		(regionWines || [])
 			.filter((wine: any) => wine.domaineName && wine.domaineName !== 'Domaine non spécifié')
 			.reduce((map: Map<string, any>, wine: any) => {
 				const uid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
@@ -135,11 +142,11 @@
 				name: color.data?.couleur || color.uid
 			})) || [];
 
-		// Extract domains from wines
+		// Extract domains from region wines
 		const domainMap = new Map();
 		const appellationMap = new Map();
 
-		data.allWines?.forEach((wine: any) => {
+		regionWines?.forEach((wine: any) => {
 			// Extract domain info
 			if (wine.domaineName && wine.domaineName !== 'Domaine non spécifié') {
 				const domainUid = wine.domaineName.toLowerCase().replace(/\s+/g, '-');
@@ -283,26 +290,30 @@
 		);
 	}
 
-	function goToHome() {
-		goto('/'); // Navigates to the home page
+	function goToAlcools() {
+		goto('/alcools'); // Navigates to the home page
 	}
 </script>
 
-<div class="container mx-auto mt-12">
-	<header class="flex flex-grow items-center justify-between">
-		<h1
-			class="mb-4 w-full font-span text-4xl font-bold transition-all duration-500
-			ease-in-out md:text-5xl"
+<div class="mx-auto mt-12">
+	<header class="container flex flex-grow items-center justify-between">
+		{#key uid}
+			<h1
+				class="mb-4 w-full font-span text-4xl font-bold transition-all duration-500
+				ease-in-out md:text-5xl"
+				in:fade={{ duration: 300, delay: 100 }}
+				out:fade={{ duration: 200 }}
+			>
+				{regionData?.region || 'Region'}
+			</h1>
+		{/key}
+		<button
+			class="duration-600 hidden h-12 min-w-fit border border-primary px-12 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			on:click={goToAlcools}>Alcools et spiritueux</button
 		>
-			{regionData?.region || 'Region'}
-		</h1>
-		<!-- <button
-			class="duration-600 hidden h-12 w-fit whitespace-nowrap border border-primary px-20 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
-			on:click={goToHome}>Alcools et spiritueux</button
-		> -->
 	</header>
 
-	<div class="md:flex">
+	<div class="container md:flex">
 		<!-- Aside desktop uniquement (à gauche) -->
 		<div class="hidden md:block">
 			<Aside
@@ -318,16 +329,20 @@
 		</div>
 
 		<main class="md:mx-6 md:w-3/4">
-			{#if currentTitle}
-				<h2
-					class="mb-2 w-1/3 min-w-fit border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
-				>
-					{currentTitle}
-				</h2>
-			{/if}
-			<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-				{currentDescription}
-			</p>
+			{#key uid}
+				<div in:fade={{ duration: 300, delay: 150 }} out:fade={{ duration: 200 }}>
+					{#if currentTitle}
+						<h2
+							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+						>
+							{currentTitle}
+						</h2>
+					{/if}
+					<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
+						{currentDescription}
+					</p>
+				</div>
+			{/key}
 
 			<!-- Aside mobile uniquement (après description) -->
 			<div class="block md:hidden">
@@ -345,18 +360,35 @@
 
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">
-				{#if wineResults.length > 0}
-					{#key wineResults.length}
-						<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-							{#each wineResults as wine (wine.uid)}
-								<div in:fade={{ duration: 150 }}>
-									<WineCard {wine} />
+				{#if isChangingRegion}
+					<div class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+						{#each Array(6) as _, i}
+							<div class="bg-gray-200 h-96 animate-pulse rounded-lg"></div>
+						{/each}
+					</div>
+				{:else if wineResults.length > 0}
+					{#key uid}
+						<div
+							class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+							in:fade={{ duration: 400, delay: 200 }}
+							out:fade={{ duration: 200 }}
+						>
+							{#each wineResults as wine, i (wine.uid)}
+								        <div
+								            in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
+								            out:fade={{ duration: 300, easing: cubicIn }}
+								            animate:flip={{ duration: 300 }}
+								        >									<WineCard {wine} />
 								</div>
 							{/each}
 						</div>
 					{/key}
 				{:else}
-					<p class="top-1/2 w-full text-center" transition:fade={{ duration: 300 }}>
+					<p
+						class="top-1/2 w-full text-center"
+						in:fade={{ duration: 300, delay: 200 }}
+						out:fade={{ duration: 200 }}
+					>
 						Aucun vin trouvé pour cette sélection.
 					</p>
 				{/if}

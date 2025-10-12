@@ -23,14 +23,13 @@
 
 	<div class="mb-20 flex flex-col items-center justify-center md:flex-row">
 		{#if data.page.data.image.url}
-			<PrismicImage field={data.page.data.image} class="h-[490px] w-[380px]" />
+			<PrismicImage
+				field={data.page.data.image}
+				class="h-[400px] w-[300px] md:h-[490px] md:w-[380px]"
+			/>
 		{:else}
 			<div class="bg-red-200 relative flex h-full w-full items-center justify-center rounded-lg">
-				<img
-					src="/assets/placeholder.png"
-					alt="Image du vin à venir - photo en attente"
-					class="opacity-50"
-				/>
+				<img src="/assets/placeholder.png" alt="Bouteille de vin" class="opacity-50" />
 				<span
 					class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transform text-xl"
 				>
@@ -94,7 +93,7 @@
 			</div>
 
 			<div
-				class="container mx-8 my-8 flex w-[542px] w-fit flex-col gap-4 bg-secondary py-6 font-light"
+				class="container mx-4 my-8 flex w-full flex-col gap-4 bg-secondary py-6 font-light md:mx-8 md:max-w-[542px]"
 			>
 				<div class="px-22 m-auto max-w-md text-center text-[15px] tracking-tight">
 					Chez nous, tout se passe en boutique ! Nous vous invitons à nous contacter par téléphone
@@ -103,12 +102,12 @@
 				<div class="flex flex-col items-center justify-center gap-8 sm:flex-row">
 					<a
 						href="tel:+33490471181"
-						class="border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+						class="text-nowrap border px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
 						>04 90 47 11 81</a
 					>
 					<a
 						href="mailto:contact@cave-des-saveurs.com"
-						class=" border border-primary px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
+						class=" text-nowrap border border-primary px-6 py-2 text-primary transition-all duration-300 hover:bg-primary hover:text-secondary"
 						>contact@cave-des-saveurs.com</a
 					>
 				</div>

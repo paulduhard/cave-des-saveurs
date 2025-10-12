@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { SliceZone } from '@prismicio/svelte';
-	import EpicerieCard from '$lib/components/EpicerieCard.svelte';
-	import EpicerieFilter from '$lib/components/EpicerieFilter.svelte';
+	import AlcoolsCard from '$lib/components/AlcoolsCard.svelte';
+	import AlcoolsFilter from '$lib/components/AlcoolsFilter.svelte';
 	import { goto } from '$app/navigation';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import { cubicOut, cubicIn } from 'svelte/easing';
+	import { page } from '$app/stores'; // Import $page store
+	import { slugify } from '$lib/utils/slugify'; // Import slugify for comparison
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
@@ -22,12 +23,12 @@
 		}))
 		.sort((a, b) => a.label.localeCompare(b.label));
 
-	// Get only categories that have products
-	$: availableCategories = (() => {
-		const categoryUids = new Set(
-			(data.allProducts || []).map((product: any) => product.categoryUID).filter(Boolean)
+	// Get only regions that have products
+	$: availableRegions = (() => {
+		const regionUids = new Set(
+			(data.allProducts || []).map((product: any) => product.regionUID).filter(Boolean)
 		);
-		return (data.categories || []).filter((category) => categoryUids.has(category.uid));
+		return (data.regions || []).filter((region) => regionUids.has(region.uid));
 	})();
 
 	// Convert prix string to numeric value for filtering
@@ -51,67 +52,75 @@
 	}
 
 	// Filter data - initialize with proper values
-	let selectedType: string | null = null;
-	let selectedCategory: string | null = null;
+	let selectedType: string | null;
+	$: {
+		const typeSlug = $page.url.searchParams.get('type');
+		if (typeSlug && availableTypes.length > 0) {
+			const foundType = availableTypes.find((t) => slugify(t.value) === typeSlug);
+			selectedType = foundType ? foundType.value : null;
+		} else {
+			selectedType = null;
+		}
+	}
+	let selectedRegion: string | null = null;
 	let selectedPriceRange = { min: 5, max: 120 };
 
 	$: filterData = {
 		types: availableTypes,
 		selectedType: selectedType,
-		categories: availableCategories,
-		selectedCategory: selectedCategory,
+		regions: availableRegions,
+		selectedRegion: selectedRegion,
 		priceRange: selectedPriceRange
 	};
 
 	// Reactive filtered products
-	$: filteredProducts = (() => {
-		let filtered = data.allProducts || [];
-
-		// Filter by type
-		if (selectedType) {
-			filtered = filtered.filter((product: any) => product.type === selectedType);
+	$: filteredProducts = (data.allProducts || []).filter((product) => {
+		if (selectedType && product.type !== selectedType) {
+			return false;
 		}
-
-		// Filter by category
-		if (selectedCategory) {
-			filtered = filtered.filter((product: any) => product.categoryUID === selectedCategory);
+		if (selectedRegion && product.regionUID !== selectedRegion) {
+			return false;
 		}
-
-		// Filter by price range
 		if (selectedPriceRange) {
-			filtered = filtered.filter((product: any) => {
-				const productPrice = priceRangeToNumber(product.prix);
-				return productPrice >= selectedPriceRange.min && productPrice <= selectedPriceRange.max;
-			});
+			const productPrice = priceRangeToNumber(product.prix);
+			if (productPrice < selectedPriceRange.min || productPrice > selectedPriceRange.max) {
+				return false;
+			}
 		}
-
-		return filtered;
-	})();
+		return true;
+	});
 
 	// Handle filter changes
 	function handleFilterChange(
-		filterType: 'type' | 'category' | 'prix',
+		filterType: 'type' | 'region' | 'prix',
 		value: string | { min: number; max: number } | null
 	) {
 		if (filterType === 'type') {
-			selectedType = value as string | null;
-		} else if (filterType === 'category') {
-			selectedCategory = value as string | null;
+			const newType = value as string | null;
+			const currentUrl = new URL($page.url);
+			if (newType) {
+				currentUrl.searchParams.set('type', slugify(newType));
+			} else {
+				currentUrl.searchParams.delete('type');
+			}
+			goto(currentUrl.toString(), { replaceState: true });
+		} else if (filterType === 'region') {
+			selectedRegion = value as string | null;
 		} else if (filterType === 'prix' && typeof value === 'object' && value !== null) {
 			selectedPriceRange = value;
 		}
 	}
 
-	function goToContact() {
-		goto('/boutique'); // Navigates to the home page
+	function goToCave() {
+		goto('/cave/provence-et-corse'); // Navigates to the home page
 	}
 </script>
 
 <svelte:head>
-	<title>{data.title || 'Épicerie - Cave des Saveurs'}</title>
+	<title>{data.title || 'Alcools et spiritueux - Cave des Saveurs'}</title>
 	<meta
 		name="description"
-		content={data.meta_description || "Découvrez notre sélection d'épicerie fine"}
+		content={data.meta_description || "Découvrez notre sélection d'Alcools et spiritueux"}
 	/>
 	{#if data.meta_image?.url}
 		<meta property="og:image" content={data.meta_image.url} />
@@ -126,18 +135,18 @@
 			in:fade={{ duration: 300, delay: 100 }}
 			out:fade={{ duration: 200 }}
 		>
-			Épicerie fine
+			Alcools et spiritueux
 		</h1>
 		<button
 			class="duration-600 hidden h-12 min-w-fit border border-primary px-12 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
-			on:click={goToContact}>Contactez-nous pour plus d’informations</button
+			on:click={goToCave}>La cave à vins</button
 		>
 	</header>
 
 	<div class="container md:flex">
 		<!-- Aside desktop uniquement (à gauche) -->
 		<div class="hidden md:block">
-			<EpicerieFilter bind:filterData {handleFilterChange} />
+			<AlcoolsFilter bind:filterData {handleFilterChange} />
 		</div>
 
 		<main class="md:mx-6 md:w-3/4">
@@ -150,27 +159,27 @@
 						{selectedType}
 					</h2>
 				{/if}
-				{#if selectedCategory}
-					{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-					{#if category}
+				{#if selectedRegion}
+					{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+					{#if region}
 						<h2
 							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
 						>
-							{category.data.nom}
+							{region.data.region}
 						</h2>
 					{/if}
 				{/if}
 				<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-					Découvrez notre sélection de produits d'épicerie fine
-					{#if selectedType || selectedCategory}
-						{#if selectedType && selectedCategory}
-							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-							- {selectedType} de {category?.data.nom || ''}
+					Découvrez notre sélection d'Alcools et spiritueux
+					{#if selectedType || selectedRegion}
+						{#if selectedType && selectedRegion}
+							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+							- {selectedType} de {region?.data.region || ''}
 						{:else if selectedType}
 							- {selectedType}
-						{:else if selectedCategory}
-							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-							- {category?.data.nom || ''}
+						{:else if selectedRegion}
+							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+							- {region?.data.region || ''}
 						{/if}
 					{/if}
 				</p>
@@ -178,24 +187,24 @@
 
 			<!-- Aside mobile uniquement (après description) -->
 			<div class="block md:hidden">
-				<EpicerieFilter bind:filterData {handleFilterChange} />
+				<AlcoolsFilter bind:filterData {handleFilterChange} />
 			</div>
 
 			<!-- GRILLE DE RESULTATS DES PRODUITS -->
 			<div class="my-12">
 				{#if filteredProducts.length > 0}
 					<div
-						class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+						class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
 						in:fade={{ duration: 400, delay: 200 }}
 						out:fade={{ duration: 200 }}
 					>
 						{#each filteredProducts as product, i (product.uid)}
 							<div
-								in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
-								out:fade={{ duration: 300, easing: cubicIn }}
+								in:fade={{ duration: 300, delay: i * 50 }}
+								out:fade={{ duration: 300 }}
 								animate:flip={{ duration: 300 }}
 							>
-								<EpicerieCard {product} />
+								<AlcoolsCard {product} />
 							</div>
 						{/each}
 					</div>

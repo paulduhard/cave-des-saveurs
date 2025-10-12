@@ -1,7 +1,7 @@
 {
 	"format": "page",
-	"id": "epicerie",
-	"label": "Épicerie",
+	"id": "alcools",
+	"label": "Alcools",
 	"repeatable": false,
 	"status": true,
 	"json": {
@@ -18,13 +18,13 @@
 				"fieldset": "Slice Zone",
 				"config": {
 					"choices": {
-						"spacer": {
+						"rich_text": {
 							"type": "SharedSlice"
 						},
 						"banner_event": {
 							"type": "SharedSlice"
 						},
-						"rich_text": {
+						"spacer": {
 							"type": "SharedSlice"
 						}
 					}

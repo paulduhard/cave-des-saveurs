@@ -176,7 +176,7 @@
 	}
 </script>
 
-<aside class="bg-gray-100md:w-1/4">
+<aside class="bg-gray-100 md:min-w-[280px]">
 	<!-- Appellation Section -->
 	<div class="mb-6 border-t border-primary">
 		<button

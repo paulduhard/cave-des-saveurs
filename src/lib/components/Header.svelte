@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PrismicImage, PrismicLink } from '@prismicio/svelte';
-	import { page } from '$app/state';
+	import { page } from '$app/stores';
 	import ExtLink from './ExtLink.svelte';
 	import MegaMenu from './MegaMenu.svelte';
 	import SearchIcon from './SearchIcon.svelte';
@@ -11,6 +11,7 @@
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
 	export let colors: CouleurDocument[] = [];
+	export let alcoolTypes: string[] = [];
 
 	let isMegaMenuVisible: boolean = false;
 	let isBurgerMenuVisible: boolean = false;
@@ -43,15 +44,19 @@
 		isScrolled = window.scrollY > 0;
 	}
 
-	// Variables réactives avec $app/state (SvelteKit 2.0+)
-	$: currentPath = page.url.pathname;
+	// Variables réactives avec $app/stores
+	$: currentPath = $page.url.pathname;
 	$: isCaveParentActive = currentPath.startsWith('/cave/');
+
+	// Force reactivity update for region/color functions
+	let pathUpdate = '';
+	$: pathUpdate = currentPath;
 
 	// Manage body scroll based on burger menu visibility
 	$: {
 		if (typeof document !== 'undefined') {
 			// Ensure code runs only in browser
-			if (isBurgerMenuVisible) {
+			if (isBurgerMenuVisible || isMegaMenuVisible) {
 				document.body.classList.add('overflow-hidden');
 			} else {
 				document.body.classList.remove('overflow-hidden');
@@ -76,13 +81,18 @@
 		return false;
 	};
 
-	export const isRegionActive = (region: any) => {
+	// Reactive functions that update when currentPath changes
+	$: isRegionActive = (region: any) => {
+		// Force dependency on pathUpdate to ensure reactivity
+		pathUpdate;
 		if (!region.uid) return false;
 		const regionPath = region.uid === 'all' ? '/cave/all-wines' : `/cave/${region.uid}`;
 		return currentPath === regionPath;
 	};
 
-	export const isColorActive = (color: any) => {
+	$: isColorActive = (color: any) => {
+		// Force dependency on pathUpdate to ensure reactivity
+		pathUpdate;
 		if (!color.uid) return false;
 		return currentPath === `/cave/${color.uid}`;
 	};
@@ -91,7 +101,7 @@
 <svelte:window on:scroll={handleScroll} />
 
 <header
-	class="sticky top-0 z-50 flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12 {isScrolled
+	class="fixed top-0 z-50 flex min-h-[85px] w-full items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12 {isScrolled
 		? 'shadow-md'
 		: ''}"
 >
@@ -138,8 +148,6 @@
 					class="relative uppercase hover:underline {isActiveLink(item)
 						? 'font-bold text-primary'
 						: ''}"
-					on:mouseenter={index === 1 ? openMegaMenu : null}
-					on:mouseleave={index === 1 ? closeMegaMenu : null}
 				>
 					{#if item.external_link}
 						<PrismicLink
@@ -158,6 +166,8 @@
 								? 'font-bold text-primary'
 								: ''}"
 							on:click={openMegaMenu}
+							on:mouseenter={openMegaMenu}
+							on:mouseleave={closeMegaMenu}
 							on:keydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
@@ -203,6 +213,7 @@
 			{settings}
 			{regions}
 			{colors}
+			{alcoolTypes}
 			{isActiveLink}
 			{isRegionActive}
 			{isColorActive}
@@ -214,19 +225,23 @@
 
 {#if isMegaMenuVisible}
 	<div
-		id="mega-menu"
-		role="navigation"
-		aria-label="Mega menu"
+		class="fixed top-[85px] z-40 w-full py-3 shadow-md"
+		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
-		on:keydown={(e) => {
-			if (e.key === 'Escape') {
-				closeMegaMenu();
-			}
-		}}
-		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
-		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 	>
-		<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
+		<nav
+			id="mega-menu"
+			aria-label="Mega menu"
+			tabindex="0"
+			on:keydown={(e) => {
+				if (e.key === 'Escape') {
+					closeMegaMenu();
+				}
+			}}
+			class="focus:outline-none focus:ring-2 focus:ring-primary"
+		>
+			<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} {alcoolTypes} />
+		</nav>
 	</div>
 {/if}

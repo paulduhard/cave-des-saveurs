@@ -50,7 +50,7 @@
 											<div class="relative mt-4">
 												<img
 													src="/assets/placeholder.png"
-													alt="Image du produit à venir - photo en attente"
+													alt="Bouteille de vin"
 													class="h-32 w-auto object-contain opacity-50"
 												/>
 												<span
@@ -103,7 +103,7 @@
 											<div class="relative">
 												<img
 													src="/assets/placeholder.png"
-													alt="Image du produit à venir - photo en attente"
+													alt="Bouteille de vin"
 													class="h-48 w-auto object-contain opacity-50"
 												/>
 												<span

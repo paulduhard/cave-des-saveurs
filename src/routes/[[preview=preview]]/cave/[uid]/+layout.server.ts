@@ -10,14 +10,12 @@ type ItemWithOrdreMenu = {
 
 export const prerender = 'auto';
 
-export async function load({ fetch, cookies, params, depends }) {
-	depends('cave:region');
+export async function load({ fetch, cookies, params }) {
 	const client = createClient({ fetch, cookies });
 
-	const settings = await client.getSingle('settings');
-
 	try {
-		const [regions, colors, wines] = await Promise.all([
+		const [settings, regions, colors, wines] = await Promise.all([
+			client.getSingle('settings'),
 			client.getAllByType('region'),
 			client.getAllByType('couleur'),
 			client.getAllByType('vin', {
@@ -75,19 +73,7 @@ export async function load({ fetch, cookies, params, depends }) {
 			};
 		});
 
-		const uniqueRegions = allWines.reduce<typeof regions>((acc, wine) => {
-			const regionUID = wine.regionUID; // ou wine.region?.uid si tu n'as pas déjà extrait le uid
-			if (!regionUID) return acc;
-
-			// On cherche la région complète dans le tableau regions
-			const region = regions.find((r) => r.uid === regionUID);
-			if (region && !acc.some((r) => r.id === region.id)) {
-				acc.push(region);
-			}
-			return acc;
-		}, []);
-
-		// Trouver la région correspondante pour les métadonnées
+		// Generate metadata based on current region
 		const uid = params.uid;
 		const currentRegion = regions.find((r) => r.uid === uid);
 
@@ -104,7 +90,11 @@ export async function load({ fetch, cookies, params, depends }) {
 			title = `${regionName} - Cave des Saveurs`;
 			meta_title = `Vins de ${regionName} - Cave des Saveurs`;
 			meta_description = description;
-			meta_image = settings.data.og_image || null;
+			meta_image = settings?.data?.og_image || null;
+		} else if (uid === 'all-wines') {
+			title = 'Tous nos vins - Cave des Saveurs';
+			meta_title = 'Tous nos vins - Cave des Saveurs';
+			meta_description = 'Découvrez toute notre sélection de vins';
 		}
 
 		return {
@@ -112,14 +102,13 @@ export async function load({ fetch, cookies, params, depends }) {
 			regions: sortByOrderMenu(regions),
 			colors: sortByOrderMenu(colors),
 			allWines,
-			uniqueRegions,
 			title,
 			meta_title,
 			meta_description,
 			meta_image
 		};
 	} catch (error) {
-		console.error('Error fetching data:', error);
+		console.error('Error fetching shared data:', error);
 
 		// Try to get at least the settings if other data fails
 		let fallbackSettings;
@@ -135,7 +124,6 @@ export async function load({ fetch, cookies, params, depends }) {
 			regions: [],
 			colors: [],
 			allWines: [],
-			uniqueRegions: [],
 			title: 'Cave des Saveurs',
 			meta_title: 'Cave des Saveurs',
 			meta_description: 'Découvrez notre sélection de vins',
