@@ -1,7 +1,8 @@
 <script lang="ts">
 	import WineCard from '$lib/components/WineCard.svelte';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { cubicOut, cubicIn } from 'svelte/easing';
 	import { goto } from '$app/navigation';
 	import Aside from '$lib/components/Aside.svelte';
 	import { onMount } from 'svelte';
@@ -360,7 +361,7 @@
 			<!-- GRILLE DE RESULTATS DES CUVEES -->
 			<div class="my-12">
 				{#if isChangingRegion}
-					<div class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+					<div class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 						{#each Array(6) as _, i}
 							<div class="bg-gray-200 h-96 animate-pulse rounded-lg"></div>
 						{/each}
@@ -373,8 +374,11 @@
 							out:fade={{ duration: 200 }}
 						>
 							{#each wineResults as wine, i (wine.uid)}
-								<div in:fade={{ duration: 200, delay: i * 50 }} animate:flip={{ duration: 300 }}>
-									<WineCard {wine} />
+								        <div
+								            in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
+								            out:fade={{ duration: 300, easing: cubicIn }}
+								            animate:flip={{ duration: 300 }}
+								        >									<WineCard {wine} />
 								</div>
 							{/each}
 						</div>

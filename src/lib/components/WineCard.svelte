@@ -4,7 +4,7 @@
 	export let wine;
 </script>
 
-<div transition:fade={{ duration: 700 }} class="group flex h-full flex-col font-light">
+<div class="group flex h-full flex-col font-light">
 	<a
 		href={`/vin/${wine.uid}`}
 		class="flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out hover:shadow-xl md:rounded-md md:border-none"
