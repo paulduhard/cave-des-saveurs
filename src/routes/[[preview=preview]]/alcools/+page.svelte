@@ -2,6 +2,7 @@
 	import { SliceZone } from '@prismicio/svelte';
 	import AlcoolsCard from '$lib/components/AlcoolsCard.svelte';
 	import AlcoolsFilter from '$lib/components/AlcoolsFilter.svelte';
+	import { goto } from '$app/navigation';
 	import { fade, slide } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 
@@ -99,6 +100,10 @@
 			selectedPriceRange = value;
 		}
 	}
+
+	function goToCave() {
+		goto('/cave/provence-et-corse'); // Navigates to the home page
+	}
 </script>
 
 <svelte:head>
@@ -127,6 +132,10 @@
 		>
 			Alcools et spiritueux
 		</h1>
+		<button
+			class="duration-600 hidden h-12 min-w-fit border border-primary px-12 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			on:click={goToCave}>La cave à vins</button
+		>
 	</header>
 
 	<div class="container md:flex">

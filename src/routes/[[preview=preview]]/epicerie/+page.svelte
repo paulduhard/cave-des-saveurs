@@ -2,6 +2,7 @@
 	import { SliceZone } from '@prismicio/svelte';
 	import EpicerieCard from '$lib/components/EpicerieCard.svelte';
 	import EpicerieFilter from '$lib/components/EpicerieFilter.svelte';
+	import { goto } from '$app/navigation';
 	import { fade, slide } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 
@@ -12,36 +13,39 @@
 
 	// Get unique types from all products
 	$: availableTypes = Array.from(
-		new Set(
-			(data.allProducts || [])
-				.map((product: any) => product.type)
-				.filter(Boolean)
-		)
-	).map(type => ({
-		value: type,
-		label: type
-	})).sort((a, b) => a.label.localeCompare(b.label));
+		new Set((data.allProducts || []).map((product: any) => product.type).filter(Boolean))
+	)
+		.map((type) => ({
+			value: type,
+			label: type
+		}))
+		.sort((a, b) => a.label.localeCompare(b.label));
 
 	// Get only regions that have products
 	$: availableRegions = (() => {
 		const regionUids = new Set(
-			(data.allProducts || [])
-				.map((product: any) => product.regionUID)
-				.filter(Boolean)
+			(data.allProducts || []).map((product: any) => product.regionUID).filter(Boolean)
 		);
-		return (data.regions || []).filter(region => regionUids.has(region.uid));
+		return (data.regions || []).filter((region) => regionUids.has(region.uid));
 	})();
 
 	// Convert prix string to numeric value for filtering
 	function priceRangeToNumber(priceRange: string): number {
 		switch (priceRange) {
-			case '5-10': return 7.5;
-			case '11-20': return 15.5;
-			case '21-40': return 30.5;
-			case '41-80': return 60.5;
-			case '81-120': return 100.5;
-			case '121': return 121;
-			default: return 7.5;
+			case '5-10':
+				return 7.5;
+			case '11-20':
+				return 15.5;
+			case '21-40':
+				return 30.5;
+			case '41-80':
+				return 60.5;
+			case '81-120':
+				return 100.5;
+			case '121':
+				return 121;
+			default:
+				return 7.5;
 		}
 	}
 
@@ -96,11 +100,18 @@
 			selectedPriceRange = value;
 		}
 	}
+
+	function goToContact() {
+		goto('/boutique'); // Navigates to the home page
+	}
 </script>
 
 <svelte:head>
 	<title>{data.title || 'Épicerie - Cave des Saveurs'}</title>
-	<meta name="description" content={data.meta_description || 'Découvrez notre sélection d\'épicerie fine'} />
+	<meta
+		name="description"
+		content={data.meta_description || "Découvrez notre sélection d'épicerie fine"}
+	/>
 	{#if data.meta_image?.url}
 		<meta property="og:image" content={data.meta_image.url} />
 	{/if}
@@ -121,6 +132,10 @@
 		>
 			Épicerie fine
 		</h1>
+		<button
+			class="duration-600 hidden h-12 min-w-fit border border-primary px-12 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			on:click={goToContact}>Contactez-nous pour plus d’informations</button
+		>
 	</header>
 
 	<div class="container md:flex">
@@ -140,7 +155,7 @@
 					</h2>
 				{/if}
 				{#if selectedRegion}
-					{@const region = availableRegions.find(r => r.uid === selectedRegion)}
+					{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
 					{#if region}
 						<h2
 							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
@@ -153,12 +168,12 @@
 					Découvrez notre sélection d'épicerie fine
 					{#if selectedType || selectedRegion}
 						{#if selectedType && selectedRegion}
-							{@const region = availableRegions.find(r => r.uid === selectedRegion)}
+							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
 							- {selectedType} de {region?.data.region || ''}
 						{:else if selectedType}
 							- {selectedType}
 						{:else if selectedRegion}
-							{@const region = availableRegions.find(r => r.uid === selectedRegion)}
+							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
 							- {region?.data.region || ''}
 						{/if}
 					{/if}
@@ -174,7 +189,7 @@
 			<div class="my-12">
 				{#if filteredProducts.length > 0}
 					<div
-						class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+						class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
 						in:fade={{ duration: 400, delay: 200 }}
 						out:fade={{ duration: 200 }}
 					>

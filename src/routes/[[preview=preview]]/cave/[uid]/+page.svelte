@@ -289,8 +289,8 @@
 		);
 	}
 
-	function goToHome() {
-		goto('/'); // Navigates to the home page
+	function goToAlcools() {
+		goto('/alcools'); // Navigates to the home page
 	}
 </script>
 
@@ -306,6 +306,10 @@
 				{regionData?.region || 'Region'}
 			</h1>
 		{/key}
+		<button
+			class="duration-600 hidden h-12 min-w-fit border border-primary px-12 font-light text-primary transition-all hover:bg-primary hover:text-secondary md:block"
+			on:click={goToAlcools}>Alcools et spiritueux</button
+		>
 	</header>
 
 	<div class="container md:flex">

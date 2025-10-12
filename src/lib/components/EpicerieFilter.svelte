@@ -192,7 +192,7 @@
 			aria-expanded={isRegionSectionExpanded}
 			aria-controls="region-list"
 		>
-			Région
+			Par Région
 			<ArrowIcon isSelected={isRegionSectionExpanded} class="ml-2" />
 		</button>
 
