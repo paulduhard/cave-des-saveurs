@@ -4,6 +4,8 @@
 	import type { PrismicDocument } from '@prismicio/types';
 	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 	import type { LinkField } from '@prismicio/client';
+	import { fade } from 'svelte/transition';
+	import { cubicOut, cubicIn } from 'svelte/easing';
 
 	type ItemWithOrdreMenu = {
 		data: {
@@ -22,7 +24,7 @@
 		.sort((a, b) => (a.data.ordre_menu ?? 0) - (b.data.ordre_menu ?? 0));
 </script>
 
-<nav class="my-6 flex flex-col justify-center gap-8 md:flex-row md:gap-32">
+<nav class="mega-menu my-6 flex flex-col justify-center gap-8 md:flex-row md:gap-32" in:fade={{ duration: 300, easing: cubicOut }} out:fade={{ duration: 300, easing: cubicIn }}>
 	<div class="region">
 		<p class="mb-2 uppercase text-primary">Nos vins par région</p>
 		<ul class="flex max-h-[175px] flex-col flex-wrap gap-x-4 overflow-y-auto pr-2 md:gap-x-12">

@@ -223,7 +223,7 @@
 
 {#if isMegaMenuVisible}
 	<div
-		class="sticky top-[85px] z-40 w-full py-3 shadow-md"
+		class="fixed top-[85px] z-40 w-full py-3 shadow-md"
 		style="opacity: {megaMenuOpacity}; transition: opacity 0.5s ease-in-out; background-color: white;"
 		on:mouseenter={openMegaMenu}
 		on:mouseleave={closeMegaMenu}
