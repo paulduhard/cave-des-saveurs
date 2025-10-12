@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { page } from '$app/stores'; // Import $page store
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
@@ -50,7 +51,7 @@
 	}
 
 	// Filter data - initialize with proper values
-	let selectedType: string | null = null;
+	$: selectedType = $page.url.searchParams.get('type'); // Reactive to URL changes
 	let selectedRegion: string | null = null;
 	let selectedPriceRange = { min: 5, max: 120 };
 
