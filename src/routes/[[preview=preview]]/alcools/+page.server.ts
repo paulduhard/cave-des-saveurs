@@ -39,10 +39,13 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 			};
 		});
 
+		const alcoolTypes = Array.from(new Set(allProducts.map(p => p.type).filter(Boolean)));
+
 		return {
 			page,
 			regions: sortByOrderMenu(regions),
 			allProducts,
+			alcoolTypes,
 			title: 'Alcools et spiritueux - Cave des Saveurs',
 			meta_title: 'Alcools et spiritueux - Cave des Saveurs',
 			meta_description: "Découvrez notre sélection d'alcools et spiritueux",
@@ -58,6 +61,7 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 			page,
 			regions: [],
 			allProducts: [],
+			alcoolTypes: [],
 			title: 'Alcools et spiritueux - Cave des Saveurs',
 			meta_title: 'Alcools et spiritueux fine - Cave des Saveurs',
 			meta_description: "Découvrez notre sélection d'alcools et spiritueux",

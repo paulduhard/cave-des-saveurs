@@ -11,6 +11,7 @@
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
 	export let colors: CouleurDocument[] = [];
+	export let alcoolTypes: string[] = [];
 
 	let isMegaMenuVisible: boolean = false;
 	let isBurgerMenuVisible: boolean = false;
@@ -19,12 +20,14 @@
 	let isScrolled: boolean = false;
 
 	function openMegaMenu() {
+		console.log('openMegaMenu triggered');
 		if (closeMegaMenuTimeout) clearTimeout(closeMegaMenuTimeout);
 		isMegaMenuVisible = true;
 		megaMenuOpacity = 1;
 	}
 
 	function closeMegaMenu() {
+		console.log('closeMegaMenu triggered');
 		closeMegaMenuTimeout = setTimeout(() => {
 			isMegaMenuVisible = false;
 			megaMenuOpacity = 0;
@@ -239,7 +242,7 @@
 			}}
 			class="focus:outline-none focus:ring-2 focus:ring-primary"
 		>
-			<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} />
+			<MegaMenu {regions} {colors} {isRegionActive} {isColorActive} {alcoolTypes} />
 		</nav>
 	</div>
 {/if}
