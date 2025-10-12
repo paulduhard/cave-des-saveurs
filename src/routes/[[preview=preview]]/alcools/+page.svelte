@@ -97,13 +97,13 @@
 	) {
 		if (filterType === 'type') {
 			const newType = value as string | null;
-			const currentUrl = new URL($page.url);
+			const searchParams = new URLSearchParams($page.url.searchParams); // Create a mutable copy
 			if (newType) {
-				currentUrl.searchParams.set('type', slugify(newType));
+				searchParams.set('type', slugify(newType));
 			} else {
-				currentUrl.searchParams.delete('type');
+				searchParams.delete('type');
 			}
-			goto(currentUrl.toString(), { replaceState: true });
+			goto(`?${searchParams.toString()}`, { replaceState: true });
 		} else if (filterType === 'region') {
 			selectedRegion = value as string | null;
 		} else if (filterType === 'prix' && typeof value === 'object' && value !== null) {
