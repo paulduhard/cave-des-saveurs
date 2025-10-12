@@ -213,6 +213,7 @@
 			{settings}
 			{regions}
 			{colors}
+			{alcoolTypes}
 			{isActiveLink}
 			{isRegionActive}
 			{isColorActive}

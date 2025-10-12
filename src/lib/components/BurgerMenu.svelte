@@ -7,7 +7,10 @@
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
+	import { slugify } from '$lib/utils/slugify'; // Import slugify
+
 	export let colors: CouleurDocument[] = [];
+	export let alcoolTypes: string[] = []; // New prop
 	export let isActiveLink: (item: any) => boolean;
 	export let isRegionActive: (region: any) => boolean;
 	export let isColorActive: (color: any) => boolean;
@@ -113,16 +116,17 @@
 							<div>
 								<p class="mb-2 uppercase text-primary">Alcools et spiritueux</p>
 								<ul class="grid grid-cols-2 gap-y-2 text-sm font-light leading-none">
-									<li>Cognacs</li>
-									<li>Armagnacs</li>
-									<li>Whiskies</li>
-									<li>Rhums</li>
-									<li>Gin</li>
-									<li>Eaux de vie et liqueurs</li>
-									<li>Anisés</li>
-									<li>Téquilas et Mezcals</li>
-									<li>Apéritifs et mixologie</li>
-									<li>Bières</li>
+									{#each alcoolTypes as type}
+										<li>
+											<a
+												href={`/alcools?type=${slugify(type)}`}
+												class="hover:underline"
+												on:click={onLinkClick}
+											>
+												{type}
+											</a>
+										</li>
+									{/each}
 								</ul>
 							</div>
 						</div>
