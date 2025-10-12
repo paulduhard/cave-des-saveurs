@@ -6,6 +6,7 @@
 	import type { LinkField } from '@prismicio/client';
 	import { fade } from 'svelte/transition';
 	import { cubicOut, cubicIn } from 'svelte/easing';
+	import { slugify } from '$lib/utils/slugify'; // Import slugify
 
 	type ItemWithOrdreMenu = {
 		data: {
@@ -66,7 +67,7 @@
 		<ul class="flex max-h-[150px] flex-col flex-wrap gap-x-4 overflow-y-auto pr-2 md:gap-x-12">
 			{#each alcoolTypes as type}
 				<li>
-					<a href={`/alcools?type=${type}`} class="hover:underline">
+					<a href={`/alcools?type=${slugify(type)}`} class="hover:underline">
 						{type}
 					</a>
 				</li>

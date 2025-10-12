@@ -6,6 +6,7 @@
 	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { page } from '$app/stores'; // Import $page store
+	import { slugify } from '$lib/utils/slugify'; // Import slugify for comparison
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
@@ -51,7 +52,16 @@
 	}
 
 	// Filter data - initialize with proper values
-	$: selectedType = $page.url.searchParams.get('type'); // Reactive to URL changes
+	let selectedType: string | null;
+	$: {
+		const typeSlug = $page.url.searchParams.get('type');
+		if (typeSlug && availableTypes.length > 0) {
+			const foundType = availableTypes.find((t) => slugify(t.value) === typeSlug);
+			selectedType = foundType ? foundType.value : null;
+		} else {
+			selectedType = null;
+		}
+	}
 	let selectedRegion: string | null = null;
 	let selectedPriceRange = { min: 5, max: 120 };
 
@@ -86,7 +96,14 @@
 		value: string | { min: number; max: number } | null
 	) {
 		if (filterType === 'type') {
-			selectedType = value as string | null;
+			const newType = value as string | null;
+			const currentUrl = new URL($page.url);
+			if (newType) {
+				currentUrl.searchParams.set('type', slugify(newType));
+			} else {
+				currentUrl.searchParams.delete('type');
+			}
+			goto(currentUrl.toString(), { replaceState: true });
 		} else if (filterType === 'region') {
 			selectedRegion = value as string | null;
 		} else if (filterType === 'prix' && typeof value === 'object' && value !== null) {
