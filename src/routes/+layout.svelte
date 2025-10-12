@@ -53,8 +53,13 @@
 	Aller au contenu principal
 </a>
 
-<Header settings={data.settings} regions={data.regions} colors={data.colors} alcoolTypes={data.alcoolTypes} />
-<main id="main-content">
+<Header
+	settings={data.settings}
+	regions={data.regions}
+	colors={data.colors}
+	alcoolTypes={data.alcoolTypes}
+/>
+<main id="main-content" class="pt-[85px]">
 	<slot />
 </main>
 <Footer
