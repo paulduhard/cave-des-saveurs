@@ -20,14 +20,12 @@
 	let isScrolled: boolean = false;
 
 	function openMegaMenu() {
-		console.log('openMegaMenu triggered');
 		if (closeMegaMenuTimeout) clearTimeout(closeMegaMenuTimeout);
 		isMegaMenuVisible = true;
 		megaMenuOpacity = 1;
 	}
 
 	function closeMegaMenu() {
-		console.log('closeMegaMenu triggered');
 		closeMegaMenuTimeout = setTimeout(() => {
 			isMegaMenuVisible = false;
 			megaMenuOpacity = 0;
@@ -58,7 +56,7 @@
 	$: {
 		if (typeof document !== 'undefined') {
 			// Ensure code runs only in browser
-			if (isBurgerMenuVisible) {
+			if (isBurgerMenuVisible || isMegaMenuVisible) {
 				document.body.classList.add('overflow-hidden');
 			} else {
 				document.body.classList.remove('overflow-hidden');
@@ -103,7 +101,7 @@
 <svelte:window on:scroll={handleScroll} />
 
 <header
-	class="sticky top-0 z-50 flex min-h-[85px] items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12 {isScrolled
+	class="fixed top-0 z-50 flex min-h-[85px] w-full items-center justify-between gap-12 bg-secondary px-6 transition-all duration-300 hover:z-50 md:px-12 {isScrolled
 		? 'shadow-md'
 		: ''}"
 >
