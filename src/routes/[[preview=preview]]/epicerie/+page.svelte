@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import { fade, slide } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
+	import { cubicOut, cubicIn } from 'svelte/easing';
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
@@ -21,12 +22,12 @@
 		}))
 		.sort((a, b) => a.label.localeCompare(b.label));
 
-	// Get only regions that have products
-	$: availableRegions = (() => {
-		const regionUids = new Set(
-			(data.allProducts || []).map((product: any) => product.regionUID).filter(Boolean)
+	// Get only categories that have products
+	$: availableCategories = (() => {
+		const categoryUids = new Set(
+			(data.allProducts || []).map((product: any) => product.categoryUID).filter(Boolean)
 		);
-		return (data.regions || []).filter((region) => regionUids.has(region.uid));
+		return (data.categories || []).filter((category) => categoryUids.has(category.uid));
 	})();
 
 	// Convert prix string to numeric value for filtering
@@ -51,14 +52,14 @@
 
 	// Filter data - initialize with proper values
 	let selectedType: string | null = null;
-	let selectedRegion: string | null = null;
+	let selectedCategory: string | null = null;
 	let selectedPriceRange = { min: 5, max: 120 };
 
 	$: filterData = {
 		types: availableTypes,
 		selectedType: selectedType,
-		regions: availableRegions,
-		selectedRegion: selectedRegion,
+		categories: availableCategories,
+		selectedCategory: selectedCategory,
 		priceRange: selectedPriceRange
 	};
 
@@ -71,9 +72,9 @@
 			filtered = filtered.filter((product: any) => product.type === selectedType);
 		}
 
-		// Filter by region
-		if (selectedRegion) {
-			filtered = filtered.filter((product: any) => product.regionUID === selectedRegion);
+		// Filter by category
+		if (selectedCategory) {
+			filtered = filtered.filter((product: any) => product.categoryUID === selectedCategory);
 		}
 
 		// Filter by price range
@@ -89,13 +90,13 @@
 
 	// Handle filter changes
 	function handleFilterChange(
-		filterType: 'type' | 'region' | 'prix',
+		filterType: 'type' | 'category' | 'prix',
 		value: string | { min: number; max: number } | null
 	) {
 		if (filterType === 'type') {
 			selectedType = value as string | null;
-		} else if (filterType === 'region') {
-			selectedRegion = value as string | null;
+		} else if (filterType === 'category') {
+			selectedCategory = value as string | null;
 		} else if (filterType === 'prix' && typeof value === 'object' && value !== null) {
 			selectedPriceRange = value;
 		}
@@ -116,11 +117,6 @@
 		<meta property="og:image" content={data.meta_image.url} />
 	{/if}
 </svelte:head>
-
-<!-- Page slices for intro content -->
-{#if data.page?.data?.slices && data.page.data.slices.length > 0}
-	<SliceZone slices={data.page.data.slices} {components} />
-{/if}
 
 <div class="mx-auto mt-12">
 	<header class="container flex flex-grow items-center justify-between">
@@ -154,27 +150,27 @@
 						{selectedType}
 					</h2>
 				{/if}
-				{#if selectedRegion}
-					{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-					{#if region}
+				{#if selectedCategory}
+					{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+					{#if category}
 						<h2
 							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
 						>
-							{region.data.region}
+							{category.data.nom}
 						</h2>
 					{/if}
 				{/if}
 				<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-					Découvrez notre sélection d'épicerie fine
-					{#if selectedType || selectedRegion}
-						{#if selectedType && selectedRegion}
-							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-							- {selectedType} de {region?.data.region || ''}
+					Découvrez notre sélection de produits d'épicerie fine
+					{#if selectedType || selectedCategory}
+						{#if selectedType && selectedCategory}
+							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+							- {selectedType} de {category?.data.nom || ''}
 						{:else if selectedType}
 							- {selectedType}
-						{:else if selectedRegion}
-							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-							- {region?.data.region || ''}
+						{:else if selectedCategory}
+							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+							- {category?.data.nom || ''}
 						{/if}
 					{/if}
 				</p>
@@ -189,12 +185,16 @@
 			<div class="my-12">
 				{#if filteredProducts.length > 0}
 					<div
-						class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
+						class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-3 lg:grid-cols-4"
 						in:fade={{ duration: 400, delay: 200 }}
 						out:fade={{ duration: 200 }}
 					>
 						{#each filteredProducts as product, i (product.uid)}
-							<div in:fade={{ duration: 200, delay: i * 50 }} animate:flip={{ duration: 300 }}>
+							<div
+								in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
+								out:fade={{ duration: 300, easing: cubicIn }}
+								animate:flip={{ duration: 300 }}
+							>
 								<EpicerieCard {product} />
 							</div>
 						{/each}
@@ -212,3 +212,8 @@
 		</main>
 	</div>
 </div>
+
+<!-- Page slices for intro content -->
+{#if data.page?.data?.slices && data.page.data.slices.length > 0}
+	<SliceZone slices={data.page.data.slices} {components} />
+{/if}

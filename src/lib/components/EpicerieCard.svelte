@@ -4,7 +4,7 @@
 	export let product: any;
 </script>
 
-<div transition:fade={{ duration: 700 }} class="group flex h-full flex-col font-light">
+<div class="group flex h-full flex-col font-light">
 	<!-- No <a> tag wrapper since we don't want links -->
 	<div
 		class="flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out md:rounded-md md:border-none"
