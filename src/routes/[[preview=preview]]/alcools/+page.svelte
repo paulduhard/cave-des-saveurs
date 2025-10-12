@@ -3,7 +3,7 @@
 	import AlcoolsCard from '$lib/components/AlcoolsCard.svelte';
 	import AlcoolsFilter from '$lib/components/AlcoolsFilter.svelte';
 	import { goto } from '$app/navigation';
-	import { fade, slide } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 
 	import { components } from '$lib/slices';
@@ -63,29 +63,21 @@
 	};
 
 	// Reactive filtered products
-	$: filteredProducts = (() => {
-		let filtered = data.allProducts || [];
-
-		// Filter by type
-		if (selectedType) {
-			filtered = filtered.filter((product: any) => product.type === selectedType);
+	$: filteredProducts = (data.allProducts || []).filter((product) => {
+		if (selectedType && product.type !== selectedType) {
+			return false;
 		}
-
-		// Filter by region
-		if (selectedRegion) {
-			filtered = filtered.filter((product: any) => product.regionUID === selectedRegion);
+		if (selectedRegion && product.regionUID !== selectedRegion) {
+			return false;
 		}
-
-		// Filter by price range
 		if (selectedPriceRange) {
-			filtered = filtered.filter((product: any) => {
-				const productPrice = priceRangeToNumber(product.prix);
-				return productPrice >= selectedPriceRange.min && productPrice <= selectedPriceRange.max;
-			});
+			const productPrice = priceRangeToNumber(product.prix);
+			if (productPrice < selectedPriceRange.min || productPrice > selectedPriceRange.max) {
+				return false;
+			}
 		}
-
-		return filtered;
-	})();
+		return true;
+	});
 
 	// Handle filter changes
 	function handleFilterChange(
@@ -116,11 +108,6 @@
 		<meta property="og:image" content={data.meta_image.url} />
 	{/if}
 </svelte:head>
-
-<!-- Page slices for intro content -->
-{#if data.page?.data?.slices && data.page.data.slices.length > 0}
-	<SliceZone slices={data.page.data.slices} {components} />
-{/if}
 
 <div class="mx-auto mt-12">
 	<header class="container flex flex-grow items-center justify-between">
@@ -189,12 +176,16 @@
 			<div class="my-12">
 				{#if filteredProducts.length > 0}
 					<div
-						class="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
+						class="relative mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3"
 						in:fade={{ duration: 400, delay: 200 }}
 						out:fade={{ duration: 200 }}
 					>
 						{#each filteredProducts as product, i (product.uid)}
-							<div in:fade={{ duration: 200, delay: i * 50 }} animate:flip={{ duration: 300 }}>
+							<div
+								in:fade={{ duration: 300, delay: i * 50 }}
+								out:fade={{ duration: 300 }}
+								animate:flip={{ duration: 300 }}
+							>
 								<AlcoolsCard {product} />
 							</div>
 						{/each}
@@ -212,3 +203,8 @@
 		</main>
 	</div>
 </div>
+
+<!-- Page slices for intro content -->
+{#if data.page?.data?.slices && data.page.data.slices.length > 0}
+	<SliceZone slices={data.page.data.slices} {components} />
+{/if}
