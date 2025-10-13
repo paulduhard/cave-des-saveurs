@@ -67,6 +67,7 @@
 	regions={data.regions}
 	colors={data.colors}
 	categories={data.categories}
+	alcoolTypes={data.alcoolTypes}
 />
 
 <PrismicPreview {repositoryName} />

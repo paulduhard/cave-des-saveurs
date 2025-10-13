@@ -11,6 +11,7 @@
 	export let regions: RegionDocument[] = [];
 	export let colors: CouleurDocument[] = [];
 	export let categories: CategoriesDocument[] = [];
+	export let alcoolTypes: string[] = [];
 
 	// Filtrer les slices pour n'afficher que la slice NewsletterSignup dans le footer
 	const footerSlices = settings.data.slices4.filter(
@@ -25,8 +26,8 @@
 	<div
 		class="footer-content w-full bg-[#3b0d0c] px-6 pt-12 max-sm:pb-4 md:px-12 md:py-12 md:pr-[520px]"
 	>
-		<FooterMobile {settings} {regions} />
-		<FooterDesktop {settings} {regions} />
+		<FooterMobile {settings} {regions} {alcoolTypes} />
+		<FooterDesktop {settings} {regions} {alcoolTypes} />
 	</div>
 
 	<FooterAside {settings} />
