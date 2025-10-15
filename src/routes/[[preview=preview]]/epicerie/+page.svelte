@@ -6,6 +6,9 @@
 	import { fade, slide } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 	import { cubicOut, cubicIn } from 'svelte/easing';
+	import { onMount } from 'svelte';
+	import { page } from '$app/stores';
+	import { slugify } from '$lib/utils/slugify';
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
@@ -55,6 +58,16 @@
 	let selectedCategory: string | null = null;
 	let selectedPriceRange = { min: 5, max: 120 };
 
+	$: {
+		const typeSlug = $page.url.searchParams.get('type');
+		if (typeSlug && availableTypes.length > 0) {
+			const foundType = availableTypes.find((t) => slugify(t.value) === typeSlug);
+			selectedType = foundType ? foundType.value : null;
+		} else {
+			selectedType = null;
+		}
+	}
+
 	$: filterData = {
 		types: availableTypes,
 		selectedType: selectedType,
@@ -94,7 +107,14 @@
 		value: string | { min: number; max: number } | null
 	) {
 		if (filterType === 'type') {
-			selectedType = value as string | null;
+			const newType = value as string | null;
+			const searchParams = new URLSearchParams($page.url.searchParams); // Create a mutable copy
+			if (newType) {
+				searchParams.set('type', slugify(newType));
+			} else {
+				searchParams.delete('type');
+			}
+			goto(`?${searchParams.toString()}`, { replaceState: true });
 		} else if (filterType === 'category') {
 			selectedCategory = value as string | null;
 		} else if (filterType === 'prix' && typeof value === 'object' && value !== null) {

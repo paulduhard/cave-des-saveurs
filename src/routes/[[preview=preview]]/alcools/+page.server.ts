@@ -39,7 +39,7 @@ export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 			};
 		});
 
-		const alcoolTypes = Array.from(new Set(allProducts.map(p => p.type).filter(Boolean)));
+		const alcoolTypes = Array.from(new Set(allProducts.map((p) => p.type).filter(Boolean)));
 
 		return {
 			page,

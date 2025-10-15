@@ -3,12 +3,12 @@
 	import type { Content } from '@prismicio/client';
 	import type { RegionDocument } from '../../../prismicio-types';
 	import ExtLink from '../ExtLink.svelte';
+	import { slugify } from '$lib/utils/slugify';
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
-
-	// Liste des alcools et spiritueux
-	const alcools = ['Champagne', 'Armagnac', 'Cognac', 'Spiritueux Provençaux'];
+	export let alcoolTypes: string[] = [];
+	export let epicerieTypes: string[] = [];
 
 	// Produits épicerie par région
 	const epicerieRegions = [
@@ -16,12 +16,6 @@
 		'Gastronomie du Sud-Ouest',
 		'Charcuterie Ibérique et Produits Espagnols'
 	];
-
-	// Nos produits
-	const nosProduits = ['Saumon fumée, Caviar et Tamar', 'Fromages'];
-
-	// Autres produits
-	const autresProduits = ['Épices et condiments', 'Miels et confitures'];
 </script>
 
 <!-- Version Mobile - 2 colonnes -->
@@ -51,8 +45,15 @@
 				<div class="mt-6 space-y-1">
 					<h4 class="text-md font-normal underline">Autres boissons</h4>
 					<ul class="text-sm leading-4">
-						{#each alcools as alcool}
-							<li>{alcool}</li>
+						{#each alcoolTypes as type}
+							<li>
+								<a
+									href={`/alcools?type=${slugify(type)}`}
+									class="hover:text-gray-300 transition-colors duration-200"
+								>
+									{type}
+								</a>
+							</li>
 						{/each}
 					</ul>
 				</div>
@@ -76,11 +77,15 @@
 				<div class="mt-6 space-y-1">
 					<h4 class="text-md font-normal underline">Nos produits</h4>
 					<ul class="text-sm leading-4">
-						{#each nosProduits as produit}
-							<li>{produit}</li>
-						{/each}
-						{#each autresProduits as produit}
-							<li>{produit}</li>
+						{#each epicerieTypes as type}
+							<li>
+								<a
+									href={`/epicerie?type=${slugify(type)}`}
+									class="hover:text-gray-300 transition-colors duration-200"
+								>
+									{type}
+								</a>
+							</li>
 						{/each}
 					</ul>
 				</div>
