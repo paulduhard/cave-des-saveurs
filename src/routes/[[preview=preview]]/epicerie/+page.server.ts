@@ -8,7 +8,7 @@ type ItemWithOrdreMenu = {
 	};
 };
 
-export const prerender = 'auto';
+export const prerender = false;
 
 export const load: PageServerLoad = async ({ params, fetch, cookies }) => {
 	const client = createClient({ fetch, cookies });
