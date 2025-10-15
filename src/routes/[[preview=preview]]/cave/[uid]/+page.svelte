@@ -374,11 +374,12 @@
 							out:fade={{ duration: 200 }}
 						>
 							{#each wineResults as wine, i (wine.uid)}
-								        <div
-								            in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
-								            out:fade={{ duration: 300, easing: cubicIn }}
-								            animate:flip={{ duration: 300 }}
-								        >									<WineCard {wine} />
+								<div
+									in:fade={{ duration: 300, delay: i * 50, easing: cubicOut }}
+									out:fade={{ duration: 300, easing: cubicIn }}
+									animate:flip={{ duration: 300 }}
+								>
+									<WineCard {wine} />
 								</div>
 							{/each}
 						</div>

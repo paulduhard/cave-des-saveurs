@@ -1,68 +1,64 @@
 {
-  "type": "SharedSlice",
-  "id": "location_contact_info",
-  "name": "LocationContactInfo",
-  "variations": [
-    {
-      "id": "map_address_contact",
-      "name": "Map, Address & Contact",
-      "description": "Standard layout with map on one side and location/contact details on the other.",
-      "version": "initial",
-      "imageUrl": "",
-      "docURL": "...",
-      "primary": {
-        "map_iframe": {
-          "type": "Text",
-          "config": {
-            "label": "Map Iframe",
-            "placeholder": ""
-          }
-        },
-        "location_title": {
-          "type": "Text",
-          "config": {
-            "label": "Location Title"
-          }
-        },
-        "address": {
-          "type": "Text",
-          "config": {
-            "label": "Address"
-          }
-        },
-        "contact_title": {
-          "type": "Text",
-          "config": {
-            "label": "Contact Title"
-          }
-        },
-        "contact_methods": {
-          "type": "Group",
-          "config": {
-            "label": "Contact Methods",
-            "fields": {
-              "method_type": {
-                "type": "Select",
-                "config": {
-                  "label": "Method Type",
-                  "options": [
-                    "phone",
-                    "email",
-                    "other"
-                  ]
-                }
-              },
-              "value": {
-                "type": "Text",
-                "config": {
-                  "label": "Value"
-                }
-              }
-            }
-          }
-        }
-      },
-      "items": {}
-    }
-  ]
+	"type": "SharedSlice",
+	"id": "location_contact_info",
+	"name": "LocationContactInfo",
+	"variations": [
+		{
+			"id": "map_address_contact",
+			"name": "Map, Address & Contact",
+			"description": "Standard layout with map on one side and location/contact details on the other.",
+			"version": "initial",
+			"imageUrl": "",
+			"docURL": "...",
+			"primary": {
+				"map_iframe": {
+					"type": "Text",
+					"config": {
+						"label": "Map Iframe",
+						"placeholder": ""
+					}
+				},
+				"location_title": {
+					"type": "Text",
+					"config": {
+						"label": "Location Title"
+					}
+				},
+				"address": {
+					"type": "Text",
+					"config": {
+						"label": "Address"
+					}
+				},
+				"contact_title": {
+					"type": "Text",
+					"config": {
+						"label": "Contact Title"
+					}
+				},
+				"contact_methods": {
+					"type": "Group",
+					"config": {
+						"label": "Contact Methods",
+						"fields": {
+							"method_type": {
+								"type": "Select",
+								"config": {
+									"label": "Method Type",
+									"options": ["phone", "email", "other"]
+								}
+							},
+							"value": {
+								"type": "Text",
+								"config": {
+									"label": "Value"
+								}
+							}
+						}
+					}
+				}
+			},
+			"items": {}
+		}
+	]
 }

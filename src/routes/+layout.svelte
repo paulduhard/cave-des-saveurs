@@ -68,6 +68,7 @@
 	colors={data.colors}
 	categories={data.categories}
 	alcoolTypes={data.alcoolTypes}
+	epicerieTypes={data.epicerieTypes}
 />
 
 <PrismicPreview {repositoryName} />

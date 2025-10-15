@@ -5,6 +5,7 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ## 📊 État actuel
 
 ### ✅ Améliorations récentes
+
 - [x] Ajout d'un lien d'évitement de navigation
 - [x] Correction de la déclaration de langue (fr)
 - [x] Ajout de textes alternatifs pour toutes les images
@@ -17,18 +18,21 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ### 🚧 Points d'attention restants
 
 #### Priorité élevée
+
 - [ ] **Test de contraste des couleurs** : Vérifier la conformité WCAG AA (4.5:1)
 - [ ] **Navigation au clavier complète** dans tous les menus déroulants
 - [ ] **Messages d'erreur** accessibles pour les formulaires
 - [ ] **États des éléments interactifs** (loading, disabled, etc.)
 
 #### Priorité moyenne
+
 - [ ] **Descriptions longues** pour les images complexes (graphiques de cave)
 - [ ] **Pagination** accessible pour les listes de vins
 - [ ] **Filtres** de recherche optimisés pour les lecteurs d'écran
 - [ ] **Carousel/slider** dans la section Avis avec navigation clavier
 
 #### Priorité faible
+
 - [ ] **Mode sombre** pour réduire la fatigue visuelle
 - [ ] **Tailles de police ajustables**
 - [ ] **Animations respectueuses** des préférences utilisateur
@@ -36,6 +40,7 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ## 🛠 Guide de développement
 
 ### Standards à respecter
+
 - **WCAG 2.1 niveau AA** comme référence
 - **Sémantique HTML5** appropriée
 - **ARIA** quand la sémantique native ne suffit pas
@@ -45,21 +50,23 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ### Bonnes pratiques
 
 #### HTML sémantique
+
 ```html
 <!-- ✅ Bon -->
 <nav aria-label="Navigation principale">
-  <ul>
-    <li><a href="/cave">La Cave</a></li>
-  </ul>
+	<ul>
+		<li><a href="/cave">La Cave</a></li>
+	</ul>
 </nav>
 
 <!-- ❌ Éviter -->
 <div class="nav">
-  <div onclick="navigate()">La Cave</div>
+	<div onclick="navigate()">La Cave</div>
 </div>
 ```
 
 #### Images
+
 ```html
 <!-- ✅ Bon : Image informative -->
 <img src="vin-bordeaux.jpg" alt="Bouteille de Bordeaux rouge millésime 2018" />
@@ -72,6 +79,7 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ```
 
 #### Formulaires
+
 ```html
 <!-- ✅ Bon -->
 <label for="email">Adresse email :</label>
@@ -83,15 +91,16 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ```
 
 #### Interactions
+
 ```svelte
 <!-- ✅ Bon -->
-<button 
-  on:click={toggleMenu}
-  aria-expanded={isOpen}
-  aria-controls="menu-content"
-  aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+<button
+	on:click={toggleMenu}
+	aria-expanded={isOpen}
+	aria-controls="menu-content"
+	aria-label={isOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
 >
-  Menu
+	Menu
 </button>
 
 <!-- ❌ Éviter -->
@@ -101,6 +110,7 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ## 🎯 Checklist de validation
 
 ### Avant chaque déploiement
+
 - [ ] Navigation possible uniquement au clavier (Tab, Enter, Espace, Flèches)
 - [ ] Tous les liens et boutons ont un focus visible
 - [ ] Les images ont des textes alternatifs appropriés
@@ -112,6 +122,7 @@ Ce document détaille l'état actuel de l'accessibilité du site Cave des Saveur
 ### Tests recommandés
 
 #### Outils automatisés
+
 ```bash
 # Installation d'outils de test
 npm install -D axe-core @axe-core/cli
@@ -121,6 +132,7 @@ npx axe http://localhost:5173
 ```
 
 #### Tests manuels
+
 1. **Navigation clavier** : Utiliser uniquement Tab, Shift+Tab, Enter, Espace
 2. **Lecteur d'écran** : Tester avec NVDA (Windows) ou VoiceOver (Mac)
 3. **Zoom** : Tester jusqu'à 200% de zoom
@@ -129,6 +141,7 @@ npx axe http://localhost:5173
 ## 📱 Accessibilité mobile
 
 ### Points spécifiques
+
 - [ ] **Zone de toucher** minimale de 44x44px
 - [ ] **Menus déroulants** adaptés au tactile
 - [ ] **Formulaires** avec clavier virtuel optimisé
@@ -137,11 +150,13 @@ npx axe http://localhost:5173
 ## 🔧 Outils utiles
 
 ### Extensions navigateur
+
 - [axe DevTools](https://www.deque.com/axe/devtools/) - Test automatisé
 - [WAVE](https://wave.webaim.org/extension/) - Évaluation visuelle
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse) - Audit intégré
 
 ### Ressources
+
 - [WCAG 2.1 Guidelines](https://www.w3.org/WAI/WCAG21/quickref/)
 - [WebAIM](https://webaim.org/) - Guides pratiques
 - [AcceDe Web](https://www.accede-web.com/) - Ressources francophones
@@ -150,26 +165,29 @@ npx axe http://localhost:5173
 ## 📈 Métriques de suivi
 
 ### Objectifs cibles
+
 - **Lighthouse Accessibility Score** : 95+
 - **Axe violations** : 0
 - **Contraste minimum** : 4.5:1 (AA)
 - **Navigation clavier** : 100% des fonctionnalités
 
 ### Surveillance continue
+
 ```javascript
 // Exemple d'intégration dans les tests E2E
 import { injectAxe, checkA11y } from 'axe-playwright';
 
-test('Accessibilité page d\'accueil', async ({ page }) => {
-  await page.goto('/');
-  await injectAxe(page);
-  await checkA11y(page);
+test("Accessibilité page d'accueil", async ({ page }) => {
+	await page.goto('/');
+	await injectAxe(page);
+	await checkA11y(page);
 });
 ```
 
 ## 🎨 Considérations UX
 
 ### Design inclusif
+
 - **Contraste élevé** pour la lisibilité
 - **Iconographie claire** avec textes d'accompagnement
 - **Espacement généreux** entre les éléments
@@ -177,6 +195,7 @@ test('Accessibilité page d\'accueil', async ({ page }) => {
 - **Messages d'état** visibles et audibles
 
 ### Micro-interactions
+
 - **Focus visible** sur tous les éléments interactifs
 - **Feedback instantané** pour les actions utilisateur
 - **États de chargement** accessibles
@@ -185,18 +204,21 @@ test('Accessibilité page d\'accueil', async ({ page }) => {
 ## 📝 Plan d'action
 
 ### Phase 1 (Urgent - 2 semaines)
+
 1. Audit complet avec axe-core
 2. Correction des violations critiques
 3. Tests de navigation clavier
 4. Validation des contrastes
 
 ### Phase 2 (Important - 1 mois)
+
 1. Amélioration des formulaires
 2. Optimisation des carousels/sliders
 3. Tests avec utilisateurs en situation de handicap
 4. Documentation des patterns accessibles
 
 ### Phase 3 (Amélioration continue)
+
 1. Formation de l'équipe
 2. Intégration dans le workflow CI/CD
 3. Monitoring automatisé

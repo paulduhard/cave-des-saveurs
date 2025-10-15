@@ -1,44 +1,44 @@
 {
-  "type": "SharedSlice",
-  "id": "gallery_grid",
-  "name": "GalleryGrid",
-  "variations": [
-    {
-      "id": "three_by_two_grid",
-      "name": "3x2 Grid",
-      "description": "Displays six images arranged evenly in two rows of three, typically for showcasing grouped sets or featured content in a gallery format.",
-      "version": "initial",
-      "imageUrl": "",
-      "docURL": "...",
-      "primary": {
-        "images": {
-          "type": "Group",
-          "config": {
-            "label": "Images",
-            "fields": {
-              "image": {
-                "type": "Image",
-                "config": {
-                  "label": "Image"
-                }
-              }
-            }
-          }
-        },
-        "show_captions": {
-          "type": "Boolean",
-          "config": {
-            "label": "Show Captions"
-          }
-        },
-        "caption_text": {
-          "type": "Text",
-          "config": {
-            "label": "Caption Text"
-          }
-        }
-      },
-      "items": {}
-    }
-  ]
+	"type": "SharedSlice",
+	"id": "gallery_grid",
+	"name": "GalleryGrid",
+	"variations": [
+		{
+			"id": "three_by_two_grid",
+			"name": "3x2 Grid",
+			"description": "Displays six images arranged evenly in two rows of three, typically for showcasing grouped sets or featured content in a gallery format.",
+			"version": "initial",
+			"imageUrl": "",
+			"docURL": "...",
+			"primary": {
+				"images": {
+					"type": "Group",
+					"config": {
+						"label": "Images",
+						"fields": {
+							"image": {
+								"type": "Image",
+								"config": {
+									"label": "Image"
+								}
+							}
+						}
+					}
+				},
+				"show_captions": {
+					"type": "Boolean",
+					"config": {
+						"label": "Show Captions"
+					}
+				},
+				"caption_text": {
+					"type": "Text",
+					"config": {
+						"label": "Caption Text"
+					}
+				}
+			},
+			"items": {}
+		}
+	]
 }
