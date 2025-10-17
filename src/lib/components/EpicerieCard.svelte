@@ -10,7 +10,14 @@
 		class="flex flex-grow flex-col items-start border-b border-primary p-4 transition-shadow duration-300 ease-in-out md:rounded-md md:border-none"
 	>
 		<div class="flex flex-row-reverse md:flex-col">
-			<div class="w-1/2 self-end md:w-auto">
+			<div class="relative w-1/2 self-end md:w-auto">
+				<div class="absolute -top-2 left-0 h-6 py-1 md:-top-8">
+					{#if product.nouveaute}
+						<span class="inline-block text-sm font-semibold text-primary md:text-lg">
+							NOUVEAU !
+						</span>
+					{/if}
+				</div>
 				{#if product.image?.url}
 					<PrismicImage field={product.image} class="self-center" />
 				{:else}
