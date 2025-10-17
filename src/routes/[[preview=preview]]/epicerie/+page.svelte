@@ -9,11 +9,14 @@
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { slugify } from '$lib/utils/slugify';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+
+	let isDescriptionOpen = true;
 
 	// Get unique types from all products
 	$: availableTypes = Array.from(
@@ -162,38 +165,54 @@
 
 		<main class="md:mx-6 md:w-3/4">
 			<!-- Dynamic title and description when filters are active -->
-			<div in:fade={{ duration: 300, delay: 150 }} out:fade={{ duration: 200 }}>
-				{#if selectedType}
-					<h2
-						class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
-					>
-						{selectedType}
-					</h2>
-				{/if}
-				{#if selectedCategory}
-					{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-					{#if category}
+			<div
+				class="mb-4 border-t border-primary md:border-none"
+				in:fade={{ duration: 300, delay: 150 }}
+				out:fade={{ duration: 200 }}
+			>
+				<button
+					class="mb-2 mt-4 flex w-full items-center justify-between text-left text-xl uppercase md:hidden"
+					on:click={() => (isDescriptionOpen = !isDescriptionOpen)}
+				>
+					Description
+					<ArrowIcon isSelected={isDescriptionOpen} class="ml-2" />
+				</button>
+
+				<div class:hidden={!isDescriptionOpen} class="md:block">
+					{#if selectedType}
 						<h2
 							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
 						>
-							{category.data.nom}
+							{selectedType}
 						</h2>
 					{/if}
-				{/if}
-				<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-					Découvrez notre sélection de produits d'épicerie fine
-					{#if selectedType || selectedCategory}
-						{#if selectedType && selectedCategory}
-							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-							- {selectedType} de {category?.data.nom || ''}
-						{:else if selectedType}
-							- {selectedType}
-						{:else if selectedCategory}
-							{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
-							- {category?.data.nom || ''}
+					{#if selectedCategory}
+						{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+						{#if category}
+							<h2
+								class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+							>
+								{category.data.nom}
+							</h2>
 						{/if}
 					{/if}
-				</p>
+					<p
+						class="w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12 md:mt-4"
+					>
+						Découvrez notre sélection de produits d'épicerie fine
+						{#if selectedType || selectedCategory}
+							{#if selectedType && selectedCategory}
+								{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+								- {selectedType} de {category?.data.nom || ''}
+							{:else if selectedType}
+								- {selectedType}
+							{:else if selectedCategory}
+								{@const category = availableCategories.find((c) => c.uid === selectedCategory)}
+								- {category?.data.nom || ''}
+							{/if}
+						{/if}
+					</p>
+				</div>
 			</div>
 
 			<!-- Aside mobile uniquement (après description) -->

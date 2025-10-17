@@ -6,8 +6,11 @@
 	import { goto } from '$app/navigation';
 	import Aside from '$lib/components/Aside.svelte';
 	import { onMount } from 'svelte';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 
 	export let data: any;
+
+	let isDescriptionOpen = true;
 
 	let isChangingRegion = false;
 	let previousUid = '';
@@ -330,17 +333,33 @@
 
 		<main class="md:mx-6 md:w-3/4">
 			{#key uid}
-				<div in:fade={{ duration: 300, delay: 150 }} out:fade={{ duration: 200 }}>
-					{#if currentTitle}
-						<h2
-							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+				<div
+					class="mb-4 border-t border-primary md:border-none"
+					in:fade={{ duration: 300, delay: 150 }}
+					out:fade={{ duration: 200 }}
+				>
+					<button
+						class="mb-2 mt-4 flex w-full items-center justify-between text-left text-xl uppercase md:hidden"
+						on:click={() => (isDescriptionOpen = !isDescriptionOpen)}
+					>
+						Description
+						<ArrowIcon isSelected={isDescriptionOpen} class="ml-2" />
+					</button>
+
+					<div class:hidden={!isDescriptionOpen} class="md:block">
+						{#if currentTitle}
+							<h2
+								class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+							>
+								{currentTitle}
+							</h2>
+						{/if}
+						<p
+							class="w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12 md:mt-4"
 						>
-							{currentTitle}
-						</h2>
-					{/if}
-					<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-						{currentDescription}
-					</p>
+							{currentDescription}
+						</p>
+					</div>
 				</div>
 			{/key}
 

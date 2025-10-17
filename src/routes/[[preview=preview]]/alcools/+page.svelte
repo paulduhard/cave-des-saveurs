@@ -10,8 +10,11 @@
 
 	import { components } from '$lib/slices';
 	import type { PageData } from './$types';
+	import ArrowIcon from '$lib/components/ArrowIcon.svelte';
 
 	export let data: PageData;
+
+	let isDescriptionOpen = true;
 
 	// Get unique types from all products
 	$: availableTypes = Array.from(
@@ -151,38 +154,54 @@
 
 		<main class="md:mx-6 md:w-3/4">
 			<!-- Dynamic title and description when filters are active -->
-			<div in:fade={{ duration: 300, delay: 150 }} out:fade={{ duration: 200 }}>
-				{#if selectedType}
-					<h2
-						class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
-					>
-						{selectedType}
-					</h2>
-				{/if}
-				{#if selectedRegion}
-					{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-					{#if region}
+			<div
+				class="mb-4 border-t border-primary md:border-none"
+				in:fade={{ duration: 300, delay: 150 }}
+				out:fade={{ duration: 200 }}
+			>
+				<button
+					class="mb-2 mt-4 flex w-full items-center justify-between text-left text-xl uppercase md:hidden"
+					on:click={() => (isDescriptionOpen = !isDescriptionOpen)}
+				>
+					Description
+					<ArrowIcon isSelected={isDescriptionOpen} class="ml-2" />
+				</button>
+
+				<div class:hidden={!isDescriptionOpen} class="md:block">
+					{#if selectedType}
 						<h2
 							class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
 						>
-							{region.data.region}
+							{selectedType}
 						</h2>
 					{/if}
-				{/if}
-				<p class="mb-4 w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12">
-					Découvrez notre sélection d'Alcools et spiritueux
-					{#if selectedType || selectedRegion}
-						{#if selectedType && selectedRegion}
-							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-							- {selectedType} de {region?.data.region || ''}
-						{:else if selectedType}
-							- {selectedType}
-						{:else if selectedRegion}
-							{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
-							- {region?.data.region || ''}
+					{#if selectedRegion}
+						{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+						{#if region}
+							<h2
+								class="mb-2 border-b border-primary pb-4 font-span text-2xl font-bold md:mx-12 md:text-4xl"
+							>
+								{region.data.region}
+							</h2>
 						{/if}
 					{/if}
-				</p>
+					<p
+						class="w-full font-span text-lg transition-all duration-500 ease-in-out md:mx-12 md:mt-4"
+					>
+						Découvrez notre sélection d'Alcools et spiritueux
+						{#if selectedType || selectedRegion}
+							{#if selectedType && selectedRegion}
+								{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+								- {selectedType} de {region?.data.region || ''}
+							{:else if selectedType}
+								- {selectedType}
+							{:else if selectedRegion}
+								{@const region = availableRegions.find((r) => r.uid === selectedRegion)}
+								- {region?.data.region || ''}
+							{/if}
+						{/if}
+					</p>
+				</div>
 			</div>
 
 			<!-- Aside mobile uniquement (après description) -->
