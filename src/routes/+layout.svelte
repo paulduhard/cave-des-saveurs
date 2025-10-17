@@ -58,6 +58,7 @@
 	regions={data.regions}
 	colors={data.colors}
 	alcoolTypes={data.alcoolTypes}
+	searchableData={data.searchableData}
 />
 <main id="main-content" class="pt-[85px]">
 	<slot />

@@ -28,17 +28,6 @@
 	}
 }
 
-@layer base {
-	@font-face {
-		font-family: 'span';
-		/* src:
-			url('/path/to/span-font.woff2') format('woff2'),
-			url('/path/to/span-font.woff') format('woff'); */
-		font-weight: normal;
-		font-style: normal;
-	}
-}
-
 @layer components {
 	.font-span {
 		font-family: 'span', sans-serif;

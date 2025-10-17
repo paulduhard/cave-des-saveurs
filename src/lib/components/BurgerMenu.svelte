@@ -4,6 +4,7 @@
 	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
 	import ExtLink from './ExtLink.svelte';
 	import SearchIcon from './SearchIcon.svelte';
+	import { isSearchModalOpen } from '$lib/stores/searchStore.ts';
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
@@ -206,6 +207,10 @@
 			<button
 				class="mx-auto flex items-center gap-3 uppercase transition-all duration-200"
 				aria-label="Rechercher"
+				on:click={() => {
+					isSearchModalOpen.set(true);
+					onLinkClick(); // Close the burger menu
+				}}
 			>
 				<SearchIcon class="h-8 w-8" />
 			</button>

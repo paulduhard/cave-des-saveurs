@@ -5,13 +5,14 @@
 	import MegaMenu from './MegaMenu.svelte';
 	import SearchIcon from './SearchIcon.svelte';
 	import BurgerMenu from './BurgerMenu.svelte';
-	import type { Content } from '@prismicio/client';
-	import type { RegionDocument, CouleurDocument } from '../../prismicio-types';
+	import SearchModal from './SearchModal.svelte';
+	import { isSearchModalOpen } from '$lib/stores/searchStore.ts';
 
 	export let settings: Content.SettingsDocument;
 	export let regions: RegionDocument[] = [];
 	export let colors: CouleurDocument[] = [];
 	export let alcoolTypes: string[] = [];
+	export let searchableData: any[] = [];
 
 	let isMegaMenuVisible: boolean = false;
 	let isBurgerMenuVisible: boolean = false;
@@ -201,7 +202,8 @@
 		class="ml-4 hidden rounded-full p-2 transition-all duration-200 hover:bg-primary hover:bg-opacity-10 focus:bg-primary focus:bg-opacity-10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 lg:block [&:focus_svg]:brightness-0 [&:focus_svg]:invert [&:hover_svg]:brightness-0 [&:hover_svg]:invert"
 		aria-label="Rechercher"
 		title="Rechercher"
-		on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? e.currentTarget.click() : null)}
+		on:click={() => isSearchModalOpen.set(true)}
+		on:keydown={(e) => (e.key === 'Enter' || e.key === ' ' ? isSearchModalOpen.set(true) : null)}
 	>
 		<SearchIcon class="h-5 w-5" />
 	</button>
@@ -245,3 +247,9 @@
 		</nav>
 	</div>
 {/if}
+
+<SearchModal
+	isOpen={$isSearchModalOpen}
+	{searchableData}
+	on:close={() => isSearchModalOpen.set(false)}
+/>

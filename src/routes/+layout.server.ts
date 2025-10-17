@@ -2,6 +2,8 @@
 import { createClient } from '$lib/prismicio';
 import type { LayoutServerLoad } from './$types';
 import type { PrismicDocument } from '@prismicio/types';
+import { asText } from '@prismicio/client';
+import { slugify } from '$lib/utils/slugify';
 
 // ⚙️ Configuration du rendu : SvelteKit choisit automatiquement entre SSG et SSR
 export const prerender = 'auto';
@@ -24,7 +26,8 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 			appellations,
 			domaines,
 			produitsSpiritueux,
-			produitsEpicerie
+			produitsEpicerie,
+			vins
 		] = await Promise.all([
 			client.getAllByType('region'), // 📍 Régions viticoles
 			client.getAllByType('couleur'), // 🍷 Couleurs de vin
@@ -32,7 +35,8 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 			client.getAllByType('appellation'), // 🍇 Appellations (AOC/AOP)
 			client.getAllByType('domaine'), // 🏰 Domaines/Producteurs
 			client.getAllByType('produit_spiritueux'), // 🥃 Produits spiritueux
-			client.getAllByType('produitepicerie') // 🧀 Produits d'épicerie
+			client.getAllByType('produitepicerie'), // 🧀 Produits d'épicerie
+			client.getAllByType('vin') // 🍷 Vins
 		]);
 
 		const alcoolTypes = Array.from(
@@ -43,6 +47,28 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 			new Set(produitsEpicerie.map((p) => p.data.type).filter(Boolean))
 		);
 
+		// Unify data for search
+		const searchableData = [
+			...vins.map((doc) => ({
+				...doc,
+				unified_type: 'Vin',
+				unified_url: `/vin/${doc.uid}`,
+				unified_title: asText(doc.data.title)
+			})),
+			...produitsSpiritueux.map((doc) => ({
+				...doc,
+				unified_type: 'Spiritueux',
+				unified_url: `/alcools?type=${slugify(doc.data.type)}`,
+				unified_title: doc.data.titre
+			})),
+			...produitsEpicerie.map((doc) => ({
+				...doc,
+				unified_type: 'Épicerie',
+				unified_url: `/epicerie?type=${slugify(doc.data.type)}`,
+				unified_title: doc.data.titre
+			}))
+		];
+
 		// ✅ Retour des données triées selon l'ordre défini dans Prismic
 		return {
 			settings, // Configuration globale
@@ -51,6 +77,7 @@ export const load: LayoutServerLoad = async ({ fetch, cookies }) => {
 			categories: sortByOrderMenu(categories), // Catégories triées
 			alcoolTypes, // Types d'alcools
 			epicerieTypes, // Types d'épicerie
+			searchableData, // Data for search modal
 			title: 'Cave des Saveurs' // Titre par défaut
 		};
 	} catch (error) {
